@@ -1,0 +1,140 @@
+<div class="panel">
+	<div class="panel-heading">
+		<h3>Messages</h3>
+	</div>
+	<div class="panel-body top-msg">
+		<form name="form" class="form-horizontal" ng-submit="" role="form">
+			<ul class="nav nav-pills" ng-show = "userObj.user_level == 'clinic'">
+				<li ng-class="{active:vm.isSet(1)}"><a href ng-click="vm.setTab(1); vm.isTrigger('doctor')">Doctor</a></li>
+				<li ng-class="{active:vm.isSet(2)}"><a href ng-click="vm.setTab(2); vm.isTrigger('patient')">Patient</a></li>
+				<li ng-class="{active:vm.isSet(3)}"><a href ng-click="vm.setTab(3)">Announcement</a></li>
+			</ul>
+			<div ng-show="vm.isSet(1) || vm.isSet(2)">
+				<div class="chat-box clearfix">
+					<div class="col-md-3 main-chat mar-top" ng-show = "userObj.user_level == 'clinic'">
+						<h4 class="msg-tit">Chat</h4>
+						<div class = "main-block" ng-if = "vm.doctorLists.length > 0">
+							<div class="chat-block clearfix" ng-repeat = "doctor in vm.doctorLists" ng-class="{'selected':doctor.id == vm.receiverId}" >
+								<a href class="clearfix" ng-click = "vm.getMessages('doctor',doctor.id, doctor.username);">
+									<div class="col-md-3">
+										<img src="assets/img/profileimg.jpg" class="img-circle">
+									</div>
+									<div class="col-md-9">
+										<p class="doc-name">{{doctor.user_level == 'doctor' ? 'Dr. ': ''}}{{doctor.username}}</p>
+										<!-- <p>Lorem ipsum dolor sit</p> -->
+									</div>
+								</a>
+							</div>
+						</div>
+						
+					</div>
+					<div class="mar-top " ng-class = "userObj.user_level != 'clinic' ? 'col-md-12' : 'col-md-9'">
+						<h4 class="msg-tit">{{userName}}</h4>
+
+						<message-render data="vm.messageLists" loader="vm.loaders" loguserId = "userObj.id" call = "vm.download(image)" callback-fn = "vm.sendMessage(msg)" callback = "vm.sendImage(msg)" ng-show = "vm.msgShow"></message-render>
+						
+						    <img id="photo"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div ng-show="vm.isSet(3)">
+				<div class="chat-box clearfix">
+					<div class="col-md-3 main-chat mar-top">
+						<h4 class="msg-tit">Chat</h4>
+						<div class="main-block">
+						 <div class="checkbox-blk"><input id="checkbox1" type="checkbox" name="checkbox" value="1" checked="checked"><label for="checkbox1"><span></span>All</label></div>
+						<div class="chat-block clearfix">
+								<div class="col-md-4 announce-ck">
+								<input id="checkbox1" type="checkbox" name="checkbox" value="1" checked="checked"><label for="checkbox1"><span></span></label>
+									<img src="assets/img/profileimg.jpg" class="img-circle">
+								</div>
+								<div class="col-md-8">
+									<p class="doc-name">Dr.Charlie</p>
+									<p>Lorem ipsum dolor sit</p>
+								</div>
+						</div>
+						<div class="chat-block clearfix">
+								<div class="col-md-4 announce-ck">
+								<input id="checkbox1" type="checkbox" name="checkbox" value="1" checked="checked"><label for="checkbox1"><span></span></label>
+									<img src="assets/img/profileimg.jpg" class="img-circle">
+								</div>
+								<div class="col-md-8">
+									<p class="doc-name">Dr.Charlie</p>
+									<p>Lorem ipsum dolor sit</p>
+								</div>
+						</div>
+						<div class="chat-block clearfix">
+								<div class="col-md-4 announce-ck">
+								<input id="checkbox1" type="checkbox" name="checkbox" value="1" checked="checked"><label for="checkbox1"><span></span></label>
+									<img src="assets/img/profileimg.jpg" class="img-circle">
+								</div>
+								<div class="col-md-8">
+									<p class="doc-name">Dr.Charlie</p>
+									<p>Lorem ipsum dolor sit</p>
+								</div>
+						</div>	
+						<div class="chat-block clearfix">
+								<div class="col-md-4 announce-ck">
+								<input id="checkbox1" type="checkbox" name="checkbox" value="1" checked="checked"><label for="checkbox1"><span></span></label>
+									<img src="assets/img/profileimg.jpg" class="img-circle">
+								</div>
+								<div class="col-md-8">
+									<p class="doc-name">Dr.Charlie</p>
+									<p>Lorem ipsum dolor sit</p>
+								</div>
+						</div>	
+						<div class="chat-block clearfix">
+								<div class="col-md-4 announce-ck">
+								<input id="checkbox1" type="checkbox" name="checkbox" value="1" checked="checked"><label for="checkbox1"><span></span></label>
+									<img src="assets/img/profileimg.jpg" class="img-circle">
+								</div>
+								<div class="col-md-8">
+									<p class="doc-name">Dr.Charlie</p>
+									<p>Lorem ipsum dolor sit</p>
+								</div>
+						</div>	
+						<div class="chat-block clearfix">
+								<div class="col-md-4 announce-ck">
+								<input id="checkbox1" type="checkbox" name="checkbox" value="1" checked="checked"><label for="checkbox1"><span></span></label>
+									<img src="assets/img/profileimg.jpg" class="img-circle">
+								</div>
+								<div class="col-md-8">
+									<p class="doc-name">Dr.Charlie</p>
+									<p>Lorem ipsum dolor sit</p>
+								</div>
+						</div>	
+						</div>
+					</div>
+					<div class="col-md-9 mar-top announce-blk">
+						<h4 class="msg-tit">John Smith</h4>
+						<ul class="user-chat clearfix">
+							<li class="clearfix"><span class="chat-img"><img src="assets/img/profileimg.jpg"></span><span class="msg-content"><p class="clearfix">Hi Clinic,Hi Mr.John how are you <span class="chat-time">12.30PM</span></p></span></li>
+							<li class="clearfix"><span class="chat-img"><img src="assets/img/profileimg.jpg"></span><span class="msg-content"><p class="clearfix">Hi Mr.John how are you,Hi Mr.John how are you,Hi Mr.John how are you<span class="chat-time">12.30PM</span></p></span></li>
+							<li class="clearfix"><span class="chat-img"><img src="assets/img/profileimg.jpg"></span><span class="msg-content"><p class="clearfix">Hi Clinic <span class="chat-time">12.30PM</span></p></span></li>
+							<li class="clearfix"><span class="chat-img"><img src="assets/img/profileimg.jpg"></span><span class="msg-content"><p class="clearfix">Hi Mr.John how are you,Hi Mr.John how are you <span class="chat-time">12.30PM</span></p></span></li>
+						</ul>
+						<div class="command-box clearfix">
+							<div class="col-md-1">
+								<a href="#" class="command-i"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
+							</div>
+							<div class="col-md-8 padding-zro">
+								<textarea class="form-control" placeholder="Type Your Message..."></textarea>
+							</div>
+							<div class="col-md-3 command-send">
+								<button class="btn btn-primary">Send Us Sms</button>
+								<a href="#" class="send-icon"><img src="assets/img/send-icon.png"></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+
+
+

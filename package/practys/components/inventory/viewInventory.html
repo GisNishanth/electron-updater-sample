@@ -1,0 +1,75 @@
+<div class="panel inventory-pg add-pg-form"">
+	<div class="panel-heading">
+		<h3>View Inventory</h3>
+	</div>
+	<div class="panel-body">
+		<form>
+			<div class="col-md-6 padding-zro">
+				<div class="form-group clearfix">
+					<div class="col-md-6">
+						<input type="hidden" value="" class="form-control" ng-model="vm.inventory.id">
+					</div>
+				</div>
+				<div class="form-group clearfix">
+					<label class="control-label col-md-3 col-sm-3">Stock Item #</label>
+					<div class="col-md-6 col-sm-6">
+						<input type="text" value="" disabled class="form-control" ng-model="vm.inventory.itemId">
+					</div>
+				</div>
+				<div class="form-group clearfix">
+					<label class="control-label col-md-3 col-sm-3">Supplier</label>
+					<div class="col-md-6 col-sm-6">
+						<input type="text" value="" disabled class="form-control" ng-model="vm.inventory.supplierName">
+					</div>
+				</div>
+				<div class="form-group clearfix">
+					<label class="control-label col-md-3  col-sm-3">Date</label>
+					<div class="col-md-6 col-sm-6">
+						<div class="input-group date">
+							<input
+							type="text"
+							class="form-control"
+							readonly
+							datepicker-popup="{{vm.format}}"
+							ng-model="vm.inventory.inventoryDate"
+							is-open="openDatePickers[0]"
+							disabled
+							close-text="Close">
+						  <span class="input-group-btn">
+							<button
+							  type="button"
+							  class="btn btn-primary"
+							  disabled
+							  ng-click="open($event, 0)">
+							  <i class="fa fa-calendar" aria-hidden="true"></i>
+							</button>
+						  </span>
+						 </div> 
+					</div>
+				</div>
+				<div class="form-group clearfix">
+					<label class="control-label col-md-3 col-sm-3">Type</label>
+					<div class="col-md-6 col-sm-6">
+						<input type="text" value="" disabled class="form-control" ng-model="vm.inventory.type">
+					</div>
+				</div>
+				<div class="form-group clearfix">
+					<label class="control-label col-md-3 col-sm-3">Qty Balance</label>
+					<div class="col-md-6 col-sm-6">
+						<input type="text" value="" disabled class="form-control" ng-model="vm.inventory.balanceQty">
+					</div>	
+				</div>
+				
+				<div class="form-group clearfix">
+					<label class="control-label col-md-3 col-sm-3">Description</label>
+					<div class="col-md-6 col-sm-6">
+						<textarea class="form-control col-md-6 " disabled ng-model="vm.inventory.description"></textarea>
+					</div>
+				</div>
+			</div>	
+			<div class="col-md-12 button-section align-right">
+				<a class="btn btn-default" href = "#/inventory">Cancel</a>
+			</div>
+		</form>
+	</div>
+</div>

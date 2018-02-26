@@ -1,0 +1,150 @@
+<form name="expenseForm" ng-submit="addDoctor(doctorDetails,expenseForm,type)" novalidate class="popup-form">
+<div class="ct-popup">
+<div class="panel-height">
+<div class="panel-body">
+
+ 
+ 	 
+			<div class="col-md-12 padding-zro">
+				<div ng-show="type == 'add'" class="form-group clearfix">
+					<label for="itemName" class="col-md-5 col-sm-5">First Name</label>
+					 <span class="col-md-1 col-sm-1" style="color: #7F95BC;margin-top: 7px;">DR .</span> 
+					<div class="col-md-6 col-sm-6">
+						<input type="text" class="form-control" name="firstName" id="firstName"  ng-model="doctorDetails.firstName" required>
+						<div class="mandatory" ng-show="expenseForm.firstName.$invalid && (expenseForm.$submitted || expenseForm.firstName.$dirty)"><div ng-show="expenseForm.firstName.$error.required">First Name Is Required</div></div>
+					</div>		
+				</div>   
+				<div  ng-show="type == 'add'" class="form-group clearfix">
+					<label for="itemName" class="col-md-6 col-sm-6">Last Name</label>
+						<div class="col-md-6 col-sm-6">
+							<input type="text" class="form-control" name="lastName" id="lastName"  ng-model="doctorDetails.lastName" required>
+							<div class="mandatory" ng-show="expenseForm.lastName.$invalid && (expenseForm.$submitted || expenseForm.lastName.$dirty)"><div ng-show="expenseForm.lastName.$error.required">Last Name Is Required</div></div>
+						</div>		
+				</div>
+				<div ng-show="type == 'add'" class="form-group clearfix">
+					<label for="itemName" class="col-md-6 col-sm-6">Gender</label>
+					<div class="col-md-6 col-sm-6">
+					<div class="checkbox-style">					
+							<input type="radio" ng-model="doctorDetails.gender" name="gender" value="male" ng-required="!doctorDetails.gender" id="male1">
+						
+						<label for="male1"> <span><span></span></span>	Male	</label>
+							</div>
+							<div class="checkbox-style">	
+							
+							<input type="radio" ng-model="doctorDetails.gender" name="gender" value="female" ng-required="!doctorDetails.gender" id="female1">
+							<label for="female1"><span><span></span></span>Female</label>
+						
+						</div>
+						<div class="mandatory" ng-show="expenseForm.gender.$invalid && (expenseForm.$submitted || expenseForm.gender.$dirty)"><div ng-show="expenseForm.gender.$error.required">Gender Is Required</div></div>	
+					</div>		
+				</div>
+				<div ng-show="type == 'add'" class="form-group clearfix">
+					<label for="itemName" class="col-md-6 col-sm-6">Contact Number</label>
+					<label class="col-md-1 col-sm-1" style="left: 19px;top: 7px;">+65
+					</label>
+						<div class="col-md-5 col-sm-5">
+							<input type="text" class="form-control" name="contactNumber" id="contactNumber" numbers-only   ng-model="doctorDetails.contactNumber" required>
+							<div class="mandatory" ng-show="expenseForm.contactNumber.$invalid && (expenseForm.$submitted || expenseForm.contactNumber.$dirty)"><div ng-show="expenseForm.contactNumber.$error.required">Contact Number Is Required</div></div>
+						</div>		
+				</div>  
+				<div class="form-group clearfix">
+					<label for="itemName" class="col-md-6 col-sm-6">Email Address</label>
+					<div class="col-md-6 col-sm-6">
+						<input type="email" class="form-control" name="email" id="email"  ng-model="doctorDetails.email" required>
+						<div class="mandatory" ng-show="expenseForm.email.$invalid && (expenseForm.$submitted || expenseForm.email.$dirty)"><div ng-show="expenseForm.email.$error.required">Email Is Required</div></div>
+					</div>		
+				</div>
+				<div class="form-group clearfix">
+					<label for="itemName" class="col-md-6 col-sm-6">Color Code</label>
+					<div class="col-md-6 col-sm-6">
+					
+						 <select ng-model="doctorDetails.colorCode" name="color" required>
+					        <option value="">--- Select a color ---</option>
+					        <option value="{{c}}" ng-style="{'background-color': c }"
+					                ng-repeat="c in colors">
+					                
+					           {{c}}
+					        </option>
+					    </select>
+		
+
+					    <div class="mandatory" ng-show="expenseForm.color.$invalid && (expenseForm.$submitted || expenseForm.color.$dirty)"><div ng-show="expenseForm.color.$error.required">Doctor's color Is Required</div></div>
+					</div>		
+				</div>
+				<div ng-show="type == 'add'" class="form-group clearfix">
+					<label for="itemName" class="col-md-6 col-sm-6">Password</label>
+					<div class="col-md-6 col-sm-6">
+						<input type="password" class="form-control" name="password" id="password"  ng-model="doctorDetails.password" required>
+						<div class="mandatory" ng-show="expenseForm.password.$invalid && (expenseForm.$submitted || expenseForm.password.$dirty)"><div ng-show="expenseForm.password.$error.required">password Is Required</div></div>
+					</div>		
+				</div>
+				<div ng-show="type == 'add'" class="form-group clearfix">
+					<label for="itemName" class="col-md-6 col-sm-6">Confirm Password</label>
+					<div class="col-md-6 col-sm-6">
+						<input type="password" class="form-control" name="cpassword" id="cpassword"  ng-model="doctorDetails.cpassword" required>
+						<div class="mandatory" ng-show="expenseForm.cpassword.$invalid && (expenseForm.$submitted || expenseForm.cpassword.$dirty)"><div ng-show="expenseForm.cpassword.$error.required">Confirm Password Is Required</div></div>
+						<div  class="mandatory" ng-show="(doctorDetails.password != doctorDetails.cpassword) && (doctorDetails.cpassword)"> 
+						<div>Must match the previous entry</div>
+						</div>
+					</div>		
+				</div>
+				<div class="form-group clearfix">
+					<label for="itemName" class="col-md-6 col-sm-6">Speciality</label>
+					<div class="col-md-6 col-sm-6">
+					  	<select ng-model="doctorDetails.specialityId" name="speciality" ng-change="getServices(doctorDetails.specialityId)"  required >
+							  <option value="" >--Select--</option>
+							  <option value="{{choic.id}}"  ng-repeat=" choic in speciality">{{choic.name}}</option>
+						</select>
+						<div class="mandatory" ng-show="expenseForm.speciality.$invalid && (expenseForm.$submitted || expenseForm.speciality.$dirty)"><div ng-show="expenseForm.speciality.$error.required">Speciality Is Required</div></div> 
+					</div>		
+				</div>
+					<div class="form-group clearfix">
+						<label for="itemName" class="col-md-6 col-sm-6">Service Provider</label>
+						<div class="col-md-6 col-sm-6 service_provider">
+							<multiple-autocomplete ng-model="doctorDetails.service" name="service"
+										object-property="name"
+										suggestions-arr="data" required>
+							</multiple-autocomplete>
+							<div class="mandatory" ng-show="expenseForm.service.$invalid && (expenseForm.$submitted || expenseForm.service.$dirty)"><div ng-show="expenseForm.service.$error.required">Service Provider Is Required</div></div> 
+						</div>		
+					</div>						
+				</div>
+				 
+		
+		</div>
+			
+	</div>
+	</div>
+	<div class="col-md-12 button-section align-right">
+					<input type="submit" class="btn btn-primary" name="Save" value="Save">
+					<a class="btn btn-default " ng-click="cancel()">Cancel</a>
+					<!-- 	<a class="btn btn-default " ui-sref="dashboard">Cancel</a> -->
+				</div>	
+	</form>
+	<style>
+	option:after {
+    content: " ";
+    height: 5px;
+    width: 5px;
+    border-radius: 5px;
+    display: inline-block;
+}
+option.red:after { background: #c00; }
+option.green:after { background: #0c0; }
+option.blue:after { background: #00c; }
+option:after {
+    content: " ";
+    height: 5px;
+    width: 5px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+	</style>
+<!--<script>
+$(window).resize(function() {
+    $('.panel-height').height($(window).height() - 400);
+});
+
+$(window).trigger('resize');
+</script>-->

@@ -1,0 +1,47 @@
+
+<div class="chat-height" scroll-glue>
+    <ul class="user-chat clearfix">
+        <img ng-if="loaders" ng-src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==">
+        <li class="clearfix" ng-class="item.senderId != logUserId ? 'user-cmd' : 'doc-cmd'" ng-repeat="item in datas track by $index">
+            <span class="chat-img"><img ng-if="item.senderUser.image == ''" src="assets/img/profileimg.jpg"><img ng-if="item.senderUser.image != ''" ng-src="{{item.senderUser.origImage}}{{item.senderUser.image}}">
+        </span>
+            <span class="msg-content">
+        <p class="clearfix" ng-if="item.type == 'message'" >{{item.message}}<span class="chat-time">{{dateFormatting(item.created)}}</span></p>
+        <p class="clearfix" ng-if="item.type == 'sms'" >{{item.message}}   <strong>(SMS)</strong><span class="chat-time">{{dateFormatting(item.created)}}</span></p>
+            <p ng-if="item.type == 'image'" class="img-dowld clearfix"><img data-ng-src="{{item.image}}" />
+			<span class="dowld-icon">
+			<button ng-click="call({image:item.origImage})" ng-disabled="!online"><i class="fa fa-download" aria-hidden="true"></i>
+</button>
+<button class="eye-icon" ng-click="preview({image:item.origImage})" ng-disabled="!online"><i class="fa fa-eye" aria-hidden="true"></i>
+</button></span><span class="chat-time">{{dateFormatting(item.created)}}</span></p>
+            </span>
+        </li>
+    </ul>
+</div>
+<div class="command-box clearfix" ng-if="command">
+    <div class="col-md-1 col-sm-2 ping-icon">
+        <label class="myLabel">
+            <input type="file" accept="image/*" resize-max-height="100" resize-max-width="100" resize-quality="0.7" image="" onchange="angular.element(this).scope().photoChanged(this.files)" required/>
+            <span class="command-i"><i class="fa fa-paperclip" aria-hidden="true" ></i></span>
+        </label>
+    </div>
+    <div class="col-md-7 col-sm-10 mesg-box">
+        <textarea name="messageText" class="form-control" placeholder="Type Your Message..." ng-model="value.messageText"></textarea> 
+
+    </div>
+    <div class="col-md-4 command-send">
+        <button ng-if="userLevel == 'clinic'" class="btn btn-primary" ng-click="callsms({msg:value.messageText}); value.messageText=''" ng-disabled="!online">Send As Sms</button>
+        <a href class="send-icon" ng-click="callbackFn({msg:value.messageText}); value.messageText=''"><img src="assets/img/send-icon.png"></a>
+    </div>
+</div>
+<script type="text/ng-template" id="firstDialogId">
+    <div class="ngdialog-message photo-send">
+        <h3>Send Image</h3>
+        <div class="inner-popup">
+            <img src="{{ thumbnail_url }}" class="msg-img" />
+            <a ng-click="callback({msg:files,UrlData:thumbnail_url,fileName:Filename})" class="send-icon photo-send"><img src="assets/img/send-icon.png"></a>
+        </div>
+    </div>
+</script>
+<style type="text/css">
+</style>

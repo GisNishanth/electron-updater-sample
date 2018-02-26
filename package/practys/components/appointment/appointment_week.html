@@ -1,0 +1,176 @@
+<div class="appointment-day week-app-calend table-responsive">	
+	<table class="table main-table"  ng-class="{'doc-day-appointment':vm.userLevel == 'doctor'}">
+		<thead class="app-thead" ng-if="vm.userLevel == 'clinic' || vm.userLevel == 'doctor'"  ng-class="{'doc-day-appointment-border':vm.len == 1}">
+			<tr class="tr-style">
+				<th class="thead-td th-firstchild week-f"><span class="border-hide"><h4>dummy</h4></span></th>
+				<th class="thead-td th-wdth thead-week"  ng-repeat = "(key, values) in vm.weekDaystr track by $index">
+				<h4><span class="week-date">{{values.Date}}</span><span class="week-days">{{values.Days}}</span></h4>
+				</th>
+			</tr>
+		</thead>
+	
+		<tbody class="main-tbody">
+			<tr class="" style="width: 100%; display: block;">
+				<td class="app-td" colspan="{{doctorCount + 1}}" >
+					<table  class="clearfix tbl-width">
+					<tbody ng-repeat = "(tmk, times) in vm.times">
+						<tr class="" ng-repeat = "(tK, tmes) in times">
+							<td  id = "{{times.orig}}"  class="timing-sec tbody-td col-md-3">		<span class="tbody-border"></span><p >{{tmk % 4 === 0 ? tmes.text : ''}}</p>
+							</td>
+
+							<td  ng-if="vm.userLevel == 'clinic'"  class="tbody-td td-wdth patient-td"  ng-class = "{'doctor-hover':vm.userLevel == 'doctor','leaveDay' : vm.disabledLeaveday(dKval)}" ng-repeat = "(dVal, dKval) in vm.weekDays track by $index">
+								<div class = "innerDiv" ng-repeat = "(dateKey, dateVal) in vm.eventsList[tmes.orig][dKval] track by dateVal.appointmentId" ng-style = "{width: vm.eventsList[tmes.orig][dKval].length > 0 ? (100/vm.eventsList[tmes.orig][dKval].length)+'%' : '0%'}">
+								 <p>{{dataKey}}</p>
+									<div class="appointment-tim" ng-if="dateVal.status != 'block' && !vm.disabledLeaveday(dKval)">
+										<div ng-if = "vm.eventsList[tmes.orig] != undefined" class="day_app popover-tool">
+											<!-- <div  class="doc-name-title" ng-if="vm.mouseHover[tK][dKval] == true">{{dateVal.title}}</div> -->
+											<div ng-if="value.clinicId == vm.clinicId" ng-repeat="(key,value) in dateVal.colorCode track by key">
+											<!--  -->
+											<div  class="clearfix" ng-mouseover="vm.mouseHover[tK][dKval] = true" ng-mouseleave="vm.mouseHover[tK][dKval] = false" ng-style="{'height':dateVal.divHeight ,'background-color':value.colorCode}" ng-class = "{'appointment-sec': dateVal.title != 'none','checkout-clr':dateVal.status == 'checkOut' } " data-title="{{dateVal.title}}">  
+												<div ng-if = "dateVal.title != 'none'">
+													<a ng-mouseover="vm.mouseover[tK][dKval] = true"  ng-mouseleave="vm.mouseover[tK][dKval] = false" class="pati-name" ui-sref="viewAppointment({appointmentId: dateVal.appointmentId})"><div class="col-md-3 pt-img">
+													<!--<img src="assets/img/profileimg.jpg" />
+													<p class="wk-name">{{dateVal.title != 'none' ? dateVal.title : ''}}</p>-->
+													</div>
+
+													<div class="col-md-9">
+													<div class="col-md-3 patient-d"><p>Title:</p><p>{{dateVal.title}}</p></div>
+													<div class="col-md-3 patient-d"><p>Age:</p><p>{{dateVal.age}}</p></div>
+													<div class="col-md-3 patient-d"><p>Gender:</p><p>{{dateVal.gender}}</p></div>
+													<div class="col-md-3 patient-d"><p>D.O.B:</p><p>{{dateVal.birthday}}</p></div></div>
+													</a>											
+												</div>	
+											</div>	
+											</div>
+										</div>	
+									</div>
+									<div class="appointment-tim danger-clr" ng-if="dateVal.status == 'block' && !vm.disabledLeaveday(dKval)">
+										<div ng-if = "vm.eventsList[tmes.orig] != undefined" class="day_app popover-tool">
+											<div  class="clearfix" ng-mouseover="vm.mouseHover[tK][dKval] = true" ng-mouseleave="vm.mouseHover[tK][dKval] = false"  ng-style="{'height':dateVal.divHeight}" ng-class = "{'appointment-sec': vm.eventsList[tmes.orig][dKval].title != 'none'}" data-title="Blocked">  
+											</div>	
+										</div>
+									</div>
+								</div>	
+							</td>
+							<td  ng-if="vm.userLevel == 'doctor'"  class="tbody-td td-wdth patient-td"   ng-class = "{'leaveDay' : vm.disabledLeaveday(dKval)}"  ng-repeat = "(dVal, dKval) in vm.weekDays track by $index">
+								<div class = "innerDiv" ng-repeat = "(dateKey, dateVal) in vm.eventsList[tmes.orig][dKval] track by $index" ng-style = "{width: vm.eventsList[tmes.orig][dKval].length > 0 ? (100/vm.eventsList[tmes.orig][dKval].length)+'%' : '0%', left: dateKey > 0 ? ((100/vm.eventsList[tmes.orig][dKval].length)*dateKey)+(dateKey*3)+'px' : '0px'}">								
+									<div class="appointment-tim" ng-if="dateVal.status != 'block'">
+										<div ng-if = "vm.eventsList[tmes.orig] != undefined" class="day_app popover-tool">
+											<!-- <div  class="doc-name-title" ng-if="vm.mouseHover[tK][dKval] == true">{{dateVal.title}}</div> -->
+											<div ng-if="value.clinicId == vm.clinicId" ng-repeat="(key,value) in dateVal.colorCode">
+											<!--  -->
+											<div class="clearfix" ng-mouseover="vm.mouseHover[tK][dKval] = true" ng-mouseleave="vm.mouseHover[tK][dKval] = false" ng-style="{'height':dateVal.divHeight ,'background-color':value.colorCode}" ng-class = "{'appointment-sec': dateVal.title != 'none','checkout-clr':dateVal.status == 'checkOut' } " data-title="{{dateVal.title}}">  
+												<div ng-if = "dateVal.title != 'none'">
+													<a ng-mouseover="vm.mouseover[tK][dKval] = true"  ng-mouseleave="vm.mouseover[tK][dKval] = false" class="pati-name" ui-sref="viewAppointment({appointmentId: dateVal.appointmentId})"><div class="col-md-3 pt-img">
+													<!--<img src="assets/img/profileimg.jpg" />
+													<p class="wk-name">{{dateVal.title != 'none' ? dateVal.title : ''}}</p>-->
+													</div>
+
+													<div class="col-md-9">
+													<div class="col-md-3 patient-d"><p>Title:</p><p>{{dateVal.title}}</p></div>
+													<div class="col-md-3 patient-d"><p>Age:</p><p>{{dateVal.age}}</p></div>
+													<div class="col-md-3 patient-d"><p>Gender:</p><p>{{dateVal.gender}}</p></div>
+													<div class="col-md-3 patient-d"><p>D.O.B:</p><p>{{dateVal.birthday}}</p></div></div>
+													</a>											
+												</div>	
+											</div>	
+											</div>
+										</div>	
+									</div>
+								</div>	
+							</td>
+						<!-- 	<td ng-if="tmes.orig != '00:00';vm.userLevel == 'doctor'" class="tbody-td "  ng-class = "{'doctor-hover':vm.userLevel == 'doctor'}" ng-repeat = "(dKval, dVal) in vm.doctorListDatas track by $index">
+								
+								
+								<div class="appointment-tim danger-clr" ng-if="vm.eventsList[tmes.orig][dKval].status == 'block'">
+								<div ng-if = "vm.eventsList[tmes.orig] != undefined" class="day_app">
+									<div class="clearfix" ng-style="{'height':vm.eventsList[tmes.orig][dKval].divHeight}" ng-class = "{'appointment-sec': vm.eventsList[tmes.orig][dKval].title != 'none'} " >
+										<div ng-if = "vm.eventsList[tmes.orig][dKval].title != 'none'">
+											<a disabled class="disabled">
+											</a>											
+										</div>	Blocked
+									</div>	
+								</div>	
+								</div>
+								<div class="appointment-tim" ng-if="vm.eventsList[tmes.orig][dKval].status != 'block'">
+								<div ng-if = "vm.eventsList[tmes.orig] != undefined" class="day_app">
+									<div class="clearfix" ng-style="{'height':vm.eventsList[tmes.orig][dKval].divHeight}" ng-class = "{'appointment-sec': vm.eventsList[tmes.orig][dKval].title != 'none'} " >
+										<div ng-if = "vm.eventsList[tmes.orig][dKval].title != 'none'">
+											<a ng-mouseover="vm.mouseover[tK][dKval] = true"  ng-mouseleave="vm.mouseover[tK][dKval] = false" class="pati-name" ui-sref="viewAppointment({appointmentId: vm.eventsList[tmes.orig][dKval].appointmentId})"><div class="col-md-3 pt-img">
+											<img src="assets/img/profileimg.jpg" />
+											{{vm.eventsList[tmes.orig][dKval].title != 'none' ? vm.eventsList[tmes.orig][dKval].title : ''}}
+											</div>
+											<div class="col-md-9">
+											<div class="col-md-3 patient-d"><p>Title:</p><p>{{vm.eventsList[tmes.orig][dKval].title}}</p></div>
+											<div class="col-md-3 patient-d"><p>Age:</p><p>{{vm.eventsList[tmes.orig][dKval].age}}</p></div>
+											<div class="col-md-3 patient-d"><p>Gender:</p><p>{{vm.eventsList[tmes.orig][dKval].gender}}</p></div>
+											<div class="col-md-3 patient-d"><p>D.O.B:</p><p>{{vm.eventsList[tmes.orig][dKval].birthday}}</p></div></div>
+											</a>											
+										</div>	
+									</div>	
+								</div>	
+								</div>
+							</td> -->
+							<!-- <td ng-if="tmes.orig == '00:00'" class="clinic-off"><span class="tbody-border"></span><p>Clinic Off</p></td> -->
+						</tr>
+						</tbody>
+					</table>
+							
+				</td>
+			</tr>					
+		</tbody>
+	</table>	
+</div>
+
+ <!-- drag-select drag-select-ids="ids"  -->
+<style>
+/*[drag-select] {
+  cursor: pointer;
+ -webkit-touch-callout: none;
+ -webkit-user-select: none;
+ -khtml-user-select: none;
+ -moz-user-select: none;
+ -ms-user-select: none;
+ user-select: none;
+}
+
+[drag-select] .eng-selected-item {
+  background: #e1e1e1;
+  color: white;
+}
+
+td {
+  padding: 10px;
+  border: 1px solid gray;
+}
+*/.disabled {
+    color: #888;
+}
+ .tooltip {
+        border: 1px solid black;
+        width: 230px;
+        margin-left: 58px;
+        margin-top: -35px;
+        background-color: darkcyan;
+        border-radius: 4px;
+        height: 20px;
+        color: white;
+    }
+    .thead-week h4 {
+	    width: 40px;
+	}
+	.innerDiv {
+	  position: relative;
+    display: list-item;
+    float: left;
+    list-style: inside;
+    color: transparent;
+	}
+	.patient-td {
+    	top: 0px;
+    }	
+    .week-app-calend div.appointment-tim .appointment-sec {
+    top: -29px;
+}
+</style>
+

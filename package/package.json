@@ -1,0 +1,43 @@
+{
+  "name": "electron-quick-start",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+     "pack": "electron-builder --dir",
+      "dist": "electron-builder",
+    "package-mac": "electron-packager . Practys  --overwrite --platform=darwin --arch=x64  --icon=./practys.icns --prune=true  --asar=true --out=release-builds ",
+    "package-win": "electron-packager . Practys  --overwrite --platform=win32 --arch=x64  --icon=./practys.ico --prune=true  --asar=true --out=release-builds ",
+    "darwin": "electron-packager . practys --platform=darwin --arch=x64 --icon=./practys.icns  --version=0.30.2 --version-string.CompanyName=\"greatInnovus\" --version-string.ProductName=\"Practys\" --version-string.FileDescription=\"Hospitality\" --asar=true --out=release-builds"
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "build": {
+    "appId": "com.practys.macapp",
+    "mac": {
+      "category": "com.practys.mac",
+      "target": ["dmg"]
+    },
+    "nsis": {
+      "perMachine": true
+    }
+  },
+  "devDependencies": {
+    "electron": "~1.8.2"
+  },
+  "dependencies": {
+    "electron-is-dev": "^0.3.0",
+    "electron-log": "^2.2.14",
+    "electron-plugins": "^0.1.0",
+    "electron-updater": "^2.20.1"
+  }
+}

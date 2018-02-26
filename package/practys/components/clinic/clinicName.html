@@ -1,0 +1,33 @@
+  <div class="clinic-det">
+  <div class="panel-heading clearfix">
+      <h3>
+       Choose Clinic Name        
+      </h3>   
+    </div>
+  <div class="login_div">
+    
+    <div class="loginsec2 clearfix">
+	<h5>Welcome</h5>
+    <h4> {{vm.doctor.doctorName}}</h4>
+      <form ng-submit="vm.submit()" name="clinicForm">
+     
+      <select ng-model="vm.doctor.clinic" name="clinicName"  ng-init="vm.doctor.clinic = vm.clinicName[0].id" class="form-control" ng-options="clinic.clinicName for clinic in vm.clinicName track by clinic.id" >
+      <option value="">Select Clinic</option>
+      </select>
+     <!--  <span class="mandatory" ng-show="clinicForm.clinicName.$invalid || (clinicForm.$submitted && clinicForm.clinicName.$untouched)" >Select the clinic</span> -->
+     
+      <input type="submit" class="btn btn-primary" value="Sumbit" >
+    </form> 
+    </div>
+  </div>
+  </div>
+<style>
+#wrapper {
+    padding: 0;
+}
+.container-fluid{padding:0;}
+body{background:#fff;}
+.pagepad-top {
+    padding-top: 0px;
+}
+</style>

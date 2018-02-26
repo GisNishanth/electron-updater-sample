@@ -1,0 +1,107 @@
+    <div class="mar-top add-pg-form clearfix">
+                <form name="clinicCreation"  ng-submit="vm.general(days,clinicCreation)" novalidate>
+                    <div class="col-md-6 padding-zro clear">
+                        <div class="form-group clearfix">
+                            <label for="itemName" class="col-md-3 col-sm-3">Clinic Name</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input type="text" class="form-control" name="clinicName" id="clinicName" ng-model="vm.generalValue.clinicName" required>
+                                <div class="mandatory" ng-show="clinicCreation.clinicName.$invalid && (clinicCreation.clinicName.$dirty || clinicCreation.$submitted)">
+                                    <div ng-show="clinicCreation.clinicName.$error.required">Clinic Name Is Required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 padding-zro clear">
+                        <div class="form-group clearfix">
+                            <label for="itemName" class="col-md-3 col-sm-3">Clinic Logo</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input type="text" disabled class="form-control" name="logo" id="logo" ng-model="vm.generalValue.clinicImage" required>
+                                <div class="mandatory" ng-show="clinicCreation.logo.$invalid && (clinicCreation.logo.$dirty || clinicCreation.$submitted)">
+                                    <div ng-show="clinicCreation.logo.$error.required">Clinic Logo Is Required</div>
+                                </div>
+                            </div>
+                            <div class="fileUpload btn btn-primary">
+                                <span>Browse</span>
+                                <input type="file" accept="image/*" resize-max-height="100" resize-max-width="100" resize-quality="0.7" image="" onchange="angular.element(this).scope().vm.photoChanged(this.files)" required class="upload" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 padding-zro clear">
+                        <div class="form-group clearfix">
+                            <label for="itemName" class="col-md-3 col-sm-3">Clinic Address</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input type="text" class="form-control" name="clinicAddress" id="clinicAddress" ng-model="vm.generalValue.clinicAddress" required>
+                                <div class="mandatory" ng-show="clinicCreation.clinicAddress.$invalid && (clinicCreation.clinicAddress.$dirty || clinicCreation.$submitted)">
+                                    <div ng-show="clinicCreation.clinicAddress.$error.required">Clinic Address Is Required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 padding-zro clear">
+                        <div class="form-group clearfix">
+                            <label for="itemName" class="col-md-3 col-sm-3">Email Address</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input type="text" class="form-control" name="clinicEmailAddress" id="clinicAddress" ng-model="vm.generalValue.email" required>
+                                <div class="mandatory" ng-show="clinicCreation.clinicEmailAddress.$invalid && (clinicCreation.clinicEmailAddress.$dirty || clinicCreation.$submitted)">
+                                    <div ng-show="clinicCreation.clinicEmailAddress.$error.required">Clinic Email Is Required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 padding-zro clear">
+                        <div class="form-group clearfix">
+                            <label for="itemName" class="col-md-3 col-sm-3">Contact Number</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input type="text" class="form-control" name="clinicContactNumber" id="contactNumber" numbers-only ng-model="vm.generalValue.contactNumber" required>
+                                <div class="mandatory" ng-show="clinicCreation.clinicContactNumber.$invalid && (clinicCreation.clinicContactNumber.$dirty || clinicCreation.$submitted)">
+                                    <div ng-show="clinicCreation.clinicContactNumber.$error.required">Contact Number Is Required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 padding-zro clear">
+                        <div class="form-group clearfix">
+                            <label for="itemName" class="col-md-12">Operating Hours</label>
+                            <ng-weekday-selector ng-model="days"></ng-weekday-selector>
+                            <div class="inner-form form-group ">
+                                <div class="clearfix">
+                                    <div ng-repeat="($index,day) in days">
+                                        <div class="col-md-12" ng-show="days[$index].isSelected == true">
+                                            <label class="col-md-2 padding-zro">{{day.day}}</label>
+                                            <div class="col-md-5">
+                                                <label>Start Time:</label>
+                                                <div class="clear appointment-time">
+                                                    <div uib-timepicker ng-model="day.open" mousewheel="false" hour-step="1" name={{day.day}} minute-step="1" alt-input-formats="" readonly-input="true" show-meridian="true" class="appointment-time" ng-required="day.day.required ? false : true">
+                                                    </div>
+                                                </div>
+                                                <div class="mandatory" ng-show="clinicCreation[day.day].$invalid &&(clinicCreation.$submitted ||clinicCreation[day.day].$dirty)">
+                                                    <div ng-show="(clinicCreation[day.day].$error.required)">Start Time Is Required</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <label>End Time :</label>
+                                                <div class="clear appointment-time">
+                                                    <div uib-timepicker mousewheel="false" ng-model="day.close" hour-step="1" name={{day.value}} minute-step="15" readonly-input="true" show-meridian="true" class="appointment-time" ng-required="day.value.required ? false :true">
+                                                    </div>
+                                                </div>
+                                                <div class="mandatory" ng-show="clinicCreation[day.value].$invalid && (clinicCreation.$submitted || clinicCreation[day.value].$dirty)">
+                                                    <div ng-show="clinicCreation[day.value].$error.required">End Time Is Required</div>
+                                                </div>
+                                            </div>
+                                            <div class="mandatory" ng-show="day.open >= day.close"> Invalid Time </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 
+                    <div class="col-md-12 button-section align-right">
+                      
+                        <input type="submit" class="btn btn-primary" name="Save" value="Save">
+                        <a class="btn btn-default " ui-sref="settings">Cancel</a>
+                    </div>
+                </form>
+            </div>

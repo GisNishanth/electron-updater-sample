@@ -1,0 +1,2056 @@
+<div class="panel sec-height expenses-pg  add-pg-form" ng-if="vm.type == 'admin'">
+    <div class="panel-heading">
+        <h3>Settings</h3>
+    </div>
+    
+    <div class="panel-body top-msg" ng-controller="settingController as tab">
+        <ul class="nav nav-pills">
+            <li ng-class="{active:vm.isSet(1)}">
+                <a href ng-click="vm.tab = 1">Clinic Creation</a>
+            </li>
+            <li ng-class="{active:vm.isSet(2)}">
+                <a href ng-click="vm.tab = 2;vm.showExistingPlans = true;vm.addPlans = false;vm.editPlan = false">Subscription Management</a>
+            </li>
+            <li ng-class="{active:vm.isSet(3)}">
+                <a href ng-click="vm.tab = 3;vm.getClinicDetails()">Clinic List</a>
+            </li>
+        </ul>
+        <form name="adminClinicCreate"  ng-submit="vm.addClinic(vm.generalValue,adminClinicCreate)" role="form">
+            <div ng-show="vm.isSet(1)" class="mar-top add-pg-form clearfix">
+                <div class="panel-heading">
+                    <h3>Clinic Creation</h3>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group clearfix">
+                        <label for="itemName" class="col-md-3 col-sm-3">Clinic Name</label>
+                        <div class="col-md-6 col-sm-6">
+                            <input type="text" class="form-control" name="clinicName" id="clinicName" ng-model="vm.generalValue.clinicName" >
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label for="itemName" class="col-md-3 col-sm-3">Address</label>
+                        <div class="col-md-6 col-sm-6">
+                            <input type="text" class="form-control" name="address" id="address" ng-model="vm.generalValue.clinicAddress">
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label for="itemName" class="col-md-3 col-sm-3">Contact Number</label>
+                        <div class="col-md-6 col-sm-6">
+                            <input type="text" class="form-control" numbers-only name="mobile" id="mobile" ng-model="vm.generalValue.contactNumber">
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label for="itemName" class="col-md-3 col-sm-3">Email ID</label>
+                        <div class="col-md-6 col-sm-6">
+                            <input type="text" class="form-control" name="email" id="email" ng-model="vm.generalValue.email">
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label for="itemName" class="col-md-3 col-sm-3">Password</label>
+                        <div class="col-md-6 col-sm-6">
+                            <input type="password" class="form-control" name="password" id="password" ng-model="vm.generalValue.password">
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label for="itemName" class="col-md-3 col-sm-3">Confirm Password</label>
+                        <div class="col-md-6 col-sm-6">
+                            <input type="password" class="form-control" name="cpassword" id="cpassword" ng-model="vm.generalValue.cpassword">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 button-section align-right">
+                    <input type="submit" class="btn btn-primary"  name="Save" value="Save">
+                    <!-- <a class="btn btn-default " ui-sref="dashboard">Cancel</a> -->
+                </div>
+            </div>
+            <div ng-show="vm.isSet(2)">
+
+                <div ng-if="vm.addPlans" class="mar-top clearfix">
+                    <form name="form" >
+                        <div class="col-md-6 admin-sub" ng-repeat="(key,item) in items track by $index">
+                            <div class="form-group clearfix">
+                                <label class="col-md-5 col-sm-5">Subscription Plan Name:</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input name="noOfMonth" class="form-control col-md-4" ng-model="item.subscriptionPlan" type="text" required></input>
+                                </div>
+                            </div>
+                            <div class="form-group clearfix">
+                                <label class="col-md-5 col-sm-5">No Of Month:</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input name="noOfMonth" class="form-control col-md-4" numbers-only ng-model="item.noOfMonth" type="text" required></input>
+                                </div>
+                            </div>
+                            <div class="form-group clearfix">
+                                <label class="col-md-5 col-sm-5">Plan Price:</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input name="planprice" class="form-control col-md-4" numbers-only ng-model="item.price" type="text" required></input>
+                                </div>
+                            </div>
+                            <div class="form-group clearfix">
+                                <label class="col-md-5 col-sm-5">No Of Appointment:</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input name="noOfAppointment" class="form-control col-md-4" numbers-only ng-model="item.noOfAppointment" type="text" ng-disabled="item.appointmentUnlimCheck[$index]" required></input>
+                                     <input  ng-model="item.appointmentUnlimCheck[$index]" ng-click="item.appointmentUnlimCheck[$index] ? item.noOfAppointment = 'unlimited' : item.noOfAppointment = '' ; item.costPerAppointment = 0" type="checkbox" ></input>
+                                     <label for="appointment-unlim-check"><span><span></span></span>  
+                                            	</label>
+                                </div>
+                            </div>
+                            <div class="form-group clearfix">
+                                <label class="col-md-5 col-sm-5">Cost Of Additional Appointment:</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input name="costPerAppointment" ng-disabled="item.appointmentUnlimCheck[$index]" class="form-control col-md-4"  ng-model="item.costPerAppointment" type="text" required></input>
+                                </div>
+                            </div>
+                            <div class="form-group clearfix">
+                                <label class="col-md-5 col-sm-5">Patient Account:</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input name="patientAccount" class="form-control col-md-4" value="unlimited" disabled ng-model="item.patientAccount" type="text" required></input>
+                                </div>
+                            </div>
+                            <div class="form-group clearfix">
+                                <label class="col-md-5 col-sm-5">Doctor Account:</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input name="doctorAccount" class="form-control col-md-4" numbers-only ng-model="item.doctorAccount" type="text" ng-disabled="item.doctorAccountCheck[$index]" required>
+                                     <input  ng-model="item.doctorAccountCheck[$index]" ng-click="item.doctorAccountCheck[$index] ? item.doctorAccount = 'unlimited' : item.doctorAccount = '' ; item.costPerDocAccount = 0" type="checkbox" ></input>
+                                     <label for="doctor-unlim-check"><span><span></span></span>  
+                                            	</label>
+                                </div>
+                            </div>
+                             <div class="form-group clearfix">
+                                <label class="col-md-5 col-sm-5">Cost Of Additional Doctor Account:</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input name="costPerDocAccount" ng-disabled="item.doctorAccountCheck[$index]" class="form-control col-md-4"  ng-model="item.costPerDocAccount" type="text" required></input>
+                                </div>
+                            </div>
+                            <div class="form-group clearfix">
+                                <label class="col-md-5 col-sm-5">Storage Space:</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input name="storageSpace" class="form-control col-md-4" numbers-only ng-model="item.storage" type="text" required>GB
+                                </div>
+                            </div>
+                             <div class="form-group clearfix">
+                                <label class="col-md-5 col-sm-5">Cost Of Storage:</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input name="storageSpace" class="form-control col-md-4"  ng-model="item.costOfStorage" type="text" required>
+                                </div>
+                            </div>
+                            
+                            <span ng-if="key < items.length - 1" class="sub-del" type="pointer" value="Delete Form" ng-click="delete(key)"><i class="fa fa-times" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="col-md-6 align-right">
+                            <button class="btn btn-success btn-style pull-right" ng-click="add(item)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        </div>
+                    </form>
+                </div>
+                <div ng-if="vm.showExistingPlans">
+                    <div class="col-md-12 subscribe-blk clearfix">
+                        <button class="btn btn-primary pull-right mrr-15"  ng-click="vm.addPlans = true;vm.showExistingPlans = false">Add Plans</button>
+                        <h4 class="plan-tit" >Subscription plans</h4>
+                        <!-- <div data-slick='{"slidesToShow": 3, "slidesToScroll": 1, "infinite": false,"arrows" : true}'> -->
+                        <div class="slick-div">
+	                        <slick class="slider" settings="slickConfig3" slides-to-show=3 infinite="false" >
+	                            <!-- <button type="button" class="slick-prev">Previous</button> -->
+	                            <div  ng-repeat="plans in vm.plans">
+	                                <div ng-class="{'col-md-4 set-sec current-plan':$index %2 == 0,'col-md-4 set-sec basic-plan':$index %2 != 0}">
+	                                    <div class="head-plan">
+	                                        <h3>{{plans.subscriptionPlan}} Plan</h3>
+	                                        <p>
+	                                            <span>$</span>
+	                                            <strong>{{plans.price}}</strong>
+	                                            <br>
+	                                            <span ng-if="plans.noOfMonth == '1'" class="month">Per Month</span>
+	                                             <span ng-if="plans.noOfMonth != '1'" class="month">For {{plans.noOfMonth}} Months</span>
+	                                        </p>
+	                                    </div>
+	                                    <div class="arrow-symbol">
+	                                        <img src="assets/img/currentplan-arrow.png" ng-if="$index %2 == 0">
+	                                        <img src="assets/img/basictplan-arrow.png" ng-if="$index %2 != 0">
+	                                    </div>
+	                                    <div class="body-plan">
+	                                        <div class="plan-list">
+	                                            <p>No of Appointment - {{plans.noOfAppointment}}</p>
+	                                            <p>Patient Account - unlimited</p>
+	                                            <p>Doctor Account - {{plans.doctorAccount}}</p>
+	                                             <p>Storage Space - {{plans.storage}}  GB</p>
+	                                        </div>
+	                                    </div>
+	                                    <div class="subs-button">
+	                                        <a class="btn btn-subs" ng-click="vm.getPlans(plans.id)">Edit</a>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </slick>
+                        </div>
+                            <!-- <button type="button" class="slick-next">Next</button> -->
+                        <!-- </div> -->
+                    </div>
+                </div>
+                <div ng-if="vm.editPlan">
+                    <div class="panel-heading">
+                        <h3>Editing plan</h3>
+                    </div>
+                    <div class="col-md-8 subscribe-blk clearfix">
+                        <div class="form-group clearfix">
+                            <label class="col-md-5 col-sm-5">Subscription Plan Name:</label>
+                            <div class="col-md-6 col-sm-6">
+                               <!--  <select ng-model="vm.plan.subscriptionPlan" ng-disabled="disabled">
+                                    <option value="">~select~</option>
+                                    <option ng-repeat="x in plans" value="{{x.name}}">{{x.name}}</option>
+                                </select> -->
+                                 <input name="noOfMonth" class="form-control col-md-4" ng-model="vm.plan.subscriptionPlan" type="text" required></input>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-md-5 col-sm-5">No Of Month:</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input name="noOfMonth" class="form-control col-md-4" ng-model="vm.plan.noOfMonth" type="text" required></input>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-md-5 col-sm-5">Plan Price:</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input name="planprice" class="form-control col-md-4" ng-model="vm.plan.price" type="text" required></input>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-md-5 col-sm-5">No Of Appointment:</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input name="noOfAppointment" class="form-control col-md-4" ng-model="vm.plan.noOfAppointment" type="text" ng-disabled="vm.plan.appointmentUnlimCheck" required></input>
+                                <input  ng-model="vm.plan.appointmentUnlimCheck" ng-click="vm.plan.appointmentUnlimCheck ? vm.plan.noOfAppointment = 'unlimited' : vm.plan.noOfAppointment = '' " type="checkbox" ></input>
+                                <label for="appointment-unlim-check"><span><span></span></span>  
+                                </label>
+                            </div>
+                        </div>
+                         <div class="form-group clearfix">
+                                <label class="col-md-5 col-sm-5">Cost Of Additional Appointment:</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input name="costPerAppointment" ng-disabled="vm.plan.appointmentUnlimCheck"  class="form-control col-md-4"  ng-model="vm.plan.costPerAppointment" type="text" required></input>
+
+                                </div>
+                            </div>
+                        <div class="form-group clearfix">
+                            <label class="col-md-5 col-sm-5">Patient Account:</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input name="patientAccount" class="form-control col-md-4" ng-model="vm.plan.patientAccount" type="text" disabled></input>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-md-5 col-sm-5">Doctor Account:</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input name="doctorAccount" class="form-control col-md-4" ng-model="vm.plan.doctorAccount" type="text" ng-disabled="vm.plan.doctorAccountCheck" required>
+                                <input  ng-model="vm.plan.doctorAccountCheck" ng-click="vm.plan.doctorAccountCheck ? vm.plan.doctorAccount = 'unlimited' : vm.plan.doctorAccount = '' " type="checkbox" ></input>
+                                <label for="doctor-unlim-check"><span><span></span></span>  
+                                </label>
+                            </div>
+                        </div>
+                        	<div class="form-group clearfix">
+                                <label class="col-md-5 col-sm-5">Cost Of Per Doctor Account:</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input name="costPerDocAccount" ng-disabled="vm.plan.doctorAccountCheck" class="form-control col-md-4"  ng-model="vm.plan.costPerDocAccount" type="text" required></input>
+                                </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-md-5 col-sm-5">Storage Space:</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input name="storageSpace" class="form-control col-md-4" ng-model="vm.plan.storage" type="text" required>GB
+                            </div>
+                        </div>
+                         <div class="form-group clearfix">
+                            <label class="col-md-5 col-sm-5">Cost Of Storage:</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input name="storageSpace" class="form-control col-md-4" ng-model="vm.plan.costOfStorage" type="text" required>
+                            </div>
+                        </div>
+                          
+                    </div>
+                    <div class="col-md-12 button-section align-right">
+                        <a class="btn btn-default" ng-if="vm.editPlan" ng-click="vm.editPlan = false;vm.showExistingPlans = true">Back</a>
+                        <button class="btn btn-primary" type="button" ng-if="vm.editPlan" ng-click="vm.updatePlan(vm.plan)">update</button>
+                    </div>
+                </div>
+                <div class="col-md-12 button-section align-right">
+                    <a class="btn btn-default " ng-if="vm.addPlans" ng-click="vm.addPlans = false;vm.showExistingPlans = true">Back</a>
+                    <button class="btn btn-primary" type="button" ng-if="vm.addPlans" ng-click="vm.subscriptionPlan(items)">save</button>
+                </div>
+            </div>
+               <div ng-show="vm.isSet(3)" class="mar-top add-pg-form clearfix">
+                <div class="panel-body" ng-repeat="x in vm.clinicDetails track by $index">
+			        <div class="patient-detail admin-block col-md-12 padding-zro">
+                     <a ng-click="vm.resetPopup(x.User)" class="btn btn-primary reset-btn"><i class="fa fa-refresh" aria-hidden="true"></i>RESET PASSWORD</a>
+                     <div class="col-md-12">
+			            <div class="col-md-6 patient-data-bx aa1">
+			                <div class="col-md-3 patient-img padding-zro">
+			                <img ng-if="x.User.image != '' " ng-src="{{x.User.thumbImage}}{{x.User.image}}">
+			                    <img ng-if="x.User.image == '' "  src="assets/img/profileimg.jpg" >
+			                  
+			                </div>
+			                <div class="col-md-9 patient-name padding-zro">
+			                    <h3>{{x.User.username}}    <a class="icon-txt"  ui-sref="clinicEdit({id:x.User.id})"> <i class="fa fa-edit" aria-hidden="true"></i></a></h3>
+			                   
+			                    <a class="phone-num admin-font"> <i class="fa fa-phone mrl-5" aria-hidden="true"></i>          {{x.User.mobile}}</a>
+			                    <p class="mail-id admin-font">
+			                        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+			                        <a href="mailto:elena@gmail.com">{{x.User.email}}</a>
+			                    </p>
+			                    
+			                    <div class="add_address admin-font clearfix">
+			                    <p class="address-left admin-font">
+			                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+			                        <span>{{x.User.address}}</span>
+			                         
+			                    </p>
+			                      <span class="patient-app clearfix">
+			                     
+			                     
+			                       <!-- <a class="btn btn-primary edit_right" >Add Appointment</a> -->
+			                      </span>
+			                    </div>
+			                     
+                         
+			                </div>
+                           
+			            </div>
+			           
+			             
+			            <div class="col-md-6 patient-contact">
+			                <div class="panel clearfix">
+                                <div class="panel-body emergencycontact">
+			                   
+			                        <div class="form-group name-blk">
+			                         <div class="clearfix"> 
+                                      <label class="lable-content col-sm-5 pd0">SMS Count <span class="colon-txt">:</span></label><span class="col-sm-6"> {{x.smsCount}}</span>
+                                      </div>
+                                       <div class="clearfix"> 
+			                           <label class="lable-content col-sm-5 pd0">Subscription Status<span class="colon-txt">:</span></label>{{x.subscriptionStatus}}
+                                       </div>
+                                        <div class="clearfix"> 
+			                            <label class="lable-content col-sm-5 pd0">Subscription Expiry date<span class="colon-txt">:</span></label>{{x.expriyDate}}
+                                        </div>
+                                         <div class="clearfix"> 
+			                            <div ng-if="x.SubscriptionclinicMap.autoRenewal == 0">
+			                            <label class="lable-content col-sm-5 pd0">Auto renew<span class="colon-txt">:</span></label>OFF
+			                            </div>
+			                            <div ng-if="x.SubscriptionclinicMap.autoRenewal == 1">
+			                            <label class="lable-content col-sm-5 pd0">Auto renew<span class="colon-txt">:</span></label>ON
+			                            </div>
+                                        </div>
+                                         <div class="clearfix"> 
+			                            <label class="lable-content col-sm-5 pd0">No.Of.Appointment<span class="colon-txt">:</span></label>{{x.activatedPlan.noOfAppointment}} <b>( $ {{x.activatedPlan.costPerAppointment}} / Appointment )</b>
+                                        </div>
+                                         <div class="clearfix"> 
+			                            <label class="lable-content col-sm-5 pd0">Doctor Account<span class="colon-txt">:</span></label>{{x.activatedPlan.doctorAccount}} <b>( ${{x.activatedPlan.costPerDocAccount}} / Account )</b>
+                                        </div>
+                                         <div class="clearfix"> 
+			                            <label class="lable-content col-sm-5 pd0">Storage Space<span class="colon-txt">:</span></label>{{x.activatedPlan.storage}} GB <b>( $ {{x.activatedPlan.costOfStorage}} / GB )</b>
+                                        </div>
+                                         <div class="clearfix"> 
+			                            <label class="lable-content col-sm-5 pd0">Price<span class="colon-txt">:</span></label>$ {{x.activatedPlan.price}}
+                                        </div>
+			                             <a class="subscription-edit"  ng-click="vm.planChangePop(x.SubscriptionclinicMap.subscriptionId,x.User.id);close()"><i class="fa fa-edit" aria-hidden="true"></i></a>
+			                        </div>
+			                   
+			                    </div>
+			                </div>
+			            </div>
+                        </div>
+			        </div>
+         
+            </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="panel sec-height" ng-if="vm.type == 'clinic'">
+    <div class="panel-heading clearfix">
+        <h3 class="pull-left">Settings</h3>
+    </div>
+    <div class="panel-body top-msg" ng-controller="settingController as tab">
+        <ul class="nav nav-pills">
+            <li ng-class="{active:vm.isSet(1)}">
+                <a href ng-click="vm.tab = 1;vm.slickConfig3Loaded = false;vm.slickPayment = false">General Settings</a>
+            </li>
+            <li ng-class="{active:vm.isSet(2)}">
+                <a href ng-click="vm.tab = 2;vm.getColorCode(); vm.getDetails(); vm.slickConfig3Loaded = false;vm.slickPayment = false;doctorCurrentPage = 1;imagePreview = false">Account Settings</a>
+            </li>
+            <li ng-class="{active:vm.isSet(3)}">
+                <a href ng-click="vm.tab = 3;vm.getDrug();vm.slickConfig3Loaded = false;vm.slickPayment = false;drugCurrentPage = 1;imagePreview = false">Drugs</a>
+            </li>
+            <li ng-class="{active:vm.isSet(4),disabled : !online}">
+                <a ng-class="{disabled:disabled}" ng-click="vm.getPlans(null,$event);vm.slickPayment = false">Subscription Management</a>
+            </li>
+            <li ng-class="{active:vm.isSet(5)}">
+                <a href ng-click="vm.tab = 5;vm.tableSpecial = true;vm.addSpecial = false;vm.slickConfig3Loaded = false;vm.slickPayment = false;specialityCurrentPage = 1;imagePreview = false;vm.getSpeciality()">Speciality Services</a>
+            </li>
+        </ul>
+        <div ng-show="vm.isSet(1)">
+            <div class="mar-top add-pg-form clearfix">
+                <form name="clinicCreation"  ng-submit="vm.general(days,clinicCreation)" novalidate>
+                    <div class="col-md-6 padding-zro clear">
+                        <div class="form-group clearfix">
+                            <label for="itemName" class="col-md-3 col-sm-3">Clinic Name</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input type="text" class="form-control" name="clinicName" id="clinicName" ng-model="vm.generalValue.clinicName" required>
+                                <div class="mandatory" ng-show="clinicCreation.clinicName.$invalid && (clinicCreation.clinicName.$dirty || clinicCreation.$submitted)">
+                                    <div ng-show="clinicCreation.clinicName.$error.required">Clinic Name Is Required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 padding-zro clear">
+                        <div class="form-group clearfix">
+                            <label for="itemName" class="col-md-3 col-sm-3">Clinic Logo</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input type="text" disabled class="form-control" name="logo" id="logo" ng-model="vm.generalValue.clinicImage" required>
+                                <div class="mandatory" ng-show="clinicCreation.logo.$invalid && (clinicCreation.logo.$dirty || clinicCreation.$submitted)">
+                                    <div ng-show="clinicCreation.logo.$error.required">Clinic Logo Is Required</div>
+                                </div>
+                            </div>
+                            <div class="fileUpload btn btn-primary">
+                                <span>Browse</span>
+                                <input type="file" accept="image/*" resize-max-height="100" resize-max-width="100" resize-quality="0.7" image="" onchange="angular.element(this).scope().vm.photoChanged(this.files)" required class="upload" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 padding-zro clear">
+                        <div class="form-group clearfix">
+                            <label for="itemName" class="col-md-3 col-sm-3">Clinic Address</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input type="text" class="form-control" name="clinicAddress" id="clinicAddress" ng-model="vm.generalValue.clinicAddress" required>
+                                <div class="mandatory" ng-show="clinicCreation.clinicAddress.$invalid && (clinicCreation.clinicAddress.$dirty || clinicCreation.$submitted)">
+                                    <div ng-show="clinicCreation.clinicAddress.$error.required">Clinic Address Is Required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 padding-zro clear">
+                        <div class="form-group clearfix">
+                            <label for="itemName" class="col-md-3 col-sm-3">Email Address</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input type="text" class="form-control" name="clinicEmailAddress" id="clinicAddress" ng-model="vm.generalValue.email" required>
+                                <div class="mandatory" ng-show="clinicCreation.clinicEmailAddress.$invalid && (clinicCreation.clinicEmailAddress.$dirty || clinicCreation.$submitted)">
+                                    <div ng-show="clinicCreation.clinicEmailAddress.$error.required">Clinic Email Is Required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 padding-zro clear">
+                        <div class="form-group clearfix">
+                            <label for="itemName" class="col-md-3 col-sm-3">Contact Number</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input type="text" class="form-control" name="clinicContactNumber" id="contactNumber" numbers-only ng-model="vm.generalValue.contactNumber" required>
+                                <div class="mandatory" ng-show="clinicCreation.clinicContactNumber.$invalid && (clinicCreation.clinicContactNumber.$dirty || clinicCreation.$submitted)">
+                                    <div ng-show="clinicCreation.clinicContactNumber.$error.required">Contact Number Is Required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 padding-zro clear">
+                        <div class="form-group clearfix">
+                            <label for="itemName" class="col-md-12">Operating Hours</label>
+                            <ng-weekday-selector ng-model="days"></ng-weekday-selector>
+                            <div class="inner-form form-group ">
+                                <div class="clearfix">
+                                    <div ng-repeat="($index,day) in days">
+                                        <div class="col-md-12" ng-show="days[$index].isSelected == true">
+                                            <label class="col-md-2 padding-zro">{{day.day}}</label>
+                                            <div class="col-md-5">
+                                                <label>Start Time:</label>
+                                                <div class="clear appointment-time">
+                                                    <div uib-timepicker ng-model="day.open" mousewheel="false" hour-step="1" name={{day.day}} minute-step="15" alt-input-formats="" readonly-input="true" show-meridian="true" class="appointment-time" ng-required="day.day.required ? false : true">
+                                                    </div>
+                                                </div>
+                                                <div class="mandatory" ng-show="clinicCreation[day.day].$invalid &&(clinicCreation.$submitted ||clinicCreation[day.day].$dirty)">
+                                                    <div ng-show="(clinicCreation[day.day].$error.required)">Start Time Is Required</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <label>End Time :</label>
+                                                <div class="clear appointment-time">
+                                                    <div uib-timepicker mousewheel="false" ng-model="day.close" hour-step="1" name={{day.value}} minute-step="15" readonly-input="true" show-meridian="true" class="appointment-time" ng-required="day.value.required ? false :true">
+                                                    </div>
+                                                </div>
+                                                <div class="mandatory" ng-show="clinicCreation[day.value].$invalid && (clinicCreation.$submitted || clinicCreation[day.value].$dirty)">
+                                                    <div ng-show="clinicCreation[day.value].$error.required">End Time Is Required</div>
+                                                </div>
+                                            </div>
+
+                                            <!--Sheema -->
+
+                                          <!--   <div class="col-md-12" ng-if="day.isSelected">
+                                            	<input type="checkbox" ng-model="day.breakCheck[day.day]" class="break-check" name="break-check">
+                                            	<label for="break-check"><span><span></span></span>break  
+                                            	</label>
+
+                                            </div> -->
+                                           <!--  <div ng-show="day.breakCheck[day.day]">
+                                                 <div class="col-md-2">
+	                                           
+	                                            </div>
+	                                            <div class="col-md-5" >
+	                                            	<label>Break Start Time:</label>
+	                                            	<div class="clear appointment-time">
+	                                            		<div uib-timepicker ng-model="day.breakCheck['breakOpen']" mousewheel="false" hour-step="1"  minute-step="15" alt-input-formats="" readonly-input="true" show-meridian="true" class="appointment-time" >
+	                                            		</div>
+	                                            	</div> -->
+	                                            	 <!-- <div class="mandatory" ng-show="clinicCreation[day.day].$invalid &&(clinicCreation.$submitted ||clinicCreation[day.day].$dirty)">
+                                                    <div ng-show="(clinicCreation[day.day].$error.required)">Break Start Time Is Required</div>
+                                                    </div> -->
+	                                            <!-- </div>
+	                                            <div class="col-md-5" >
+	                                            	<label>Break End Time :</label>
+	                                            	<div class="clear appointment-time">
+	                                            		<div uib-timepicker mousewheel="false" ng-model="day.breakCheck['breakClose']" hour-step="1"  minute-step="15" readonly-input="true" show-meridian="true" class="appointment-time" >
+	                                            		</div>
+	                                            	</div> -->
+	                                            	 <!-- <div class="mandatory" ng-show="clinicCreation[day.value].$invalid && (clinicCreation.$submitted || clinicCreation[day.value].$dirty)">
+                                                    <div ng-show="clinicCreation[day.value].$error.required">Break End Time Is Required</div>
+                                                     </div> -->
+	                                           <!--  </div>
+                                            </div> -->
+                                           <!--  {{breakTimes}} -->
+                                             <!--Sheema -->
+
+
+                                             <!--Old -->
+
+                                             <!--<div ng-if="day.isSelected" class="col-md-5">
+                                             <input type="checkbox" ng-model="day.breakCheck[day.day]" class="break-check" name="break-check">
+                                             <label for="break-check"><span><span></span></span>break  
+                                       
+											</label>
+											<div ng-show="day.breakCheck[day.day]" >
+                                                <label>Break Start Time:</label>
+                                                <div class="clear appointment-time">
+                                                    <div uib-timepicker ng-model="day.breakCheck['breakOpen']" mousewheel="false" hour-step="1"  minute-step="15" alt-input-formats="" readonly-input="true" show-meridian="true" class="appointment-time" >
+                                                    </div>
+                                                </div>
+                                               
+                                                <label>Break End Time :</label>
+                                                <div class="clear appointment-time">
+                                                    <div uib-timepicker mousewheel="false" ng-model="day.breakCheck['breakClose']" hour-step="1"  minute-step="15" readonly-input="true" show-meridian="true" class="appointment-time" >
+                                                    </div>
+                                                </div>
+                                                </div>-->
+                                                <!--Old -->
+
+
+                                           
+                                            <div class="mandatory" ng-show="day.open >= day.close"> Invalid Time </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 
+                    <div class="col-md-12 button-section align-right">
+                        <a ng-click="vm.openDefault()" class="forget-pwd" ng-class="{ disabledCursor: vm.changeButttonProps()}">Change password ?</a>
+                        <input type="submit" class="btn btn-primary" name="Save" value="Save">
+                        <a class="btn btn-default " ui-sref="dashboard">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div ng-show="vm.isSet(2)">
+            <div ng-show="vm.table" class="mar-top clearfix inner-ultab">
+                <ul class="nav nav-pills active-bg">
+                    <li ng-class="{active:vm.tabClick(1)}">
+                        <a href ng-click="vm.getDetails();vm.tabs = 1;doctorCurrentPage = 1">Doctor Account</a>
+                    </li>
+                    <li ng-class="{active:vm.tabClick(2)}">
+                        <a href ng-click="vm.getPatDetails();vm.tabs = 2;patienttCurrentPage = 1">Patient Account</a>
+                    </li>
+                </ul>
+                <div ng-show="vm.tabClick(1)" class="account-tab clearfix">
+                    <div class="panel inventory-pg">
+                        <div class="panel-body">
+                       <!--  <div class="sorting-tab">
+                            <div class="filter-box pull-left clearfix">
+                                <label>Search</label>
+                                <input type="text" ng-keyup="vm.keyup(vm.doctorItemss,'doctor')" ng-model="doctorSearch">
+                               
+                            </div>
+                            </div> -->
+                            <a class="btn btn-default pull-right" ng-click="vm.doctorPopup('type');vm.getSpeciality()">Link</a>
+                             <a class="btn btn-default pull-right" style="margin-right:6px" ng-click="vm.doctorPopup('add');vm.getSpeciality()">ADD</a>
+                            <div class="table-responsive">
+                                <table datatable="ng" class="table table-bordered in-list-tab table-striped">
+                                	<thead>
+	                                    <tr>
+	                                    	<th>S.No</th>
+	                                        <th>Doctor Name</th>
+	                                        <th>Contact Number</th>
+	                                        <th>Email Address</th>
+	                                        <th>Color Code</th>
+	                                        <th>Action</th>
+	                                    </tr>
+                                    </thead>
+                                    <tbody>
+	                                    <tr ng-if="vm.doctors" ng-repeat="x in vm.doctors ">
+	                                        <td>{{$index + 1}}</td>
+	                                        <td><div ng-if="value.clinicId == vm.clinicId" ng-repeat="(key,value) in x.colorCode"><span class="doc-color" ng-style="{'background-color': value.colorCode}"></span></div> {{x.username}}</td>
+	                                        <td>{{x.mobile}}</td>
+	                                        <td>{{x.email}}</td>
+	                                        <td ng-if="value.clinicId == vm.clinicId" ng-repeat="(key,value) in x.colorCode">{{value.colorCode}}</td>
+	                                        <td class="action-blk"><span class="action-icon"><a class="fa fa-edit" ng-click="vm.editDoctor(x.id)" aria-hidden="true" ></a><a class="fa fa-trash" ng-click ="confirmClick() && vm.deleteUser(x.id,'doctor')"  confirm-click aria-hidden="true" ></a></span> </td>
+	                                    </tr>
+	                                </tbody>
+                                    <!-- <tr ng-if="vm.doctors == ''">
+                                        <td colspan="8">No datas found</td>
+                                    </tr> -->
+                                </table>
+                            </div>
+                           <!--  <ul uib-pagination total-items="vm.doctorTotalItems" ng-model="doctorCurrentPage" ng-change="pageChanged()"></ul> -->
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="vm.tabClick(2)" class="account-tab clearfix">
+                    <div class="panel inventory-pg">
+
+                        <div class="panel-body">
+                        <div class="sorting-tab">
+                            <!-- <div class="filter-box pull-left clearfix">
+                                <label>Search</label>
+                                <input type="text" ng-keyup="vm.keyup(vm.patientItemss,'patient')" ng-model="patientSearch">
+                                
+                            </div> -->
+                            </div>
+                            <a class="btn btn-default pull-right" ng-click="vm.linkPop()">Link</a>
+                            <a class="btn btn-default pull-right" style="margin-right:6px" ng-click="main.addPatientDetails()">ADD</a>
+                            <div class="table-responsive">
+                                <table datatable="ng" class="table table-bordered in-list-tab table-striped">
+                                	<thead>
+	                                    <tr>
+	                                    	<th>S.No</th>
+	                                        <th>Patient Name</th>
+	                                        <th>Contact Number</th>
+	                                        <th>Email Address</th>
+	                                        <th>Action</th>
+	                                    </tr>
+	                                </thead>
+	                                <tbody>
+	                                    <tr ng-if="vm.patientDatas" ng-repeat="x in vm.patientDatas">
+	                                    	<td>{{$index + 1}}</td>
+	                                        <td>{{x.username}}</td>
+	                                        <td>{{x.mobile}}</td>
+	                                        <td>{{x.email}}</td>
+	                                        <td class="action-blk"><span class="action-icon"><a class="fa fa-edit" ng-click ="vm.editPatient(x.id)"  aria-hidden="true" ></a><a class="fa fa-trash" ng-click ="confirmClick() && vm.deleteUser(x.id,'patient')" confirm-click  aria-hidden="true" ></a></span>
+	                                            <div ng-class="{'loader': vm.patientDelLoader[x.id] == true}"></div>
+	                                        </td>
+	                                    </tr>
+	                                </tbody>
+                                    <!-- <tr ng-if="vm.patientDatas == ''">
+                                        <td colspan="8">No datas found</td>
+                                    </tr> -->
+                                </table>
+                            </div>
+                           <!--  <ul uib-pagination total-items="vm.patientTotalItems" ng-model="patientCurrentPage" ng-change="pageChanged()"></ul> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="vm.doctorEditShow">
+                <div class="panel-heading">
+                    <h3>Edit Account Settings</h3>
+                </div>
+                <div class="panel-body">
+                    <form name="settingForm" ng-submit="vm.doctorUpdate()">
+                        <div class="col-md-6 padding-zro">
+                            <div class="form-group clearfix">
+                                <label for="itemName" class="col-md-3 col-sm-3">First Name</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input type="text" class="form-control" name="name" id="name" ng-model="vm.doctorss.firstName">
+                                </div>
+                            </div>
+                            <div class="form-group clearfix">
+                                <label for="itemName" class="col-md-3 col-sm-3">Last Name</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input type="text" class="form-control" name="name" id="name" ng-model="vm.doctorss.lastName">
+                                </div>
+                            </div>
+                            <div class="form-group clearfix">
+                                <label for="ContactNumber" class="col-md-3 col-sm-3">Contact Number</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input type="text" class="form-control" numbers-only name="contactNumber" id="contactNumber" ng-model="vm.doctorss.mobile">
+                                </div>
+                            </div>
+                            <span class="mandatory" ng-show="settingForm.contactNumber.$invalid || (settingForm.$submitted 
+						  && settingForm.contactNumber.$untouched)">Enter the contact number</span>
+                            <div class="form-group clearfix">
+                                <label for="ContactNumber" class="col-md-3 col-sm-3">Email Address</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input type="email" class="form-control" name="email" id="email" ng-model="vm.doctorss.email">
+                                </div>
+                            </div>
+                            <span class="mandatory" ng-show="settingForm.email.$invalid || (settingForm.$submitted && settingForm.email.$untouched)">Email is Required</span>
+                            <div class="form-group clearfix">
+                                <label for="description" class="col-md-3 col-sm-3">Description</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <textarea class="form-control" name="description" id="description" ng-model="vm.doctorss.description"></textarea>
+                                </div>
+                            </div>
+                            <span class="mandatory" ng-show="settingForm.description.$invalid || (settingForm.$submitted && settingForm.description.$untouched)">Description</span>
+                        </div>
+                        <div class="col-md-12 button-section align-right">
+                            <input type="submit" class="btn btn-primary" name="Save" value="Save">
+                            <a class="btn btn-default align-right" data-ng-click="vm.table = true;vm.patientEditShow =false;vm.doctorEditShow = false;vm.getDetails()">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div ng-if="vm.patientEditShow">
+                <div class="panel expenses-pg  add-pg-form">
+                    <div class="panel-heading">
+                        <h3>Edit Account Settings</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form name="expenseForm" ng-submit="vm.patientUpdate()">
+                            <div class="col-md-6 padding-zro">
+                                <div class="form-group clearfix">
+                                    <label for="itemName" class="col-md-3 col-sm-3">First Name</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <input type="text" class="form-control" name="firstName" id="firstName" ng-model="vm.patients.firstName">
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="itemName" class="col-md-3 col-sm-3">Last Name</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <input type="text" class="form-control" name="lastName" id="lastName" ng-model="vm.patients.lastName">
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="itemName" class="col-md-3 col-sm-3">Gender</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <label>
+                                            <input type="radio" ng-model="vm.patients.gender" value="male"> Male
+                                        </label>
+                                        <label>
+                                            <input type="radio" ng-model="vm.patients.gender" value="female"> Female
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="supplierName" class="col-md-3 col-sm-3">Date Of Birth</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="input-group date">
+                                            <input type="text" class="form-control" readonly datepicker-popup="{{vm.format}}" ng-model="vm.patients.birthday" is-open="openDatePickers[0]" close-text="Close" name="date">
+                                            <span class="input-group-btn">
+											<button
+											  type="button"
+											  class="btn btn-primary"
+											  ng-click="openFrom($event, 0)">
+											  <i class="fa fa-calendar" aria-hidden="true"></i>
+											</button>
+										  </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="itemName" class="col-md-3 col-sm-3">Age</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <input type="text" class="form-control" name="age" id="age" ng-model="vm.patients.age">
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="itemName" class="col-md-3 col-sm-3">Contact Number</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <input type="text" numbers-only class="form-control" name="contactNumber" id="contactNumber" ng-model="vm.patients.mobile">
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="itemName" class="col-md-3 col-sm-3">Email Address</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <input type="email" class="form-control" name="email" id="email" ng-model="vm.patients.email">
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="itemName" class="col-md-3 col-sm-3">Occupation</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <input type="text" class="form-control" name="occupation" id="occupation" ng-model="vm.patients.occupation">
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="itemName" class="col-md-3 col-sm-3">Address</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <textarea class="form-control" name="address" id="address" ng-model="vm.patients.address"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="itemName" class="col-md-3 col-sm-3">Drug Allergy</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <label>
+                                            <input type="radio" ng-model="vm.patients.drugAllergy" value="yes"> Yes
+                                        </label>
+                                        <label>
+                                            <input type="radio" ng-model="vm.patients.drugAllergy" value="no"> No
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="itemName" class="col-md-3 col-sm-3">Description</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <textarea class="form-control" name="description" id="description" ng-model="vm.patients.description"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="itemName" class="col-md-3 col-sm-3">Other Allergy</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <label>
+                                            <input type="radio" ng-model="vm.patients.otherAllergy" value="yes"> Yes
+                                        </label>
+                                        <label>
+                                            <input type="radio" ng-model="vm.patients.otherAllergy" value="no"> No
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="itemName" class="col-md-3 col-sm-3">Reffered by</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <input type="text" class="form-control" name="reference" id="reference" ng-model="vm.patients.reference">
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="itemName" class="col-md-3 col-sm-3">Emergency Contact Name</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <input type="text" class="form-control" name="emergencyContactName" id="emergencyContactName" ng-model="vm.patients.emergencyContactName">
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="itemName" class="col-md-3 col-sm-3">Relationship</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <input type="text" class="form-control" name="relationship" id="relationship" ng-model="vm.patients.emergencyRelationship">
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="itemName" class="col-md-3 col-sm-3">Contact Number</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <input type="text" class="form-control" name="emergencyContactNumber" numbers-only id="emergencyContactNumber" ng-model="vm.patients.emergencyContactNumber">
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="itemName" class="col-md-3 col-sm-3">other Comments</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <textarea class="form-control" name="comments" id="comments" ng-model="vm.patients.comments"></textarea>
+                                    </div>
+                                </div>
+                                <div ng-if="vm.patient.age < 18">
+                                    <div class="form-group clearfix">
+                                        <label for="itemName" class="col-md-3 col-sm-3">Guardian Name</label>
+                                        <div class="col-md-6 col-sm-6">
+                                            <input type="text" class="form-control" name="guardianName" id="guardianName" ng-model="vm.patients.guardianName">
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix">
+                                        <label for="itemName" class="col-md-3 col-sm-3">Relationship</label>
+                                        <div class="col-md-6 col-sm-6">
+                                            <input type="text" class="form-control" name="guardianRelationship" id="guardianRelationship" ng-model="vm.patients.guardianRelationship">
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix">
+                                        <label for="itemName" class="col-md-3 col-sm-3">Contact Number</label>
+                                        <div class="col-md-6 col-sm-6">
+                                            <input type="text" class="form-control" name="guardianContactNumber" numbers-only id="guardianContactNumber" ng-model="vm.patients.guardianContactNumber">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 button-section align-right">
+                                <input type="submit" class="btn btn-primary" name="Save" value="Save">
+                                <a class="btn btn-default align-right" data-ng-click="vm.table = true;vm.patientEditShow =false;vm.doctorEditShow = false">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="vm.isSet(3)" class="mar-top clearfix">
+            <div class="panel inventory-pg">
+                <div class="panel-body">
+                <div class="sorting-tab">
+                   <!--  <div class="filter-box pull-left clearfix">
+                        <label>Search</label>
+                        <input type="text" ng-keyup="vm.keyup(vm.drugItemss,'drug')" ng-model="drugSearch">
+                        
+                    </div> -->
+                    </div>
+                    <a class="btn btn-primary pull-right" ng-click="vm.drugPop()">Add Drug</a>
+                    <div class="table-responsive">
+                        <table datatable="ng" class="table table-bordered in-list-tab table-striped">
+                        	<thead>
+	                            <tr>
+	                            	<th>S.No</th>
+	                                <th>Drug Name</th>
+	                                <th>Drug Type</th>
+	                                <th>Drug Cost</th>
+	                                <th>Instruction</th>
+	                                <th>Action</th>
+	                            </tr>
+                            </thead>
+                            <tbody>
+	                            <tr ng-if="vm.drugs" ng-repeat="x in vm.drugs">
+	                            	<td>{{$index+1}}</td>
+	                                <td>{{x.name}}</td>
+	                                <td>{{x.type}}</td>
+	                                <td><span class="dollar">$</span> {{x.cost}}</td>
+	                                <td>{{x.instruction}}</td>
+	                                <td class="action-blk"><span class="action-icon"><a class="fa fa-edit" ng-click ="vm.editDrug(x.id)"  aria-hidden="true" ><a class="fa fa-trash" confirm-click ng-click ="confirmClick() &&  vm.deleteDrug(x.id)"  aria-hidden="true" ></span></td>
+	                            </tr>
+                            </tbody>
+
+                            <!-- <tr ng-if="vm.drugs == ''">
+                                <td colspan="8">No datas found</td>
+                            </tr> -->
+                        </table>
+                    </div>
+                    <!-- <ul uib-pagination total-items="vm.drugItems" ng-model="durgCurrentPage" ng-change="pageChanged()"></ul> -->
+                </div>
+            </div>
+        </div>
+        <div ng-show="vm.isSet(4)" class="mar-top ">
+            <div  class="col-md-12 subscribe-blk-detail">
+                <h4 class="plan-tit clearfix"><span class="pull-left">Current plan details</span> <span class="pay-hist-btn"><button ng-click="vm.getInvoiceHistory()" class="btn btn-default pull-right mrl-10">Payment History</button>
+                </span><span class="pull-right"><button ng-click="vm.additionalDialog(vm.existPlan)" class="btn btn-default">Additional Element</button></span></h4>
+                
+                <div class="sub-det clearfix">
+                <div class="col-md-6 padding-zro">
+                    <div class="sub-in wt-bg clearfix">
+                        <label class="col-xs-6">Subscription Status<span class="pull-right">:</span></label>
+                        <span class="col-xs-6">Live</span>
+                    </div>
+                      <div class="sub-in gry-bg high-min clearfix" >
+                      <div ng-if="vm.autoRenewCond == 0"> 
+                        <label class="col-xs-6">Subscription Expiry Date<span class="pull-right">:</span></label>
+                        <span class="col-xs-6">{{vm.expiryDuration}}</span>
+                        </div>
+                        </div>
+                     <div class="sub-in wt-bg auto-new clearfix">
+                        <label class="col-xs-6">Auto Renew<span class="pull-right">:</span></label>
+                        <span class="col-xs-6 on-cl-button"> 
+						<div class="toggle-btn"><toggle-switch ng-model="vm.switchStatus" ng-click="vm.switchStatus == true ? vm.confirmSubcription(type = 'autoRenew',vm.existPlan) : vm.confirmPop(vm.existPlan)" ><toggle-switch></div>
+						<a type="button" class="btn btn-primary" ng-click="vm.confirmSubcription(type = 'subscribe',vm.existPlan)">Renew Now</a>
+					</span>
+                    </div>
+                  
+                    <div class="sub-in gry-bg clearfix">
+                        <label class="col-xs-6">No of Appointment<span class="pull-right">:</span></label>
+                        <span class="col-xs-6"><p>{{vm.existPlan.noOfAppointment}}</p>
+                        <p><b>$ {{vm.existPlan.costPerAppointment}} / Appointment</b></p></span>
+                    </div>
+                    	</div>
+                    	<div class="col-md-6 padding-zro">
+                    	<div class="sub-in wt-bg clearfix">
+                        <label class="col-xs-6">Patient Account<span class="pull-right">:</span></label>
+                        <span class="col-xs-6">Unlimited</span>
+                    </div>
+                    <div class="sub-in gry-bg clearfix">
+                        <label class="col-xs-6">Doctor Account<span class="pull-right">:</span></label>
+                        <span class="col-xs-6"><p>{{vm.existPlan.doctorAccount}}</p>
+                        <p><b>$ {{vm.existPlan.costPerDocAccount}} / acc</b></p>
+                        </span>
+                       
+                    </div>
+                   
+                    <div class="sub-in wt-bg clearfix">
+                        <label class="col-xs-6">Price<span class="pull-right">:</span></label>
+                        <span class="col-xs-6">$ {{vm.existPlan.price}}</span>
+                    </div>
+                    <div class="sub-in gry-bg high-min">
+                      <label class="col-xs-6">Storage Space<span class="pull-right">:</span></label>
+                        <span class="col-xs-6">{{vm.existPlan.storage}} GB
+                         <p><b>$ {{vm.existPlan.costOfStorage}} / GB</b></p></span>
+                    </div>
+                     <div class="sub-in wt-bg clearfix">
+                       <label class="col-xs-6">Used Space<span class="pull-right">:</span></label>
+                        <span class="col-xs-6">{{vm.usedSpace}}
+                        </span>
+                    </div>
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 subscribe-blk clearfix  prac_clinic" ng-if="vm.slickConfig3Loaded">
+                <h4 class="plan-tit">Subscription plans	</h4>
+                 
+                <div class="slick-div" >
+                    <slick class="slider" settings="slickConfig3" slides-to-show=3 infinite="false" >
+                        <div ng-repeat="plans in vm.planList" class="box_sep">
+                            <div ng-class="{'col-md-4 set-sec current-plan':$index %2 == 0,'col-md-4 set-sec basic-plan':$index %2 != 0}">
+                                <div class="head-plan">
+                                    <h3>{{plans.subscriptionPlan}} Plan</h3>
+                                    <p>
+                                        <span>$</span>
+                                        <strong>{{plans.price}}</strong>
+                                        <br>
+                                        <span ng-if="plans.noOfMonth == '1'" class="month">Per Month</span>
+                                        <span ng-if="plans.noOfMonth != '1'" class="month">For {{plans.noOfMonth}} Months</span>
+                                    </p>
+                                </div>
+                                <div class="arrow-symbol">
+                                    <img src="assets/img/currentplan-arrow.png" ng-if="$index %2 == 0">
+                                    <img src="assets/img/basictplan-arrow.png" ng-if="$index %2 != 0">
+							<img src="assets/img/basictplan-arrow.png" ng-if="plans.subscriptionPlan == 'basic'">
+							<img src="assets/img/additionalelement-arrow.png" ng-if="plans.subscriptionPlan == 'custom'"> -->
+                                </div>
+                                <div class="body-plan">
+                                    <div class="plan-list">
+                                        <p>No of Appointment - {{plans.noOfAppointment}}</p>
+                                        <p>Patient Account - unlimited</p>
+                                        <p>Doctor Account - {{plans.doctorAccount}}</p>
+                                         <p>Storage Space - {{plans.storage}} GB</p>
+                                    </div>
+                                </div>
+                                <div class="subs-button">
+                                    <button ng-disabled="vm.existingPlanId == plans.id" class="btn btn-subs" ng-click="vm.confirmSubcription(type = 'subscribe',plans)">Subscribe</button>
+                                </div>
+                            </div>
+                        </div>
+                    </slick>
+                </div>
+            </div>
+        </div>
+        <div ng-if="vm.isSet(5)" class="mar-top ">
+            <div class="panel inventory-pg" >
+                <div class="panel-body">
+                <div class="clearfix" ng-if="vm.tableSpecial">           
+                <div class="sorting-tab">
+                    <!-- <div class="filter-box pull-left clearfix">
+                        <label>Search</label>
+                        <input type="text" ng-keyup="vm.keyup(vm.specialityItemss,'speciality')" ng-model="specialitySearch">
+                       
+                    </div> -->
+                    </div>
+                     <a class="btn btn-default pull-right" ng-click="vm.tableSpecial = false;vm.addSpecial = true">ADD Speciality Service</a>
+                    <div class="table-responsive">
+                        <table datatable="ng" class="table table-bordered in-list-tab table-striped">
+                       		<thead>
+	                            <tr>
+	                                <th>S.No</th>
+	                                <th>Speciality Name</th>
+	                                <th>Service Name</th>
+	                                <th>Service Duration</th>
+	                                <th>Service Cost</th>
+	                                <th>Action</th>
+	                            </tr>
+                            </thead>
+                            <tbody>
+	                            <tr ng-if="vm.specialities" ng-repeat="x in vm.specialities ">
+	                                <td>{{$index+1}}</td>
+	                                <td>{{x.name}}</td>
+	                                <td>
+	                                    <ul>
+	                                        <li ng-repeat="y in x.services">{{y.name}}</li>
+	                                    </ul>
+	                                </td>
+	                                <td>
+	                                    <ul>
+	                                        <li ng-repeat="y in x.services">{{y.mins}}(mins)</li>
+	                                    </ul>
+	                                </td>
+	                                <td>
+	                                    <ul>
+	                                        <li ng-repeat="y in x.services"><span class="dollar">$</span> {{y.cost}}</li>
+	                                    </ul>
+	                                </td>
+	                                <td class="action-blk">
+	                                    <ul>
+	                                        <li ng-repeat="y in x.services"><span class="action-icon"><a class="fa fa-edit" ng-click="vm.editService(y.id)" aria-hidden="true" ></a><a class="fa fa-trash" ng-click ="confirmClick(serviceConfirm) && vm.deleteService(y.id,x.id)" confirm-click  aria-hidden="true" ></a></span></li>
+	                                    </ul>
+	                                </td>
+	                            </tr>
+                            </tbody>
+                            <!-- <tr ng-if="vm.specialities == ''">
+                                <td colspan="8">No datas found</td>
+                            </tr> -->
+                        </table>
+                    </div>
+                    <!-- <ul uib-pagination total-items="vm.specialityItems" ng-model="currentPage" ng-change="pageChanged()"></ul> -->
+               </div>
+            <form name="specialityServiceForm" ng-if="vm.addSpecial" novalidate ng-submit="vm.addSpecialityServices(vm.generalValue,vm.contacts, specialityServiceForm)">
+                <div class="col-md-6 padding-zro clear">
+                    <div class="form-group clearfix">
+                        <label for="itemName" class="col-md-3 col-sm-3">Speciality</label>
+                        <div class="col-md-6 col-sm-6">
+                            <input type="text" class="form-control" auto-complete ui-items="uiItems" name="specialityService" id="Speciality" ng-model="vm.generalValue.Speciality" required>
+                            <span class="mandatory" ng-if="(specialityServiceForm.$submitted || specialityServiceForm.specialityService.$touched) && specialityServiceForm.specialityService.$invalid">Speciality is required</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <div ng-repeat="contact in vm.contacts track by $index" class="admin-spl col-md-6 clearfix admin-box">
+                        <div class="mrb-15 clearfix">
+                            <label class="col-md-4 col-sm-4"> Services:</label>
+                            <div class="col-md-8 col-sm-8">
+                                <input type="text" ng-model="contact.service" class="form-control" later-name="service{{$index}}" required />
+                                <span class="mandatory" ng-if="(specialityServiceForm.$submitted || specialityServiceForm['service'+$index].$touched) && specialityServiceForm['service'+$index].$invalid">Service is required</span>
+                            </div>
+                        </div>
+                        <div class="mrb-15 clearfix">
+                            <label class="col-md-4 col-sm-4"> Mins:</label>
+                            <div class="col-md-8 col-sm-8">
+                                <input type="text" numbers-only ng-model="contact.mins" class="form-control" later-name="mins{{$index}}" required />
+                                <span class="mandatory" ng-if="(specialityServiceForm.$submitted || specialityServiceForm['mins'+$index].$touched) && specialityServiceForm['mins'+$index].$invalid">Minutes is required</span>
+                            </div>
+                        </div>
+                        <div class="mrb-15 clearfix">
+                            <label class="col-md-4 col-sm-4">Cost:</label>
+                            <div class="col-md-8 col-sm-8">
+                                <input type="text" numbers-only ng-model="contact.cost" class="form-control" later-name="cost{{$index}}" required />
+                                <span class="mandatory" ng-if="(specialityServiceForm.$submitted || specialityServiceForm['cost'+$index].$touched) && specialityServiceForm['cost'+$index].$invalid">Cost is required</span>
+                            </div>
+                        </div>
+                        <span class="sub-del ng-scope" ng-if="$index != 0" ng-click="vm.delRow($index)">
+							<i class="fa fa-times" aria-hidden="true"></i>
+						</span>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <button type="button" ng-click="vm.addRow()" class="btn btn-success btn-style pull-right">
+                    	<i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                </div>
+		        <div ng-if="vm.addSpecial" class="col-md-12 button-section align-right">
+		            <input type="submit" class="btn btn-primary" name="Save" value="Save">
+		            <a class="btn btn-default" ng-click="vm.cancelSpeciality()">Cancel</a>
+		        </div>
+        	</form>
+             </div>
+            </div>
+    	</div>
+	</div>
+</div>
+<div ng-class="{'loader': practysLoader == true}">
+    <div class="overlay-bg"></div>
+    <div class="loading-bg"></div>
+</div>
+<div class="panel sec-height expenses-pg  add-pg-form" ng-if="vm.type == 'doctor'">
+    <div class="panel-heading">
+        <h3>Settings</h3>
+    </div>
+    <div class="panel-body">
+        <form name="settingDoctorForm" ng-submit="vm.updateDetails(settingDoctorForm)">
+            <div class="col-md-6 padding-zro">
+                <div class="form-group clearfix">
+                    <label for="itemName" class="col-md-3 col-sm-3">Name</label>
+                    <div class="col-md-6 col-sm-6">
+                        <input type="text" class="form-control" name="name" id="name" ng-model="vm.setting.username">
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label for="ContactNumber" class="col-md-3 col-sm-3">Contact Number</label>
+                    <div class="col-md-6 col-sm-6">
+                        <input type="text" numbers-only class="form-control" name="contactNumber" id="contactNumber" ng-model="vm.setting.mobile">
+                    </div>
+                </div>
+                <span class="mandatory" ng-show="settingForm.contactNumber.$invalid || (settingForm.$submitted && settingForm.contactNumber.$untouched)">Enter the contact number</span>
+                <div class="form-group clearfix">
+                    <label for="ContactNumber" class="col-md-3 col-sm-3">Email Address</label>
+                    <div class="col-md-6 col-sm-6">
+                        <input type="email" class="form-control" name="email" id="email" ng-model="vm.setting.email">
+                    </div>
+                </div>
+                <span class="mandatory" ng-show="settingForm.email.$invalid || (settingForm.$submitted && settingForm.email.$untouched)">Email is Required</span>
+                <div class="form-group clearfix">
+                    <label for="description" class="col-md-3 col-sm-3">Description</label>
+                    <div class="col-md-6 col-sm-6">
+                        <textarea class="form-control" name="description" id="description" ng-model="vm.setting.description"></textarea>
+                    </div>
+                </div>
+                <span class="mandatory" ng-show="settingForm.description.$invalid || (settingForm.$submitted && settingForm.description.$untouched)">Description</span>
+                <div class="col-md-12 padding-zro profile-upload " ng-show="vm.setting.edit ==true">
+                    <div class="form-group">
+                        <label class="col-md-3 col-sm-3">Profile Picture</label>
+                        <div class="col-md-6">
+
+                        <div class="fileUpload btn btn-primary">
+                                <span>Browse</span>
+                                <input type="file" fileinput="file" filepreview="filepreview" class="upload" />
+                            </div>
+                            <img ng-src="{{filepreview}}" class="img-responsive" ng-show="filepreview" />
+                            <div class="button-section">
+                                <a class="btn btn-default align-right" ng-if="filepreview" ng-click="vm.upload(file,filepreview)">Upload</a>
+                                <a class="btn btn-default align-right" ng-click="vm.setting.editCancel = true;vm.setting.edit =false">cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 padding-zro profile-sec-edit" ng-show="vm.setting.editCancel ==true" ng-hide="vm.setting.edit == true">
+                    <div class="form-group">
+                        <label class="col-md-3 col-sm-3">Profile Picture</label>
+                        <div class="profile-img col-md-6 col-sm-6">
+                            <img ng-if="vm.setting.image != ''" ng-src="{{vm.setting.thumbimage}}{{vm.setting.image}}" class="img-responsive" />
+                            <img ng-if="vm.setting.image == ''" src="assets/img/profileimg.jpg" class="img-responsive" />
+                            <div class="button-section">
+                                <a class="btn btn-default align-right" ng-click="vm.setting.edit = true;filepreview =''">change picture</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 button-section align-right">
+                <a ng-click="vm.openDefault()" class="forget-pwd" ng-class="{ disabledCursor: vm.changeButttonProps()}">change password ?</a>
+                <input type="submit" class="btn btn-primary" name="Update" value="Update">
+                <a class="btn btn-default align-right" ui-sref="dashboard">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/ng-template" id="firstDialogId">
+    <div class="ngdialog-message popup-bg col-md-12">
+        <h3 class="password-tit">Change Password</h3>
+        <form name="changepassword" novalidate ng-submit="vm.changePassword(changepassword)">
+        <div class="inner-popup">
+            <div class="form-group clearfix">
+                <div class="col-md-12">
+                    <input type="password" class="form-control" name="oldPassword" id="oldPassword" placeholder="Old Password" ng-model="vm.popup.oldPassword" required>
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <div class="col-md-12">
+                    <input type="password" class="form-control" name="newPassword" id="newPassword" placeholder="New Password" ng-model="vm.popup.newPassword" required>
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <div class="col-md-12">
+                    <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" ng-model="vm.popup.confirmPassword" required>
+                </div>
+            </div>
+            <input type="submit" class="btn btn-primary popup-btn"  name="Save" value="change password">
+        </div>
+        </form>
+    </div>
+</script>
+<script type="text/ng-template" id="linkClinic">
+    <div class="ngdialog-message popup-bg col-md-12">
+        <h3 class="password-tit">Existing NRIC Id</h3>
+        <form name="linkClinic" novalidate ng-submit="vm.clinicLink(vm.nric)">
+        <div class="inner-popup">
+            <div class="form-group clearfix">
+                <div class="col-md-12">
+                    <input type="text" class="form-control" name="nric" id="nric"  ng-model="vm.nric" required>
+                </div>
+            </div>
+            <input type="submit" class="btn btn-primary popup-btn"  name="Save" value="Link">
+        </div>
+        </form>
+    </div>
+</script>
+<script type="text/ng-template" id="resetPopup">
+    <div class="ngdialog-message popup-bg col-md-12">
+        <h3 class="password-tit">{{obj.username}}</h3>
+        <form name="resetpassword" novalidate ng-submit="vm.resetPassword(popup,obj)">
+        <div class="inner-popup">
+            <div class="form-group clearfix">
+                <div class="col-md-12">
+                    <input type="password" class="form-control" name="newPassword" id="newPassword" placeholder="New Password" ng-model="popup.newPassword" required>
+                </div>
+            </div>
+         
+            <input type="submit" class="btn btn-primary popup-btn"  name="Save" value="Reset">
+        </div>
+        </form>
+    </div>
+</script>
+<script type="text/ng-template" id="planChangeConfirm">
+    <div class="ngdialog-message popup-bg col-md-12 credit-crd">
+        <h2 class="password-tit ct-tit">Confirmation</h2>
+      
+        <div class="inner-popup">
+            <h4 class="con-desc">Still your plan has not been expired. Current package will not be added while switching new  package. Click Proceed if you want to continue anyway or else cancel.</h4>
+            <div class="col-md-12 align-right">
+            <input type="button" class="btn btn-primary popup-btn" ng-click="vm.subscriptionPaymentPreview(plansObj)"  name="Proceed" value="Proceed">
+            <input type="button" class="btn btn-default popup-btn" ng-click="vm.dialogClose()"  name="Cancel" value="Cancel">
+            </div>
+        </div>
+    
+    </div>
+</script>
+<script type="text/ng-template" id="autoRenewOff">
+    <div class="ngdialog-message popup-bg col-md-12 credit-crd">
+        <h2 class="password-tit ct-tit">Confirmation</h2>
+      
+        <div class="inner-popup">
+           <h3>Are you sure ?</h3>
+            <div class="col-md-12 align-right">
+            <input type="button" class="btn btn-primary popup-btn" ng-click="vm.renewalOff(existPlanss);vm.dialogClose()"  name="Proceed" value="Proceed">
+            <input type="button" class="btn btn-default popup-btn" ng-click="vm.switchStatus = true;vm.dialogClose()"  name="Cancel" value="Cancel">
+            </div>
+        </div>
+    
+    </div>
+</script>
+<script type="text/ng-template" id="additionalElements">
+    <div class="ngdialog-message popup-bg col-md-12 credit-crd">
+        <h3 class="password-tit ct-tit">Additional Element</h3>
+        <form name="additionalElementForm" novalidate ng-submit="vm.additionalPaymentPreview(additionalElementForm,item,planDetails)">
+        <div class="inner-popup">
+            <div class="form-group clearfix">
+                 <label for="appointment" class="col-md-6 col-sm-6">Appointment</label>
+                 <div class="col-md-6 col-sm-6">  <input type="text" numbers-only class="form-control" name="appointmentCount" id="appointmentCount"  ng-model="item.appointmentCount" required></div> 
+            </div>
+            <div class="form-group clearfix">
+                <label for="docAccount" class="col-md-6 col-sm-6">Doctor Account</label>
+                 <div class="col-md-6 col-sm-6">   <input type="text" numnbers-only class="form-control" name="doctorCount" id="doctorCount"  ng-model="item.doctorCount" required></div>
+            </div>
+             <div class="form-group clearfix">
+                <label for="docAccount" class="col-md-6 col-sm-6">Storage Space</label>
+                 <div class="col-md-6 col-sm-6">   <input type="text" numnbers-only class="form-control" name="storageSpace" id="storageSpace"  ng-model="item.storage" required></div>
+            </div>
+           <!--  <div class="form-group clearfix">
+                <div class="col-md-12">
+                    <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" ng-model="vm.popup.confirmPassword" required>
+                </div>
+            </div> -->
+            <div class="col-md-12 align-right">
+            <input type="submit" class="btn btn-primary popup-btn"  name="Add" value="Add">
+            <a class="btn btn-default popup-btn" ng-click="vm.dialogClose()"  name="Cancel" value="Cancel">Cancel</a>
+            </div>
+        </div>
+        </form>
+    </div>
+</script>
+<script type="text/ng-template" id="autoRenewal">
+    <div class="ngdialog-message popup-bg credit-crd col-md-12">
+        <form accept-charset="UTF-8" name="subscribeForm" autocomplete="off" class="simple_form  edit_user" id="edit_user" method="post" novalidate="novalidate" ng-submit="vm.cardDetails(subscribeForm,vm.setting,paymentType,plansObj)">
+            <input name="utf8" type="hidden" value="✓">
+            <h4 class="ct-tit">Recurring Payment</h4>
+            <p class="note-ar"><b>Notes:</b> For example, if the billing period is Month and the billing frequency is 2, the billing cycle is 2 months. If the billing period is Week and the billing frequency is 6, PayPal schedules the payments every 6 weeks.</p>
+            <div class="ct-popup">
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-6">Billing Period:</label>
+                    <div class="controls col-md-6">
+                        <select class="select required form-control" ng-model="vm.setting.billingPeriod" id="user_credit_card_type" name="billingPeriod" required>
+                            <option value="">~Select Your Payment Cycle~</option>
+                            <option value="Day">Day</option>
+                            <option value="Week">Week</option>
+                            <option value="SemiMonth">SemiMonth</option>
+                            <option value="Month">Month</option>
+                            <option value="Year">Year</option>
+                        </select>
+                        <div class="mandatory" ng-if="(subscribeForm.billingPeriod.$touched || subscribeForm.$submitted) && subscribeForm.billingPeriod.$invalid">
+                            Billing Period is Required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-6">Billing Frequency:</label>
+                    <div class="controls col-md-6">
+                        <input type="text" name="billingFrequency" numbers-only class="cvv form-control" id="billingFrequency" ng-model="vm.setting.billingFrequency" required>
+                        <div class="mandatory" ng-if="(subscribeForm.billingFrequency.$touched || subscribeForm.$submitted) && subscribeForm.billingFrequency.$invalid">
+                            Billing Frequency is Required
+                        </div>
+                    </div>
+                </div>
+               <div class="form-group clearfix">
+                    <label for="supplierName" class="col-md-6 col-sm-6">Start Date:</label>
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group date">
+                            <input type="text" class="form-control" readonly datepicker-popup="{{vm.format}}" ng-model="vm.setting.startDate" is-open="openDatePickers[0]" close-text="Close" name="date">
+                            <span class="input-group-btn">
+                            <button
+                              type="button"
+                              class="btn btn-primary"
+                              ng-click="openFrom($event, 0)">
+                              <i class="fa fa-calendar" aria-hidden="true"></i>
+                            </button>
+                          </span>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="col-md-12 button-section align-right">
+                    <input type="submit" value="Submit" class="btn btn-primary popup-btn" />
+                    <input type="button" class="btn btn-default popup-btn" ng-click="vm.dialogClose()" name="Cancel" value="Cancel">
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+<script type="text/ng-template" id="firstDialog">
+    <div class="ngdialog-message popup-bg credit-crd col-md-12">
+        <form accept-charset="UTF-8" name="subscribeForm" autocomplete="off" class="simple_form  edit_user" id="edit_user" method="post" novalidate="novalidate" ng-submit="vm.cardDetails(subscribeForm,vm.setting,paymentType,plansObj)">
+            <input name="utf8" type="hidden" value="✓">
+            <h4 class="ct-tit">Existing Credit card</h4>
+            <div class="ct-popup">
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-6">Card Type</label>
+                    <div class="controls col-md-6">
+                        <select class="select required form-control" ng-model="vm.setting.cardType" id="user_credit_card_type" name="cardselection" required>
+                            <option value="">~Select Your Card~</option>
+                            <option value="visa">Visa</option>
+                            <option value="mastercard">Mastercard</option>
+                            <option value="discover">Discover</option>
+                            <option value="amex">Amex</option>
+                        </select>
+                        <div class="mandatory" ng-if="(subscribeForm.cardselection.$touched || subscribeForm.$submitted) && subscribeForm.cardselection.$invalid">
+                            Card is Required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-6">Card Number</label>
+                    <div class="controls col-md-6">
+                        <input type="text" name="cardno" numbers-only class="cvv form-control" id="cvv" ng-model="vm.setting.cc" required>
+                        <div class="mandatory" ng-if="(subscribeForm.cardno.$touched || subscribeForm.$submitted) && subscribeForm.cardno.$invalid">
+                            Card Number is Required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-6">CVV Number</label>
+                    <div class="controls col-md-6">
+                        <input type="text" name="cvv" numbers-only maxlength="3" ng-minlength="3" class="cvv form-control" id="cvv" ng-model="vm.setting.cvv" required>
+                        <div class="mandatory" ng-if="(subscribeForm.cvv.$touched || subscribeForm.$submitted) && subscribeForm.cvv.$invalid">
+                            CVV is Required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-6">Card Holder Date of Birth</label>
+                    <div class="controls col-md-6">
+                        <div class="input-group date">
+                            <input
+                                type="text"
+                                class="form-control"
+                                readonly
+                                datepicker-popup="yyyy-MM-dd"
+                                name="DOB"
+                                ng-model="vm.setting.dob"
+                                is-open="openDatePickers[0]"
+                                close-text="Close" name="date" required>
+                            <span class="input-group-btn">
+                                <button
+                                  type="button"
+                                  class="btn btn-primary"
+                                  ng-click="openFrom($event, 0)">
+                                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                                </button>
+                            </span>
+                        </div>
+                        <div class="mandatory" ng-if="(subscribeForm.DOB.$touched || subscribeForm.$submitted) && subscribeForm.DOB.$invalid">
+                                Date of Birth is Required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-6">Expire month</label>
+                    <div class="controls col-md-6">
+                        <a ng-click="vm.increment(type = 'month')" class="col-md-3">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </a>
+                        <span class="col-md-6">
+                            <input type="text" name="month"  disabled = "disabled" class = "month form-control" id="month" ng-model="vm.setting.monthCount">
+                        </span>
+                        <a ng-click="vm.decrement(type = 'month')" class="col-md-3">
+                            <i class="fa fa-minus" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label class="control-label col-md-6">Expire year</label>
+                    <div class="controls col-md-6">
+                        <a ng-click="vm.increment(type = 'year');" class="col-md-3">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </a>
+                        <span class="col-md-6">
+                            <input type="text" name="year" disabled = "disabled"  class = "year form-control" id="year" ng-model="vm.setting.yearCount">
+                        </span>
+                        <a ng-click="vm.decrement(type = 'year');" class="col-md-3">
+                            <i class="fa fa-minus" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="form-group clearfix text-right">
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+<script type="text/ng-template" id="secondDialogId">
+    <div class="panel inventory-pg add-pg-form">
+        <h4 ng-show="processType == 'add'" class="ct-tit">Add Doctor</h4>
+        <h4 ng-show="processType == 'link'" class="ct-tit">Link Doctor</h4>
+        <add-doctor-dialog doctorData="vm.doctorDetails" type="processType" colors="colorss" speciality="vm.specialities" serviceDatas="vm.serviceDatas"></add-doctor-dialog>
+    </div>
+</script>
+<script type="text/ng-template" id="editDoctorDialog">
+    <div class="panel inventory-pg add-pg-form">
+        <h3 class="ct-tit">Edit Account Settings</h3>
+        <form name="settingForm" ng-submit="vm.doctorUpdate(settingForm)" novalidate class="popup-form">
+        <div class="ct-popup">
+            <div class="panel-height">
+                <div class="panel-body">
+                    <div class="col-md-12 padding-zro">
+                        <div class="form-group clearfix">
+                            <label for="itemName" class="col-md-5 col-sm-5">First Name</label>
+                            <span class="col-md-1 col-sm-1" style="color: #7F95BC;margin-top: 7px;">DR .</span> 
+                            <div class="col-md-6 col-sm-6">
+                                <input type="text" class="form-control" name="firstName" id="name" ng-model="vm.doctorss.firstName" required>
+                                <div class="mandatory" ng-show="settingForm.firstName.$invalid && (settingForm.$submitted || settingForm.firstName.$dirty)">
+                                    <div ng-show="settingForm.firstName.$error.required">First Name Is Required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label for="itemName" class="col-md-6 col-sm-6">Last Name</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input type="text" class="form-control" name="lastName" id="name" ng-model="vm.doctorss.lastName" required>
+                                
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+	                        <label for="itemName" class="col-md-6 col-sm-6">Gender</label>
+							<div class="col-md-6 col-sm-6">
+								<div class="checkbox-style">					
+									<input type="radio" ng-model="vm.doctorss.gender" name="gender" value="male" ng-required="!vm.doctorss.gender" id="male1">
+									
+									<label for="male1"><span><span></span></span>	Male	
+									</label>
+								</div>
+								<div class="checkbox-style">	
+									<input type="radio" ng-model="vm.doctorss.gender" name="gender" value="female" ng-required="!vm.doctorss.gender" id="female1">
+									<label for="female1"><span><span></span></span>Female
+									</label>
+								</div>
+								<div class="mandatory" ng-show="settingForm.gender.$invalid && (settingForm.$submitted || settingForm.gender.$dirty)"><div ng-show="settingForm.gender.$error.required">Gender Is Required</div></div>	
+							</div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label for="mobile" class="col-md-6 col-sm-6">Contact Number</label>
+                            <label class="col-md-1 col-sm-1" style="left: 19px;top: 7px;">+65
+							</label>
+                            <div class="col-md-5 col-sm-5">
+                                <input type="text" class="form-control" numbers-only name="mobile" id="mobile" ng-model="vm.doctorss.mobile" required>
+                                <div class="mandatory" ng-show="settingForm.mobile.$invalid && (settingForm.$submitted || settingForm.mobile.$dirty)">
+                                    <div ng-show="settingForm.mobile.$error.required">Contact Number Is Required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label for="ContactNumber" class="col-md-6 col-sm-6">Email Address</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input type="email" class="form-control" name="email" id="email" ng-model="vm.doctorss.email" required>
+                                <div class="mandatory" ng-show="settingForm.email.$invalid && (settingForm.$submitted || settingForm.email.$dirty)">
+                                    <div ng-show="settingForm.email.$error.required">Email Address Is Required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label for="description" class="col-md-6 col-sm-6">Color Code</label>
+                            <div class="col-md-6 col-sm-6">
+                                <select ng-model="vm.doctorss.colorCode" name="color" required>
+						        <option value="">--- Select a color ---</option>
+						        <option value="{{c}}" ng-style="{'background-color': c }"
+						                ng-repeat="c in colorss">
+						                
+						           {{c}}
+						        </option>
+						    </select>
+                            <div class="mandatory" ng-show="settingForm.color.$invalid && (settingForm.$submitted || settingForm.color.$dirty)"><div ng-show="settingForm.color.$error.required">Doctor's color Is Required</div></div>   
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label for="description" class="col-md-6 col-sm-6">Speciality</label>
+                            <div class="col-md-6 col-sm-6">
+                               <select ng-model="vm.doctorss.specialityId" name="speciality"  id="speciality" ng-change="vm.getServices(vm.doctorss.specialityId)"  required >
+								  <option value="" >--Select--</option>
+								  <option value="{{choic.id}}"  ng-repeat=" choic in vm.specialities">{{choic.name}}</option>
+								</select>
+								<div class="mandatory" ng-show="settingForm.speciality.$invalid && (settingForm.$submitted || settingForm.speciality.$dirty)"><div ng-show="settingForm.speciality.$error.required">Speciality Is Required</div></div> 
+                               
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label for="description" class="col-md-6 col-sm-6">Services</label>
+                            <div class="col-md-6 col-sm-6">
+                               <multiple-autocomplete ng-model="vm.doctorss.service" name="service"
+										object-property="name" id="service"
+										suggestions-arr="vm.serviceDatas" required>
+								</multiple-autocomplete>
+								<div class="mandatory" ng-show="settingForm.service.$invalid && (settingForm.$submitted || settingForm.service.$dirty)"><div ng-show="settingForm.service.$error.required">Service Provider Is Required</div></div> 
+                               
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label for="description" class="col-md-6 col-sm-6">Description</label>
+                            <div class="col-md-6 col-sm-6">
+                                <textarea class="form-control" name="description" id="description" ng-model="vm.doctorss.description" required></textarea>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="col-md-12 button-section align-right">
+                <input type="submit" class="btn btn-primary" name="Save" value="Save">
+                <a class="btn btn-default " ng-click="vm.dialogClose()">Cancel</a>
+            </div>
+        </form>
+    </div>
+</script>
+<script type="text/ng-template" id="drugPop">
+    <div class="ngdialog-message popup-bg col-md-12 credit-crd">
+        <form name="drugsForm" class="form-horizontal" role="form" novalidate ng-submit="vm.addDrug(drugsForm,drugs)">
+            <h4 class="ct-tit" ng-if="type == 'add'">Add Drug</h4>
+            <h4 class="ct-tit" ng-if="type == 'edit'">Update Drug</h4>
+            <div class="ct-popup">
+            <div class="panel-height">
+                <div class="form-group clearfix">
+                    <label for="itemName" class="col-md-6 col-sm-6">Drug Name</label>
+                    <div class="col-md-6 col-sm-6">
+                        <input type="text" ng-model="drugs.name" class="form-control" name="drugName" required>
+                        <span class="mandatory" ng-if="(drugsForm.drugName.$touched || drugsForm.$submitted) && drugsForm.drugName.$invalid">Drug Name is required</span>
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label for="itemName" class="col-md-6 col-sm-6">Drug Type</label>
+                    <div class="col-md-6 col-sm-6">
+                        <select ng-model="drugs.type" ng-options="x for x in drugType" class="form-control" name="drugType" required>
+                            <option value="">~Select Type~</option>
+                        </select>
+                        <span class="mandatory" ng-if="(drugsForm.drugType.$touched || drugsForm.$submitted) && drugsForm.drugType.$invalid">Drug Type is required</span>
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label for="itemName" class="col-md-6 col-sm-6">Cost</label>
+                    <div class="col-md-6 col-sm-6">
+                        <input type="text" numbers-only ng-model="drugs.cost" class="form-control" name="cost" required>
+                        <span class="mandatory" ng-if="(drugsForm.cost.$touched || drugsForm.$submitted) && drugsForm.cost.$invalid">Cost is required</span>
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label for="itemName" class="col-md-6 col-sm-6">Instructions</label>
+                    <div class="col-md-6 col-sm-6">
+                        <textarea ng-model="drugs.instruction"  maxlength="150" class="form-control" name="instruction" required></textarea>
+                        <span class="mandatory" ng-if="(drugsForm.instruction.$touched || drugsForm.$submitted) && drugsForm.instruction.$invalid">Instruction is required</span>
+                    </div>
+                </div>
+                </div>
+                <div class="col-md-12 button-section align-right">
+                    <input type="submit" class="btn btn-primary" value="{{type == 'add' ? 'Add' : 'Update'}}">
+                    <a  class="btn btn-default" ng-click="vm.dialogClose()">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+<script type="text/ng-template" id="planChangePop">
+    <div class="ngdialog-message popup-bg col-md-12 credit-crd">
+        <form name="form" class="form-horizontal" role="form">
+            <h4 class="ct-tit">Edit Existing Plan</h4>
+            <div class="ct-popup">
+                <div class="form-group clearfix">
+                    <label for="itemName" class="col-md-6 col-sm-6">No Of Appointment:</label>
+                    <div class="col-md-6 col-sm-6">
+                        <input type="text" ng-model="plans.noOfAppointment" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label for="itemName" class="col-md-6 col-sm-6">No Of Doctor Account:</label>
+                    <div class="col-md-6 col-sm-6">
+                        <input type="text" ng-model="plans.doctorAccount" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label for="itemName" class="col-md-6 col-sm-6">Storage Space</label>
+                    <div class="col-md-6 col-sm-6">
+                        <input type="text" ng-model="plans.storage" class="form-control">
+                    </div>
+                </div>
+                 <div class="form-group clearfix">
+                    <label for="itemName" class="col-md-6 col-sm-6">Plan Expiry Date</label>
+                    <div class="col-md-5 col-sm-6">
+                    <div class="input-group date">
+						<input type="text" class="form-control" readonly datepicker-popup="{{vm.format}}" ng-model="plans.expiryDate" is-open="openDatePickers[0]" close-text="Close" name="date">
+                        <span class="input-group-btn">
+						<button
+						  type="button"
+						  class="btn btn-primary"
+						  ng-click="openFrom($event, 0)">
+						  <i class="fa fa-calendar" aria-hidden="true"></i>
+						</button>
+					  </span>
+						</div>
+                        
+                    </div>
+                </div>
+                 
+                <div class="col-md-12 button-section align-right">
+                    <a class="btn btn-primary" ng-click="vm.updateClinicPlan(subscriptionId,clinicId,plans)">Update</a>
+                    <a class="btn btn-default " ng-click="vm.dialogClose()">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+<script type="text/ng-template" id="showPaymentHistory">
+    <div class="ngdialog-message popup-bg col-md-12 credit-crd" >
+        <h4 class="ct-tit">Payment Invoice</h4>
+        <div class="ct-popup">
+        <div class="panel-height" ng-if="vm.slickPayment">
+        <slick class="slider" settings="slickConfig3" slides-to-show=1 infinite="false" >
+        <div ng-repeat = "x in clinicPaymentHistory track by $index">
+       <div class="bill-block">
+        <div class="panel-body edit-bill">
+            <div class="to-add clearfix"> 
+            <div class="form-group userfontawsme clearfix">
+                <label >To</label><br>
+          
+                Name: {{vm.userObj.username}}<br>
+                Address: {{vm.userObj.address}}<br>
+                Mobile: {{vm.userObj.mobile}}<br>
+            </div>
+            <div class="form-group clearfix">
+                <span class="col-md-6 col-sm-6 padding-zro"><label class="control-label">Payment Date:</label> {{x.created | customizeDate}}</span>
+                
+            </div>  
+            </div>
+            <div class="bill-det clearfix">
+                <div class="form-group userfontawsme col-md-6 clearfix padding-zro">                            
+                <label class="bill-tit">Remmitance</label><br>
+                Name: Chen <br>
+                Address: Singapore<br>
+                Mobile: +65 6789 345<br>
+                </div>
+            </div>
+              <table  class="table table-bordered in-list-tab bill-table">
+              <tr>
+                  <th>Description</th>
+                  <th  ng-if="x.invoiceDetails.appointmentCount == '' && x.invoiceDetails.doctorCount == '' && x.invoiceDetails.storage == '' && x.invoiceDetails.planName != '' ">Plan Name</th>
+                   <th  ng-if="x.invoiceDetails.appointmentCount != '' || x.invoiceDetails.doctorCount != ''|| x.invoiceDetails.storage != '' ">Qty</th>
+              </tr>
+              <tr ng-if="x.invoiceDetails.appointmentCount == '' && x.invoiceDetails.doctorCount == '' && x.invoiceDetails.storage == '' && x.invoiceDetails.planName != '' ">
+                  
+                  <td >
+                  Plan Subscribed
+                  </td>
+                  <td> {{x.invoiceDetails.planName}}
+                  </td>
+                  
+             </tr>
+              
+              <tr ng-if="x.invoiceDetails.appointmentCount != 0 && x.invoiceDetails.appointmentCount != '' ">
+                 
+                  <td>
+                 Appointment
+                  </td>
+                  <td > {{x.invoiceDetails.appointmentCount}}
+                  </td>
+                
+             </tr>
+             <tr ng-if="x.invoiceDetails.doctorCount != 0 && x.invoiceDetails.doctorCount != '' ">
+                 <!-- <td>{{$index + 2}}
+                  </td> -->
+                  <td>
+                  Doctor Account
+                  </td>
+                  <td > {{x.invoiceDetails.doctorCount}}
+                  </td>
+                  
+             </tr>
+              <tr ng-if="x.invoiceDetails.storage != 0 && x.invoiceDetails.storage != '' ">
+                 <!-- <td>{{$index + 3}}
+                  </td> -->
+                  <td>
+                  Storage
+                  </td>
+                  <td > {{x.invoiceDetails.storage}}
+                  </td>
+                  
+             </tr>
+            
+	         <tr ng-if="x.invoiceDetails == null">
+		         <td colspan="3" style="text-align:center;">No Datas Found
+		         </td>
+	         </tr>
+            
+             </table>
+             <span ng-if="x.invoiceDetails != null" class="col-md-6 col-sm-6 padding-zro"><label class="control-label">Total:</label> {{x.invoiceDetails.totalAmount}}</span>
+                  
+                <div class="col-md-12 button-section align-right">
+              <button class="btn btn-default " ng-click="vm.dialogClose();paymentHistoryPop = false">Close</button>
+            </div>
+            </div>
+    </div>
+    </div>
+    </slick>
+    </div>
+    </div>
+    </div>
+</script>
+<script type="text/ng-template" id="editService">
+    <div class="ngdialog-message popup-bg col-md-12 credit-crd">
+        <form name="form" class="form-horizontal" role="form">
+            <h4 class="ct-tit">Edit Service</h4>
+            <div class="ct-popup">
+                <div class="form-group clearfix">
+                    <label for="itemName" class="col-md-6 col-sm-6">Speciality Name</label>
+                    <div class="col-md-6 col-sm-6">
+                        <input type="text" ng-model="services.Speciality.name" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label for="itemName" class="col-md-6 col-sm-6">Service Name</label>
+                    <div class="col-md-6 col-sm-6">
+                        <input type="text" ng-model="services.name" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label for="itemName" class="col-md-6 col-sm-6">Service Duration</label>
+                    <div class="col-md-6 col-sm-6">
+                        <input type="text" ng-model="services.mins" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <label for="itemName" class="col-md-6 col-sm-6">Service Cost</label>
+                    <div class="col-md-6 col-sm-6">
+                        <input type="text" ng-model="services.cost" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-12 button-section align-right">
+                    <a class="btn btn-primary" ng-click="vm.updateService(services)">Update</a>
+                    <a class="btn btn-default " ng-click="vm.dialogClose()">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</script>
+<script type="text/ng-template" id="paymentPreview">
+<div class="panel">
+    <form name="invoiceForm" >
+		<div class="panel-heading clearfix">
+			<h4 class="pull-left">Payment Preview</h4>
+		</div>
+		<div class="container" >
+		    <div class="row">
+		        <div class="well" style="padding: 30px 50px;background: #fff;">
+		            <div class="row">
+
+
+		                 <div style="border-bottom: 2px solid #000;padding: 0px 0px 10px 0px;margin-bottom: 20px;width: 100%;clear: both;display: block;float: left;">
+		                    <address>
+			                   <div style="float: left;width: 11%;margin-right: 20px;">
+			                   	<img src="assets/img/practys_logo.png">
+			                   </div>
+			                   <div style="float: left;width: 70%;">
+			                   	<div class="clearfix">
+			                   		<strong>Chen Baiqun</strong>
+			                   	</div>
+			                   	<div style="float: left;width: 50%;">
+			                   		<!-- <p>{{obj.clinic.area}}</p> -->
+
+			                        <p>Mid view city</p>
+
+			                        <p>Singapore</p>
+
+			                        <p>Phone : 65000789</p>
+			                   	</div>
+
+			                   </div>
+		                    </address>
+		                </div>
+		                <br>
+		                 <div style="width: 100%;display: block;border-bottom: 1px solid #000;float: left;margin-bottom: 20px;">
+		                      <p> {{paymentPreviewObj.userDetails.firstName+ ' ' + paymentPreviewObj.userDetails.lastName}}</p>
+		                        
+		                </div>
+		              
+		            </div>
+		            <div class="row">
+		                 <table class="table table-hover" style="border: 1px solid #ccc;">
+		                    <thead>
+		                        <tr>
+		                            <!-- <th style="padding: 20px 10px;">#</th> -->
+		                            <th style="padding: 20px 10px;">Description</th>
+		                            <th ng-hide="paymentPreviewObj.subscriptionPlan" style="padding: 20px 10px;">Unit Cost SGD</th>
+		                            <th ng-hide="paymentPreviewObj.subscriptionPlan" style="padding: 20px 10px;">Qty</th>
+		                            <th style="padding: 20px 10px;" class="text-right">Total Cost SGD</th>
+		                        </tr>
+		                    </thead>
+		                    <tbody>
+                				<tr ng-if="paymentPreviewObj.appCount != 0" >
+								<!-- 	<td>{{$index + 1}}</td> -->
+									<td >Appointment</td>
+									<td >{{paymentPreviewObj.costPerAppointment}}</td>
+									<td >{{paymentPreviewObj.appCount}}</td>
+									<td class="text-right" style="text-align: right;">{{paymentPreviewObj.costPerAppointment * paymentPreviewObj.appCount}}</td>
+
+								</tr>
+								<tr ng-if="paymentPreviewObj.docCount != 0" >
+								<!-- 	<td>{{$index + 1}}</td> -->
+									<td >Doctor Acoount</td>
+									<td >{{paymentPreviewObj.costPerDocAccount}}</td>
+									<td >{{paymentPreviewObj.docCount}}</td>
+									<td class="text-right" style="text-align: right;">{{paymentPreviewObj.costPerDocAccount * paymentPreviewObj.docCount}}</td>
+
+								</tr>
+								<tr ng-if="paymentPreviewObj.storage != 0" >
+								<!-- 	<td>{{$index + 1}}</td> -->
+									<td >Storage</td>
+									<td >{{paymentPreviewObj.costOfStorage}}</td>
+									<td >{{paymentPreviewObj.storage}}</td>
+									<td class="text-right" style="text-align: right;">{{paymentPreviewObj.costOfStorage * paymentPreviewObj.storage}}</td>
+
+								</tr>
+								<tr ng-if="paymentPreviewObj.subscriptionPlan" >
+								<!-- 	<td>{{$index + 1}}</td> -->
+									<td >{{paymentPreviewObj.subscriptionPlan}} (plan Subscribed)</td>
+									<!-- <td ></td>
+									<td >{{paymentPreviewObj.storage}}</td> -->
+									<td class="text-right" style="text-align: right;">{{paymentPreviewObj.price}}</td>
+
+								</tr>
+							
+		                        <tr>
+
+		                            <td colspan="{{paymentPreviewObj.colspan - 1}}" class="text-right" style="text-align: right;">
+			                            <p>
+			                                <strong>Total: </strong>
+			                            </p>
+		                            </td>
+		                            <td class="text-right" colspan="1" style="text-align: right;">
+			                            <p>
+			                                <strong>{{paymentPreviewObj.price}}&nbsp;SGD</strong>
+			                            </p>
+		                            </td>
+		                        </tr>
+		                       
+		                        <td style="text-align: center;" colspan="{{paymentPreviewObj.colspan}}">
+									<p style="margin:0px;">If you have any questions about this invoice</p>
+									<p style="margin:0px;">Chen Baiqun,5,Mid view City</p>
+									<p style="margin:0px;">phone:6500789,Email:contact@between.g</p>
+									<h4 style="margin:10px 0 30px 0;font-weight:bold;">Thank You For Your Business!</h4>
+								</td>
+								</tr>
+		                    </tbody>
+		                </table>
+
+		            </div>
+		        </div>
+		    </div>
+		<div class="pull-left">
+			<button class="btn btn-primary" id="back-print" ng-click="vm.dialogClose()">Cancel</button>
+		</div>
+		<div class="pull-right mrt-15">
+			<button id="printbill" ng-hide="paymentPreviewObj.subscriptionPlan" ng-click="vm.additionalElement(paymentPreviewObj)" class="btn btn-primary">Proceed</button>
+			<button id="printbill" ng-show="paymentPreviewObj.subscriptionPlan" ng-click="vm.subscribePlan(paymentPreviewObj)" class="btn btn-primary">Proceed</button>
+		</div>
+	</form>
+</div>
+</script>
+
+<!-- <style type="text/css">
+	@media print {
+		@page { margin: 0; }
+		#printbill, #back-print, #sidebar-wrapper, .main-head, #toast-container, .panel-heading {
+			display: none;
+		}
+		#wrapper{
+			padding: 0;
+		}
+
+	}
+</style> -->
+<style>
+.lable-content{
+    font-size:11px; 
+}
+.blue {
+    background-color: Blue;
+}
+
+.cyan {
+    background-color: Cyan;
+}
+
+.green {
+    background-color: Green;
+}
+
+.orange {
+    background-color: Orange;
+}
+
+.pink {
+    background-color: Pink;
+}
+
+.purple {
+    background-color: Purple;
+}
+
+.red {
+    background-color: Red;
+}
+
+.Violet {
+    background-color: Violet;
+}
+
+.RoyalBlue {
+    background-color: RoyalBlue;
+}
+
+.PaleGreen {
+    background-color: PaleGreen;
+}
+
+.Crimson {
+    background-color: Crimson;
+}
+
+.Navy {
+    background-color: Navy;
+}
+
+.Lime {
+    background-color: Lime;
+}
+
+.LawnGreen {
+    background-color: LawnGreen;
+}
+
+.Magenta {
+    background-color: Magenta;
+}
+
+.black {
+    background-color: Black;
+    color: White;
+}
+
+.White {
+    background-color: White;
+    color: Black;
+}
+
+
+
+.inactive {
+    background-color: DarkRed;
+    color: LightGray;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+</style>

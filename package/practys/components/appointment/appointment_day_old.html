@@ -1,0 +1,39 @@
+<div class="appointment-day table-responsive">
+	<table class="table table-fixed">
+		<thead class="fixed-header">
+			<tr class="fixed-tr">
+				<td class="thead-td fixed-td th-firstchild col-md-3"><span class="border-hide"><h4>dummy txt</h4></span></td>
+				<td class="thead-td fixed-td col-md-3" ng-repeat = "values in vm.doctorListDatas track by $index">
+				<h4>DR.{{values}}</h4>
+				</td>
+			</tr>
+		</thead>
+		<tbody class="fixed-tbody">
+			<tr class="fixed-tr">
+				<td class="fixed-td" colspan="{{doctorCount + 1}}">
+					<table  class="clearfix tbl-width" ng-repeat = "(tmk, times) in vm.times" >
+						<tr class="" ng-repeat = "(tK, tmes) in times">
+							<td class="timing-sec tbody-td col-md-3"><span class="tbody-border"></span><p>{{tmk % 4 === 0 ? tmes.text : ''}}</p></td>
+							<td class="tbody-td col-md-3" ng-repeat = "(dKval, dVal) in vm.doctorListDatas track by $index">
+								<div ng-if = "vm.eventsList[tmes.orig] != undefined" class="day_app">
+									<div class="clearfix" ng-class = "{'appointment-sec': vm.eventsList[tmes.orig][dKval].title != 'none'} " >
+										<div ng-if = "vm.eventsList[tmes.orig][dKval].title != 'none'">
+											<a class="pati-name" ui-sref="viewAppointment({appointmentId: vm.eventsList[tmes.orig][dKval].appointmentId})">{{vm.eventsList[tmes.orig][dKval].title != 'none' ? vm.eventsList[tmes.orig][dKval].title : ''}}</a>
+											<!--<button class="pati-icons" ng-click="toggle = !toggle">
+											<i class="fa fa-ellipsis-v"></i>
+											</button>
+											<div class="fn-btn" ng-hide="toggle">
+											<a href="#"><i class="fa fa-pencil"></i></a>
+											<a href="#"><i class="fa fa-trash-o"></i></a>
+											</div>-->
+										</div>	
+									</div>	
+								</div>	
+							</td>
+						</tr> 
+					</table>					
+				</td>
+			</tr>					
+		</tbody>
+	</table>	
+</div>			

@@ -1,0 +1,105 @@
+<div class="panel invoice-pg add-pg-form">
+	<div class="panel-heading">
+		<h3>Edit Invoice</h3>
+	</div>
+	<div class="panel-body">
+		<form name="invoiceForm" ng-submit="vm.updateInvoice()">
+			<div class="col-md-6 padding-zro">
+			<div class="form-group userfontawsme clearfix">
+				<label class="col-md-3 col-sm-3">Patient Name </label>
+				<div class="col-md-6 col-sm-6">			
+				 	<angucomplete-alt id="ex1"
+		              placeholder="Search for patients"
+		              pause="100"
+		              initial-value="vm.select"
+		              selected-object="vm.select"
+		              local-data="vm.patients"
+		              search-fields="username"
+		              title-field="username"
+		              minlength="1"
+		              input-class="form-control form-control" required>
+
+				</div>
+		  	</div>
+				<span class="mandatory" ng-show="invoiceForm.name.$empty " > Name is required</span>
+			    <div class="form-group clearfix">
+					<label class="control-label col-md-3 col-sm-3">Date</label>
+					<div class="col-md-6 col-sm-6">
+						<div class="input-group date">
+						<input
+						type="text"
+						class="form-control"
+						readonly
+						uib-datepicker-popup="yyyy-MM-dd"
+						ng-model="vm.invoice.fromDate"
+						is-open="openDatePickers[0]"
+						close-text="Close" name="date">
+					  <span class="input-group-btn">
+						<button
+						  type="button"
+						  class="btn btn-primary"
+						  ng-click="open($event, 0)">
+						  <i class="fa fa-calendar" aria-hidden="true"></i>
+						</button>
+					  </span>
+			          </div>
+					</div>
+				</div>
+				<span class="mandatory" ng-show="invoiceForm.date.$empty" > Date is required</span>
+				
+				<div class="form-group userfontawsme clearfix">
+				<label class="col-md-3 col-sm-3">Consultant Doctor</label>
+				<div class="col-md-6 col-sm-6">			
+				 	<angucomplete-alt id="ex1"
+		              placeholder="Select doctor"
+		              pause="100"
+		              initial-value="vm.docSelect"
+		              selected-object="vm.docSelect"
+		              local-data="vm.doctors"
+		              search-fields="username"
+		              title-field="username"
+		              minlength="1"
+		              input-class="form-control form-control" required>
+
+				</div>
+		  		</div>
+				<span class="mandatory" ng-show="invoiceForm.doctor.$empty"> Select the doctor </span>
+				<div class="form-group clearfix">
+					<label class="control-label col-md-3 col-sm-3">Reason</label>
+					<div class="col-md-6 col-sm-6">
+						<input type="text" value="" name="reason" class="form-control" ng-model="vm.invoice.reason">
+					</div>
+				</div>
+				<span class="mandatory" ng-show="invoiceForm.reason.$empty" > Enter the Reason</span>
+				<div class="form-group clearfix">
+					<label class="control-label col-md-3 col-sm-3">Amount</label>
+					<div class="col-md-6 col-sm-6">
+						<input type="text" value="" name="amount" class="form-control" ng-model="vm.invoice.amount">
+					</div>	
+				</div>
+				<span class="mandatory" ng-show="invoiceForm.amount.$empty " > Enter an amount</span>
+				<div class="form-group clearfix">
+					<label class="control-label col-md-3 col-sm-3">Payment Status</label>
+					<div class="col-md-6 col-sm-6">
+						<select ng-model="vm.invoice.paymentStatus" name="payment">
+							<option>unpaid</option>
+							<option>paid</option>
+							<option>installment</option>
+						</select>
+					</div>	
+				</div>
+				<span class="mandatory" ng-show="invoiceForm.payment.$empty" >Select the Payment Status</span>
+			</div>	
+			
+			<div class="col-md-12 button-section align-right">
+				<input type="submit" class="btn btn-primary" name="Save" value="Save">
+				<a class="btn btn-default " ui-sref="invoice">Cancel</a>
+			</div>
+		</form>
+	</div>
+</div>
+<style>
+.mandatory{
+	color:red;
+}
+</style>
