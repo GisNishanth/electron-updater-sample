@@ -1,79 +1,431 @@
 <!DOCTYPE html>
-<html>
-<head>
-<style>
-table {
-    width:100%;
-        background-color: green;
+<html ng-app="practysApp"  >
+	<head>
+		<meta charset="utf-8">
+		 		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		 <!-- <meta name="viewport" content="width=device-width, target-densitydpi=device-dpi, initial-scale=0, maximum-scale=1, user-scalable=yes" /> -->
+ 
+		<title>PractysApp</title>
+		
+		 <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png"/>
+		<link rel="stylesheet" href="assets/css/font-awesome.min.css">		
+		<link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+		<link href="assets/css/fonts.googleapis.com.css"> 
+		<link href="assets/css/angular-toastr.css" rel="stylesheet"/>
+		<link href="assets/css/themes/default/style.min.css" rel="stylesheet"/>
+		<link rel="stylesheet" href="assets/css/jquery.mCustomScrollbar.min.css" type="text/css"/>
+		<link rel="stylesheet" type="text/css" href="assets/css/angular-datatables.min.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.min.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/dropdownStyle29.css" rel="stylesheet"/>
+		<link rel="stylesheet" type="text/css" href="assets/css/autocomplete.css" rel="stylesheet"/>
+		<link rel="stylesheet" type="text/css" href="assets/css/colorpicker.min.css">
+    	<link rel="stylesheet" type="text/css" href="assets/css/angular-bootstrap-calendar.min.css">
+    	<link href="assets/css/c3.min.css" rel="stylesheet" type="text/css"/>
+    	<link href="assets/css/ngDialog.css" rel="stylesheet" type="text/css"/>
+    	<link href="assets/css/ngDialog-theme-default.css" rel="stylesheet" type="text/css"/>
+		<link href="assets/css/mystyle.css" rel="stylesheet"/>
+		<link href="assets/css/slick.css" rel="stylesheet"/>
+		<link href="assets/css/slick-theme.css" rel="stylesheet"/>
+		<link href="assets/css/angucomplete-alt.css" rel="stylesheet"/>
+		<link href="assets/css/multiple-select.css" rel="stylesheet"/>
+		<link rel="stylesheet" href="assets/css/angular-timeline.css">
+		<link rel="stylesheet" href="assets/css/angular-timeline-bootstrap.css">
+		<link rel="stylesheet" href="assets/css/multiselect.css">
+		<link rel="stylesheet" href="assets/css/drop_down_style.css">
+		<link rel="stylesheet" href="assets/css/jquery.fullPage.css">
+		<!-- datatables -->
+		<link rel="stylesheet" type="text/css" href="assets/css/angular-datatables.min.css">
+    	<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.min.css">
+		<!-- Owl Stylesheets -->
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
+
+	
+  
+
+	<!-- 	<link rel="stylesheet" href="assets/css/toggle-switch.css"> -->
+		<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+
+      				
+    	<script src="assets/js/jquery-2.1.1.min.js"></script>
+
+    	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+    	<script type="text/javascript" src="assets/js/jquery.fullPage.min.js"></script>
+
+		<script src="assets/angular/angular.js">
+		</script>
+		<script src="assets/js/angular-animate.js"></script>
+		<script src="assets/js/ui-bootstrap-tpls-0.14.3.min.js">
+		 </script> 
+		<script src="assets/js/ngDialog.min.js">
+		</script>
+		<script src="assets/js/multiselect-tpls.js">
+		</script>
+		<script src="assets/js/multiselect.js">
+		</script>
+		<script src="assets/bower_components/angular-sqlite/angular-sqlite.js"></script>
+		<script src="assets/js/ng-file-upload-shim.min.js"></script>
+		<script src="assets/js/ng-file-upload.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/angular-bootstrap-file-field.js"></script>
+		<script src="assets/js/angular-ui-router.min.js"></script>
+        <script src="assets/js/angular-datatables.min.js"></script>
+        <script src="assets/js/jquery.dataTables.min.js"></script>
+		<script src="assets/bower_components/angular-cookies/angular-cookies.js"></script>
+	   	<script src="assets/js/angular-resource.min.js"></script>
+		<script src="assets/js/underscore-min.js"></script>
+	    <script src="assets/js/jquery.mCustomScrollbar.js"></script>
+		<script src="assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+		<script src="assets/js/jquery.mousewheel.min.js"></script>
+		<script  src="libs/services/createTable.js"></script>
+		<script src="assets/js/scrollbars.js"></script>
+		<script src="assets/js/chart.min.js"></script>
+		<script src="assets/js/angular-chart.min.js"></script>
+		<script src="assets/js/angular-toastr.tpls.js"></script>
+		<script src="assets/js/moment.js"></script>
+		<script src="assets/js/autocomplete.js"></script>	
+		<script src="assets/js/rrule.js"></script>
+		<script src="assets/js/bootstrap-colorpicker-module.min.js"></script>
+		<script src="assets/js/angular-bootstrap-calendar-tpls.js"></script>
+		<script src="assets/js/interact.min.js"></script>
+		<script src="assets/js/angucomplete-alt.min.js"></script>
+		<script src="assets/js/scrollGlue.js"></script>
+		<script src="assets/js/pdfmake.min.js"></script>
+		<script src="assets/js/vfs_fonts.js"></script>
+		<script src="assets/js/html2canvas.js"></script>
+		<script src="assets/js/jspdf.min.js"></script>
+		
+	
+		<script src="assets/js/angularjs-dropdown-multiselect.js"></script>
+		<script src="assets/js/multiple-select.js"></script>
+		<script src="assets/js/angular-timeline.js"></script>
+		<script src="assets/js/angular-filter.js"></script>
+		<script src="assets/js/slick.min.js"></script>
+		<script src="assets/js/angular-slick.js"></script>
+		<script src="assets/js/toggle-switch.js"></script>
+		<script src="assets/js/angular-websql.js"></script>
+		<!-- datatables -->
+		<script type="text/javascript" src="assets/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="assets/js/angular-datatables.min.js"></script>
+		
+		<script type="text/javascript" src="assets/js/scrolloverflow.js"></script>
+        <script src="assets/js/owl.carousel.js"></script>	
+		 <!-- common files -->
+		<script src="app.js"></script>
+		<script src="config/websql.js"></script>
+       	<script src="config/env.js"></script>
+		<script src="approutes.js"></script>
+		<script src="main.js"></script>
+		<!-- <script src="localdb.js"></script>-->
+		<script src="shared/translation/translationController.js"></script>
+		<script src="shared/translation/translationService.js"></script>
+
+
+		<!-- commonservices -->
+		<script  src="libs/services/configService.js"></script>
+		<script  src="libs/services/utilService.js"></script>
+		<script  src="libs/services/authenticationService.js"></script>
+		<script  src="libs/services/synchronousService.js"></script>
+		<script  src="libs/services/commonService.js"></script>
+		<script  src="libs/services/authInterceptor.js"></script>
+		<script  src="libs/services/checkConnection.js"></script>
+	
+		<!-- Helper files -->
+		<script src="libs/helpers/calendarHelpers.js"></script>
+
+
+		<!-- directives -->
+		<script  src="libs/directive/customSelect.js"></script>
+        <script  src="libs/directive/commonDirective.js"></script>
+
+
+		<!-- controllers -->
+		<script  src="components/dashboard/dashboardCtrl.js"></script>
+		<script  src="components/login/loginCtrl.js"></script>
+		<script  src="components/dashboard/dashboardCtrl.js"></script>
+		<script  src="components/expenses/expenseCtrl.js"></script>
+		<script  src="components/inventory/inventoryCtrl.js"></script>
+		<script  src="components/invoice/invoiceCtrl.js"></script>
+		<script  src="components/messages/messagesCtrl.js"></script>
+		<script  src="components/finance/financeCtrl.js"></script>
+		<script  src="components/patient/patientCtrl.js"></script>
+		<script  src="components/clinic/clinicCtrl.js"></script>
+		<script  src="components/appointment/appointmentCtrl.js"></script>
+		<script  src="components/appointment/bookAppointmentCtrl.js"></script>
+		<script  src="components/appointment/viewappointmentCtrl.js"></script>
+		<script  src="components/appointment/appointmentWaitingCtrl.js"></script>
+		<script  src="components/appointment/appointmentEngageCtrl.js"></script>
+		<script  src="components/settings/settingsCtrl.js"></script>
+
+        
+		<!-- services -->
+		<script  src="components/login/loginService.js"></script>
+		<script  src="components/expenses/expenseService.js"></script>
+		<script  src="components/inventory/inventoryService.js"></script>
+		<script  src="components/invoice/invoiceService.js"></script>
+		<script  src="components/finance/financeService.js"></script>
+		<script  src="components/patient/patientService.js"></script>
+		<script  src="components/appointment/appointmentService.js"></script>
+		<script  src="components/messages/messageService.js"></script>
+		<script  src="components/clinic/clinicService.js"></script>
+		<script  src="components/settings/settingsService.js"></script>
+
+
+		<script  src="components/settings/settingOfflineServices.js"></script>
+		<script  src="components/expenses/expensesOfflineServices.js"></script>
+		<script  src="components/messages/messageOfflineServices.js"></script>
+		<script  src="components/patient/patientOfflineService.js"></script>
+		<script  src="components/inventory/inventoryOfflineService.js"></script>
+		<script  src="components/invoice/invoiceOfflineService.js"></script>
+		<script  src="components/appointment/appointmentOfflineService.js"></script>
+		<script>
+			// const version = window.location.hash.substring(1);
+			// document.getElementById('version').innerText = version;
+			// Listen for messages
+			const {ipcRenderer} = require('electron');
+			ipcRenderer.on('message', function(event, text) {
+        console.log("messagdgnsvbhjsdjksdbns : "+ text)
+			  // var container = document.getElementById('messages');
+			  // var message = document.createElement('div');
+			  // message.innerHTML = text;
+			  // container.appendChild(message);
+			})
+		</script>
+
+		<!-- <base href="/" /> -->
+		<script>if (window.module) module = window.module;</script>
+	</head>
+
+	<body ng-controller="mainCtrl as main" ng-class="{'popupbg': popup == true , 'inventory-popup': inventoryPopup == true, 'payment-his-popup': paymentHistoryPop == true,'image-preview-popup': imagePreview == true}">
+<!-- 	{{main.user}} -->
+		<header class="main-head clearfix" ng-hide="main.loginpage" >
+			<nav class="navbar navbar-default navbar-fixed-top">
+				<div class="main-header clearfix">
+				<div class="col-md-4 col-sm-4 col-xs-3 logoimg">
+					<a class="main-logo" ui-sref="dashboard"> 
+						<img src="assets/img/practys_logo.png" />
+					</a>
+					<a href="#menu-toggle" class="" id="menu-toggle"><img src="assets/img/menu_in.png" /></a>
+				</div>
+				<div class="col-md-4 col-sm-4 col-xs-3 align-center">
+					<a  class="center-logo">
+					<span class="center-img"><img ng-if="main.image != ''" ng-src="{{main.path}}{{main.image}}" class="img-circle" title="profile image"/> 
+					<img ng-if="main.image == '' "  src="assets/img/practys_logo.png" class="img-circle" title="profile image"/></span>
+					<span class="uname">{{main.user}}</span></a>
+				</div>
+			   <div class="col-md-4 col-sm-4 col-xs-6 pad-left right-header">				
+					<ul class="nav navbar-top-links navbar-right right-menu">
+
+					   <li>
+						<a class="c-notification" ng-if="main.userLevel == 'clinic'" ng-click="main.addPatientDetails()" title="Create Patient Account"><i class="fa fa-user-plus" aria-hidden="true"></i>
+						</a>			</li>
+						<li>
+							<a ui-sref="messages" class="c-notification" ng-if="main.userLevel != 'admin'" title="messages">
+							<i class="fa fa-envelope" aria-hidden="true" ></i><span class="label label-danger" ng-hide = 'messageCount == 0'>{{messageCount}}</span></a>
+						</li>
+						<li class="dropdown mr-0">
+						
+						
+							<a  id="dLabel" role="button" data-toggle="dropdown" class="dropdown-toggle c-notification" aria-expanded="false"  class="c-notification" ng-if="main.userLevel != 'admin'" title="Notification" ng-click="main.updateNotifyCount()"><i class="fa fa-bell" aria-hidden="true"></i>
+<span class="label label-danger"  ng-hide = 'notificationCount == 0'>{{notificationCount}}</span></a>
+  							<ul class="dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
+						    <div class="notification-heading"><h4 class="menu-title">Notifications <!-- <i class="fa fa-angle-up pull-right" aria-hidden="true"></i> --></h4>
+						    </div>
+							<ul class="notify-det clearfix"> 
+						<li class=""><span class="cancel-notify"></span>Cancel</li>
+						<li class=""><span class="read-notify"></span>Read</li>
+						<li class=""><span class="unread-notify"></span>UnRead</li>
+						<li class=""><span class="checkout-notify"></span>Check Out</li>
+						 </ul>
+							<div class="notifications-wrapper" ng-if = "notify != ''">
+							
+						 <div class="notify-list">
+								<a  class="content" ng-repeat="x in notify">
+								<div ng-if="x.appStatus != 'cancel' && x.appStatus != 'checkOut'" ng-class="x.appStatus == 'cancel' ? 'notification-items' : 'notification-item' && x.appStatus == 'checkOut' ? 'notification-checkout' : 'notification-item' && x.status == '0' ? 'unseen-notification-items' : 'notification-item'" class="clearfix" ui-sref="viewAppointment({appointmentId: x.id})">
+									<!-- <label class="col-sm-6">{{x.appStatus}}  Patient Name:</label><p class="item-title">{{x.Patient.username}}</p>
+								   <label class="col-sm-6"> Doctor Name:</label><p class="item-title">{{x.Doctor.username}}</p>
+									<label class="col-sm-6">Date:</label><p class="item-title"> --><!-- {{x.appointmentStart | date : "MMM d, y h:mm a"}}</p> -->
+								 <p>   <span class="patient">{{x.Patient.username}}</span> appointment with Dr .<span class="doctor" >{{x.Doctor.username}}</span> is scheduled for {{formatDate(x.appointmentStart)}}. <span ng-if="x.viewedBy != null" class="doctor" > viewed by {{x.viewedBy}}</span></p>	   
+								 </div>
+								  <div ng-if="x.appStatus == 'cancel' || x.appStatus == 'checkOut'" ng-class="x.appStatus == 'cancel' ? 'notification-items' : 'notification-item' && x.appStatus == 'checkOut' ? 'notification-checkout' : 'notification-item' && x.status == '0' ? 'unseen-notification-items' : 'notification-item'" class="clearfix" >
+									<!-- <label class="col-sm-6">{{x.appStatus}}  Patient Name:</label><p class="item-title">{{x.Patient.username}}</p>
+								   <label class="col-sm-6"> Doctor Name:</label><p class="item-title">{{x.Doctor.username}}</p>
+									<label class="col-sm-6">Date:</label><p class="item-title"> --><!-- {{x.appointmentStart | date : "MMM d, y h:mm a"}}</p> -->
+								   <p> <span class="patient">{{x.Patient.username}}</span> appointment with Dr .<span class="doctor" >{{x.Doctor.username}}</span> is scheduled for {{formatDate(x.appointmentStart)}}.<span ng-if="x.viewedBy != null" class="doctor" > viewed by {{x.viewedBy}}</span></p>
+							  
+							 </div>  
+							</div>							 
+						   </a>
+						</div>
+						<!--<div class="notifications-wrapper clearfix">
+						<ul class="notify-det clearfix">
+						<li class=""><span class="cancel-notify"></span>Cancel</li>
+						<li class=""><span class="read-notify"></span>Read</li>
+						<li class=""><span class="unread-notify"></span>UnRead</li>
+						<li class=""><span class="checkout-notify"></span>Check Out</li>
+						 </ul>
+						     <a class="content">
+						       <div class="notification-items clearfix">
+
+						       <p> <span class="patient">Kalavathi</span> appointment with Dr .<span class="doctor" >Rajan</span> is scheduled for 11.30 mm.</p>
+						        
+						      </div>
+						       <div class="notification-item clearfix">
+
+						        <p>  <span class="patient">Kalavathi</span> appointment with Dr .<span class="doctor" >Rajan</span> is scheduled for 11.30 mm.</p>
+						      </div>
+						      <div class="unseen-notification-items clearfix">
+
+						        <p>  <span class="patient">Kalavathi</span> appointment with Dr .<span class="doctor" >Rajan</span> is scheduled for 11.30 mm.</p>
+						      </div>
+						      <div class="notification-checkout clearfix">
+
+						        <p> <span class="patient">Kalavathi</span> appointment with Dr .<span class="doctor" >Rajan</span> is scheduled for 11.30 mm.</p>
+						      </div>
+						    </a>
+						   </div> -->
+						   <div class="notifications-wrapper" ng-if = "notify == ''">
+						    No Notification Found
+						   </div>
+					
+						    <li class="divider"></li>
+						  </ul>
+  
+						
+						</li>
+
+						<li class="dropdown profile-block mr-0">
+							<a href="javascript:void(0);" data-toggle="dropdown" class="dropdown-toggle" aria-expanded="false">
+							<img ng-if="main.image != '' " ng-src="{{main.path}}{{main.image}}" class="img-circle" title="profile image"/>
+							<img ng-if="main.image == '' "  src="assets/img/orthodontic-clinic-logo.png" class="img-circle" title="profile image"/>
+							<!-- <img src="assets/img/profileimg.jpg" class="img-circle" title="profile"/> {{main.user}} -->
+						</a>
+						<ul class="dropdown-menu dropdown-user">
+							<li class="proflie-popup clearfix">
+							<div class="col-sm-5 pop-l"><img ng-if="main.image != '' " ng-src="{{main.path}}{{main.image}}" class="img-circle" title="profile image"/>
+							<img ng-if="main.image == '' "  src="assets/img/orthodontic-clinic-logo.png" class="img-circle" title="profile image"/></div>
+							<!-- <img src="assets/img/profileimg.jpg" class="img-circle" title="profile image"/>  -->
+							<div class="col-sm-7 pop-r"><p>{{main.user}}</p><a ui-sref="settings" class="btn btn-primary" ng-if="main.userLevel != 'admin'"><i class="fa fa-cog" aria-hidden="true"></i> Setting</a></div>
+							</li>
+							<li class="profile-setting clearfix">
+							<a  ng-if="main.userLevel == 'doctor' && main.clinicSwitch" ng-click="main.clinicSwit()"><i class="fa fa-exchange" aria-hidden="true"></i>Clinic Switch</a>
+								<a ng-click="main.logOut();" class="pull-right"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+							</li>
+						</ul>
+						
+						<!-- /.dropdown-user -->
+						</li>
+					</ul>
+					
+				</div>
+				</div>
+			</nav>
+		</header>
+		<div id="wrapper" ng-class="{'dashboard': main.dashboard == true,'wrapper-height': main.wrapperHeight == true}">
+			<!-- Sidebar -->
+			
+			<div ng-hide="main.dashboard">
+		<div ng-include="'shared/template/sidebar/clinicSidebar.html'"
+					ng-if="(main.userLevel == 'clinic')" ></div>
+		<div ng-include="'shared/template/sidebar/doctorSidebar.html'"
+					ng-if="(main.userLevel == 'doctor')" ></div>
+	</div>
+<!-- /#sidebar-wrapper -->
+		
+		
+		<!-- Page Content -->
+			<div id="page-content-wrapper">
+				<div class="topinner-page pagepad-top height-fix">
+					<div class="container-fluid height-fix"><div class="height-fix" ui-view=""></div></div>
+				
+				</div>
+			<!-- /#page-content-wrapper -->
+
+			</div>
+		<!-- /#wrapper -->
+        </div>
+
+	
+	</body>
+	 <!-- Menu Toggle Script -->
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+    <style>
+
+
+
+
+.glyphicon-bell {
+   
+    font-size:1.5rem;
+  }
+
+.notifications {
+   min-width:420px; 
+  }
+  
+
+ .menu-title {
+     color:#ff7788;
+     font-size:1.5rem;
+      display:inline-block;
+      }
+ 
+.glyphicon-circle-arrow-right {
+      margin-left:10px;     
+   }
+  
+   
+ .notification-heading, .notification-footer  {
+ 	padding:2px 10px;
+       }
+      
+        
+.dropdown-menu.divider {
+  margin:5px 0;          
+  }
+
+.item-title {
+  
+ font-size:1.3rem;
+ color:#000;
+    
 }
-table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-th, td {
-    padding: 5px;
-    text-align: left;
-}
-table#t01 tr:nth-child(even) {
-    background-color: #eee;
-}
-table#t01 tr:nth-child(odd) {
-   background-color:#fff;
-}
-table#t01 th {
-    background-color: black;
-    color: white;
-}
+
+.notifications a.content {
+ text-decoration:none;
+ background:blue;
+
+ }
+ p.patient{
+ 	color: red;
+ 	font-style: italic;
+ 	text-transform: uppercase;
+ }
+ p.doctor{
+ 	color: green;
+ 	font-style: bold;
+ 	text-transform: uppercase;
+ }
+    
+
+
+
 </style>
-</head>
-<body>
-
-<table>
-  <tr>
-    <th>Firstname</th>
-    <th>Lastname</th> 
-    <th>Age</th>
-  </tr>
-  <tr>
-    <td>Jill</td>
-    <td>Smith</td>
-    <td>50</td>
-  </tr>
-  <tr>
-    <td>Eve</td>
-    <td>Jackson</td>
-    <td>94</td>
-  </tr>
-  <tr>
-    <td>John</td>
-    <td>Doe</td>
-    <td>80</td>
-  </tr>
-</table>
-<br>
-
-<table id="t01">
-  <tr>
-    <th>Firstname</th>
-    <th>Lastname</th> 
-    <th>Age</th>
-  </tr>
-  <tr>
-    <td>Jill</td>
-    <td>Smith</td>
-    <td>50</td>
-  </tr>
-  <tr>
-    <td>Eve</td>
-    <td>Jackson</td>
-    <td>94</td>
-  </tr>
-  <tr>
-    <td>John</td>
-    <td>Doe</td>
-    <td>80</td>
-  </tr>
-</table>
-
-</body>
+<!--<script type="text/javascript">
+	$('.sidebar-nav li a').click(function(e) {
+		alert('hi');
+    e.preventDefault(); //prevent the link from being followed
+    $('.sidebar-nav li a').removeClass('selected');
+    $(this).addClass('selected');
+});
+    
+</script>-->
 </html>
+

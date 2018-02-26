@@ -12,10 +12,27 @@ const url = require('url')
 
 
 //auto updater
-const autoUpdater = require("electron-updater").autoUpdater
+const log = require('electron-log');
+const {autoUpdater} = require("electron-updater");
 
-autoUpdater.logger = require("electron-log")
-autoUpdater.logger.transports.file.level = "info"
+
+// autoUpdater.logger = require("electron-log")
+// autoUpdater.logger.transports.file.level = "info"
+autoUpdater.setFeedURL({
+"provider": "github",
+"owner": "GisNishanth",
+"token": "8660afe51a45c000515b68c93652e8e4e18d0ffe"
+// ,
+// "repo": "https://github.com/GisNishanth/electron-updater-sample.git"
+});
+
+
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'info';
+log.info('App starting...');
+
+// autoUpdater.updateConfigPath = path.join(__dirname, 'app-update.yml');
+
 
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -66,25 +83,23 @@ function createWindow () {
 //-------------------------------------------------------------------
 
 autoUpdater.on('checking-for-update', () => {
-  console.log('Checking for update...');
+  sendStatusToWindow('Checking for update...');
 })
 autoUpdater.on('update-available', (info) => {
-   console.log('Update available.');
+   sendStatusToWindow('Update available.');
 })
 autoUpdater.on('update-not-available', (info) => {
-   console.log('Update not available.');
+   sendStatusToWindow('Update not available.');
 })
 autoUpdater.on('error', (err) => {
-   console.log('Error in auto-updater. ' + err);
+  sendStatusToWindow(`Error in auto-updater : ${err.toString()}`);
 })
 autoUpdater.on('download-progress', (progressObj) => {
-  let log_message = "Download speed: " + progressObj.bytesPerSecond;
-  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
-  log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
-   console.log(log_message);
+  let log_message = `Download speed: ${progressObj.bytesPerSecond} - Downloaded : ${progressObj.percent}% (${progressObj.transferred}) / ${progressObj.total}`;
+  sendStatusToWindow(log_message);
 })
 autoUpdater.on('update-downloaded', (info) => {
-   console.log('Update downloaded');
+  sendStatusToWindow('Update downloaded');
 });
 autoUpdater.on('update-downloaded', (info) => {
    autoUpdater.quitAndInstall();

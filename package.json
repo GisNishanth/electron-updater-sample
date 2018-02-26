@@ -1,18 +1,18 @@
 {
   "name": "practys",
-  "version": "1.2.0",
+  "version": "0.1.0",
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder --x64",
-    "gh-publish": "electron-builder --mac --x64 -p always",
+    "dist": "electron-builder --x64 --mac",
+    "gh-publish": "electron-builder --x64 --mac -p always",
     "package-mac": "electron-packager . Practys  --overwrite --platform=darwin --arch=x64  --icon=./practys.icns --prune=true  --asar=true --out=release-builds ",
     "package-win": "electron-packager . Practys  --overwrite --platform=win32 --arch=x64  --icon=./practys.ico --prune=true  --asar=true --out=release-builds ",
     "darwin": "electron-packager . practys --platform=darwin --arch=x64 --icon=./practys.icns  --version=0.30.2 --version-string.CompanyName=\"greatInnovus\" --version-string.ProductName=\"Practys\" --version-string.FileDescription=\"Hospitality\" --asar=true --out=release-builds"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/GisNishanth/electron-updater-sample",
   "keywords": [
     "Electron",
     "quick",
@@ -27,27 +27,30 @@
     "mac": {
       "category": "com.practys.mac",
       "target": [
-        "dmg"
-      ]
+        "dmg",
+        "zip"
+      ],
+      "icon":"./practys.icns"
     },
-     "win": {
+    "win": {
       "target": [
-        "nsis"
+        "NSIS"
       ]
     },
-    "publish": [{
-             "provider": "github",
-             "owner": "GisNishanth",
-             "repo": "electron-updater",
-             "token": "8660afe51a45c000515b68c93652e8e4e18d0ffe"
-         }]
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "GisNishanth",
+        "repo": "electron-updater-sample",
+        "token": "8660afe51a45c000515b68c93652e8e4e18d0ffe"
+      }
+    ]
   },
   "devDependencies": {
     "electron": "~1.8.2",
     "electron-builder": "^20.0.8"
   },
   "dependencies": {
-    
     "electron-is-dev": "^0.3.0",
     "electron-log": "^2.2.14",
     "electron-plugins": "^0.1.0",
