@@ -18,13 +18,14 @@ const {autoUpdater} = require("electron-updater");
 
 // autoUpdater.logger = require("electron-log")
 // autoUpdater.logger.transports.file.level = "info"
-autoUpdater.setFeedURL({
-"provider": "github",
-"owner": "GisNishanth",
-"token": "8660afe51a45c000515b68c93652e8e4e18d0ffe"
-// ,
-// "repo": "https://github.com/GisNishanth/electron-updater-sample.git"
-});
+// autoUpdater.setFeedURL({
+// "provider": "github",
+// "owner": "GisNishanth",
+// "repo": "https://github.com/GisNishanth/electron-updater-sample",
+// "token": "f39a4fc77f219d2fb64c600b1fcd409655fa0e9f"
+// });
+// 8660afe51a45c000515b68c93652e8e4e18d0ffe
+// 46ca980857c2cd92601501d409a9d7a7dba316dd
 
 
 autoUpdater.logger = log;

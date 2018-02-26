@@ -1,0 +1,18 @@
+directories:
+  output: dist
+  buildResources: build
+appId: com.practys.macapp
+mac:
+  category: com.practys.mac
+  target:
+    - dmg
+  icon: ./practys.icns
+win:
+  target:
+    - NSIS
+publish:
+  - provider: github
+    owner: GisNishanth
+    repo: electron-updater-sample
+    token: f39a4fc77f219d2fb64c600b1fcd409655fa0e9f
+electronVersion: 1.8.2
