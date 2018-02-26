@@ -1,6 +1,6 @@
 {
   "name": "practys",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
@@ -39,8 +39,8 @@
              "provider": "github",
              "owner": "GisNishanth",
              "repo": "electron-updater-sample",
-             "token":"f39a4fc77f219d2fb64c600b1fcd409655fa0e9f"
-         }]
+             "token":"0c452382810c45b1d3c556b3f9921a43d5842450"
+    }]
   },
   "devDependencies": {
     "electron": "~1.8.2",

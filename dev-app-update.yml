@@ -6,3 +6,7 @@ files:
 path: practys-1.4.0.dmg
 sha512: 7NXBRnoPPHVrQEac0dfz92ztHduSC0h5H+FKDXncjgPlq/vQLXrTB9lytJikfdJpmIUYUY6R+fNvqTda0sbXWQ==
 releaseDate: '2018-02-26T16:02:47.553Z'
+provider: github
+token: 0c452382810c45b1d3c556b3f9921a43d5842450
+owner: GisNishanth
+repo: electron-updater-sample
