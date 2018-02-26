@@ -1,0 +1,19 @@
+<ul>
+		<li class="clearfix" ng-repeat = "data in vm.engageWaitingEvents">
+			<div class="col-md-2 col-sm-2 padding-zro">
+				<img ng-if="data.patientImage == ''" src="assets/img/profileimg.jpg" class="img-circle">
+				<img ng-if="data.patientImage != ''" ng-src="{{data.patientImage}}" class="img-circle">
+			</div>
+			<div class="col-md-10 col-sm-10 list-content">
+				<p class="pat-name">{{data.patientName}}</p>
+				<span class="sidebar-time clearfix">{{data.time}}</span>
+				<p class="clearfix"><div ng-if="value.clinicId == vm.clinicId" ng-repeat="(key,value) in data.colorCode"><span class="doc-color" ng-style="{'background-color': value.colorCode}"></span>
+				</div><span class="doc-n" >{{data.doctorName}}</span></p>
+				<button type = "button" class="btn btn-info" ng-if="data.type == 'waiting' && vm.userLevel == 'doctor'" ng-disabled="data.appointmentStatus !='checkIn'" ng-click="vm.updateStatus('engage',data.appointmentId)" title="Engage">Engage</button>
+				<a class="btn btn-info" ng-if="data.type == 'engage' "  ui-sref="viewAppointment({appointmentId:data.appointmentId})" title="Engage">view</a>
+	
+			</div>
+		</li>
+		
+	</ul>
+				

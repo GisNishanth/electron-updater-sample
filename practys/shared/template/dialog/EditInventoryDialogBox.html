@@ -1,0 +1,162 @@
+<form name="inventoryForm" class="popup-form in-popup" novalidate ng-submit="updateInventory(inventoryForm,inventory)">
+    <div class="ct-popup">
+        <div class="panel-height">
+		<div class="panel-body">
+            <div class="form-group clearfix">
+                <!-- <label class="control-label col-md-3">Inventory ID</label> -->
+                <div class="col-md-6">
+                    <input type="hidden" value="" class="form-control" ng-model="inventory.id">
+                </div>
+            </div>
+            <!-- <div class="form-group clearfix">
+					<label class="control-label col-md-6 col-sm-6">Stock Item #</label>
+					<div class="col-md-6 col-sm-6">
+						<input type="text" value="" class="form-control" ng-model="inventory.itemId">
+					</div>
+				</div> -->
+            <div class="form-group clearfix">
+                <label class="control-label col-md-6 col-sm-6">Supplier</label>
+                <div class="col-md-6 col-sm-6">
+                    <input type="text" class="form-control" ng-model="inventory.supplierName" name="supplierName" required>
+                    <span class="mandatory" ng-if="(inventoryForm.supplierName.$touched || inventoryForm.$submitted) && inventoryForm.supplierName.$invalid">Supplier is required</span>
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <label class="control-label col-md-6  col-sm-6">Date</label>
+                <div class="col-md-6 col-sm-6">
+                    <div class="input-group date">
+                        <input type="text" class="form-control" readonly datepicker-popup="yyyy-MM-dd" ng-model="inventory.inventoryDate" is-open="openDatePickers[0]" close-text="Close" name="date" required>
+                        <span class="input-group-btn">
+							<button
+							  type="button"
+							  class="btn btn-primary"
+							  ng-click="open($event,0)">
+							  <i class="fa fa-calendar" aria-hidden="true"></i>
+							</button>
+						  </span>
+                    </div>
+                    <span class="mandatory" ng-if="(inventoryForm.date.$touched || inventoryForm.$submitted) && inventoryForm.date.$invalid">Date is required</span>
+                </div>
+            </div>
+            <!-- 
+				<div class="form-group clearfix">
+					<label class="control-label col-md-6 col-sm-6">Type</label>
+					<div class="col-md-6 col-sm-6">
+						<input type="text" value="" class="form-control" ng-model="inventory.type">
+					</div>
+				</div> -->
+            <div class="form-group clearfix" ng-if="inventory.edit">
+                <label class="control-label col-md-6 col-sm-6">Product Name</label>
+                <div class="col-md-6 col-sm-6">
+                <input type="text" class="form-control" disabled auto-complete ui-items="inventory.drugs" name="specialityService"  id="Speciality" ng-model="inventory.productName" required>
+                   <!--  <div custom-select="g as g.name for g in inventory.drugs | filter: $searchTerm" name="speciality" custom-select-options="drugSelection" disabled="disabled" ng-model="inventory.productName" required></div> -->
+                    <span class="mandatory" ng-if="(inventoryForm.speciality.$touched || inventoryForm.$submitted) && inventoryForm.speciality.$invalid">Product Name is required</span>
+                </div>
+            </div>
+            <div class="form-group clearfix" ng-if="inventory.add">
+                <label class="control-label col-md-6 col-sm-6">Product Name</label>
+                <div class="col-md-6 col-sm-6">
+                <div angucomplete-alt id="ex1"
+                name="speciality"
+                  placeholder="Enter the product"
+                  maxlength="50"
+                  pause="100"
+                  local-data="inventory.drugs"
+                  search-fields="name"
+                  title-field="name"
+                  minlength="1"
+                   selected-object="inventory.productName"
+                  input-class="form-control form-control-small"
+                  match-class="highlight"
+                  override-suggestions="true"></div>
+                <!--  <input type="text" class="form-control" auto-complete ui-items="inventory.drugs" name="specialityService"  id="product" ng-model="inventory.productName" required> -->
+                   <!--  <div custom-select="g as g.name for g in inventory.drugs | filter: $searchTerm" name="speciality" custom-select-options="drugSelection" ng-model="inventory.Drug" required></div> -->
+                    <span class="mandatory" ng-if="(inventoryForm.speciality.$touched || inventoryForm.$submitted) && inventoryForm.speciality.$invalid">product Name is required</span>
+                </div>
+            </div>
+             <div class="form-group clearfix">
+                <label class="control-label col-md-6 col-sm-6">Product Type</label>
+                <div class="col-md-6 col-sm-6">
+                <div class="checkbox-style">
+                        
+                        <input type="radio" class="" value="Other" name="productType"  id="other" ng-model="inventory.productType" required>
+                      <label for="other"><span><span></span></span>  Other
+                      </label>
+                      </div>
+                      <div class="checkbox-style">
+                       <input type="radio" class="" value="Drug" name="productType"  id="drug" ng-model="inventory.productType" required>
+                      <label for="drug"><span><span></span></span>  Drug
+                      </label>
+                      </div>
+               
+               
+                    <span class="mandatory" ng-if="(inventoryForm.productType.$touched || inventoryForm.$submitted) && inventoryForm.productType.$invalid">product Type is required</span>
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <label class="control-label col-md-6 col-sm-6">Selling Price</label>
+                <div class="col-md-6 col-sm-6">
+                    <input type="text" name="drugcost" numbers-only  class="form-control" ng-model="inventory.sellingPrice" required>
+                    <span class="mandatory"  ng-if="(inventoryForm.drugcost.$touched || inventoryForm.$submitted) && inventoryForm.drugcost.$invalid">Selling Price is required</span>
+                </div>
+            </div>
+            <div class="" ng-if="inventory.edit">
+            <div class="form-group clearfix" >
+                <label class="control-label col-md-6 col-sm-6">On Hand Quantity</label>
+                <div class="col-md-6 col-sm-6">
+                    <input type="text" numbers-only name="onHandQty" disabled class="form-control" ng-change="total(inventory)" ng-model="inventory.onHandQty" required>
+                </div>
+                </div>
+            <div class="form-group clearfix" >
+                <label class="control-label col-md-6 col-sm-6">Quantity to </label>
+                <div class="col-md-6 col-sm-6">
+                <div class="checkbox-style">
+                  <input type="radio" ng-model="inventory.type" name="type" value="add" ng-required="inventory.type" id="type">
+                <label for="type"><span><span></span></span>  Add
+                </label>
+                </div>
+                <div class="checkbox-style">
+                  <input type="radio" ng-model="inventory.type" name="type" value="reduce" ng-required="inventory.type" id="type">
+                <label for="type"><span><span></span></span>  Reduce
+                </label>
+                </div>
+                    <input type="text" name="quantity" placeholder="Enter the Quantity" ng-disabled="!inventory.type" class="form-control" ng-change="editCalc(inventory.type)" ng-model="inventory.addQty" required>
+                    <span class="mandatory" ng-if="(inventoryForm.quantity.$touched || inventoryForm.$submitted) && inventoryForm.quantity.$invalid">Quantity is required</span>
+                </div>
+            </div>
+            </div>
+            <div class="form-group clearfix" ng-if="inventory.add">
+                <label class="control-label col-md-6 col-sm-6">Quantity</label>
+                <div class="col-md-6 col-sm-6">
+                    <input type="text" numbers-only name="quantity"  class="form-control" ng-change="total(inventory)" ng-model="inventory.originalQty" required>
+                    <span class="mandatory" ng-if="(inventoryForm.quantity.$touched || inventoryForm.$submitted) && inventoryForm.quantity.$invalid">Quantity is required</span>
+                </div>
+            </div>
+          <!--   <div class="form-group clearfix">
+                <label class="control-label col-md-6 col-sm-6">Total Amount</label>
+                <div class="col-md-6 col-sm-6">
+                    <input type="text" name="totalAmount" class="form-control" disabled ng-model="inventory.totalAmount" required>
+                    <span class="mandatory" ng-if="(inventoryForm.totalAmount.$touched || inventoryForm.$submitted) && inventoryForm.totalAmount.$invalid">Total Amount is required</span>
+                </div>
+            </div> -->
+            <div class="form-group clearfix">
+                <label class="control-label col-md-6 col-sm-6">Description</label>
+                <div class="col-md-6 col-sm-6">
+                    <textarea class="form-control col-md-6" name="description" ng-model="inventory.description" required></textarea>
+                    <span class="mandatory" ng-if="(inventoryForm.description.$touched || inventoryForm.$submitted) && inventoryForm.description.$invalid">Description is required</span>
+                </div>
+            </div>
+			 </div>
+          
+       </div>
+    </div>
+	  <div class="form-group button-section clearfix">
+        		<div class="col-md-12 align-right">
+		            <button type="submit" class="btn btn-primary">Save</button>&nbsp;
+		            <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+		        </div>
+	        </div>
+</form>
+<script>
+// $("#product").autocomplete({ source: inventory.drugs });
+</script>

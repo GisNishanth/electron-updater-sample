@@ -1,0 +1,887 @@
+
+<div class="panel patient_datas_pg clearfix" ng-if="vm.type == 'clinic'" ng-hide="vm.pdf">
+    <div class="panel-heading clearfix" ng-hide="vm.pdf">
+        <h3 class="pull-left"><b>Patient Details</b></h3>
+        <a class="btn btn-primary pull-right" ui-sref="patient">Back</a>
+    </div>
+
+    <div class="panel-body"  ng-hide="vm.pdf">
+        <div class="patient-detail col-md-12 padding-zro">
+            <div class="col-md-7 patient-data-bx">
+                <div class="col-md-3 patient-img padding-zro">
+                    <img ng-if="vm.patientDetails.image != '' " ng-src="{{vm.patientDetails.thumbImage}}{{vm.patientDetails.image}}" ng-click="vm.recordPage = false;vm.border = '';vm.timelineShift= false">
+                    <img ng-if="vm.patientDetails.image == '' " src="assets/img/profileimg.jpg" ng-click="vm.timelineShow = ! vm.timelineShow; vm.recordPage = false;vm.border = '';vm.timelineShift= false">
+                </div>
+                <div class="col-md-9 patient-name padding-zro">
+
+                    <h3>{{vm.patientDetails.username}}</h3>
+                    <p class="gen-detail">{{details.gender}}</p>
+                    <p>{{vm.patientDetails.birthday}}</p>
+                    <a class="phone-num">{{vm.patientDetails.mobile}}</a>
+                    <p class="mail-id">
+                        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                        <a href="mailto:elena@gmail.com">{{vm.patientDetails.email}}</a>
+                    </p>
+                    <div class="add_address clearfix">
+                        <p class="address-left">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            <span>{{vm.patientDetails.address}}</span>
+                        </p>
+                        <span class="patient-app clearfix">
+                     
+                      <a class="btn btn-primary edit_right" ng-click="vm.editPatient(vm.patientDetails.id)">Edit</a>
+                       <a class="btn btn-primary edit_right" ng-click="vm.bookPop(vm.patientDetails,vm.patientDetails.id)">Add Appointment</a>
+                      </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 ">
+            </div>
+            <div class="col-md-5 patient-contact">
+                <div class="panel clearfix">
+                    <div class="panel-heading col-md-4">
+                        <p class="det-add">Emergency Contact Details</p>
+                    </div>
+                    <div class="panel-body col-md-8 emergencycontact">
+                        <div class="form-group name-blk">
+                            <label>Name:</label>
+                            <span>{{vm.patientDetails.emergencyContactName}}</span>
+                        </div>
+                        <!--  <div class="form-group address-blk">
+                            <label>Address:</label>
+                            <span></span>
+                        </div> -->
+                        <div class="form-group">
+                            <label>Call:</label>
+                            <a class="phone-num">{{vm.patientDetails.emergencyContactNumber}}</a>
+                        </div>
+                        <div class="form-group">
+                            <label>Relationship:</label>
+                            <span>{{vm.patientDetails.emergencyRelationship}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <img ng-if="vm.loaders" ng-src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==">
+    <!-- <div ng-if="vm.treatmentDates" ng-hide="vm.timelineShow || vm.pdf" class="notify-text">
+        click profile picture to see the records
+    </div> -->
+    <div ng-if="vm.treatmentDates == ''" class="notify-text">
+        No Treatment Records Found
+    </div>
+
+    <timeline ng-class="{'timeline-shift' : vm.timelineShift,'timeline-offline':!online}">
+        <div class="timeline-border"></div>
+        <div class="border-top">
+            <!-- <div class="top-border-1" ng-if="vm.treatmentDates != ''"> </div>
+            <div class="right-border-1" ng-if="vm.treatmentDates != ''"> </div>-->
+            <div ng-if="vm.treatmentDates != ''" ng-scrollbars style="width: calc(100% - 10px);height: 200px;" class="htry-list">
+                <div class="timeline-full-detail" ng-repeat="(key, value) in vm.treatmentDates | groupBy: 'year' ">
+                    <div class="year-list 11">
+                        <p>{{key}}</p>
+                        <span></span>
+                        <span class="vertical-border"></span>
+                    </div>
+                    <timeline-event ng-repeat="event in value | orderBy : 'date'" side="bottom">
+                        <timeline-badge class="info">
+                            <i class="glyphicon glyphicon-record" style="color:green"></i>
+                        </timeline-badge>
+                        <timeline-panel class="warning" ng-class="{'timelineBox-highlight':vm.border == event.id }" ng-click="vm.getRecords(event.id,$index)">
+                            <div class="prof-detail">
+                                <p>{{event.date}}</p>
+                                <timeline-heading>
+                                    <h4>{{event.serviceName}}</h4>
+                                </timeline-heading>
+                            </div>
+                        </timeline-panel>
+                    </timeline-event>
+                </div>
+            </div>
+        </div>
+    </timeline>
+
+    <div ng-if="vm.recordPage" class="patient-records doc-data">
+        <div class="record-invoice clearfix">
+            <h4>Notes:</h4>
+            <div class="table-responsive" ng-if="vm.prescription">
+                {{vm.prescription.notes}}
+            </div>
+            <div class="table-responsive" ng-if="!vm.prescription">
+                No Description Found
+            </div>
+        </div>
+
+        <div class="record-invoice  clearfix">
+            <h4>Service & Invoice</h4>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tr ng-if="vm.serviceList">
+                        <td>
+                            <div ng-if="vm.serviceList" ng-repeat="y in vm.serviceList">
+                                <p>{{y.name}}</p>
+                            </div>
+                        </td>
+                        <td>
+                        <p >{{vm.amountCalculation(vm.billRecords)}}</p>
+                            <!-- <p ng-if="vm.billRecords.appointmentBalanceAmount != null">{{add(vm.billRecords.pendingAmount,vm.billRecords.appointmentBalanceAmount)}}</p>
+                            <p ng-if="vm.billRecords.appointmentBalanceAmount == null">{{vm.billRecords.pendingAmount}}</p> -->
+                        </td>
+                        <td>
+                            <p ng-if="vm.billRecords">{{vm.billRecords.paymentStatus}}</p>
+                        </td>
+                        <td><a ng-if="!vm.billRecords.billStatus" ui-sref="editSpecificInvoice({id:vm.billRecords.id})"><i class="fa fa-edit"></i></a><a ng-click="vm.pdf = !vm.pdf;vm.timelineShow = false;vm.recordPage = false"><i class="fa fa-eye"></i></a></td>
+                        <!-- vm.pdf = !vm.pdf;vm.timelineShow = false;vm.recordPage = false -->
+                    </tr>
+                    <tr ng-if="!vm.serviceList">
+                        <td colspan="10" ">No Service or Invoice found</td>
+                    </tr>          
+          		</table>
+            </div>
+    	</div>
+
+        <div class="record-invoice clearfix ">
+            <h4>Drug & Product Details</h4>
+            <div class="table-responsive "> 
+            <table class="table table-bordered ">
+                <thead>
+                    <tr>
+                        <!-- <th>Service</th> -->
+                        <th>Name</th>
+                        <!-- <th>Frequency</th>
+                        <th>Product Name</th> -->
+                        <!-- <th>Food</th> -->
+                        <!-- <th>Days</th> -->
+                        <th>Usage</th>
+                        <!-- <th>Amount</th>
+                        <th>Status</th> -->
+                        <!-- <th>Action</th> -->
+                    </tr>
+                </thead>
+                <tr ng-if="vm.prescriptions !='' || vm.prescriptions != null " ng-repeat = "x in vm.prescriptions ">
+                   <!--  <td>
+                        <p ng-if="vm.billRecords ">{{vm.SpecialityServices.name}}</p>
+                    </td> -->
+                    <td ng-if="x.drugName ">
+                        <p ng-if="vm.billRecords ">{{x.drugName.productName}} <b>(Drug)</b></p>
+                    </td>
+                    <td ng-if="x.productName ">
+                        <p ng-if="vm.billRecords ">{{x.productName.productName}} <b>(Others)</b></p>
+                    </td>
+                 <!--    <td ng-if="x.drugName ">
+                        <p ng-if="vm.billRecords ">{{x.frequency}}</p>
+                    </td>
+                     <td ng-if="x.productName ">
+                        <p ng-if="vm.billRecords ">{{x.frequency}}</p>
+                    </td>
+                    <td ng-if="x.drugName ">
+                        <p ng-if="vm.billRecords ">{{x.dose}}</p>
+                    </td>
+                     <td ng-if="x.productName ">
+                        <p ng-if="vm.billRecords ">{{x.dose}}</p>
+                    </td> -->
+                    <!-- <td >
+                        <p ng-if="vm.billRecords ">{{vm.prescription.food}}</p>
+                    </td> -->
+                   <!--  <td ng-if="x.drugName ">
+                        <p ng-if="vm.billRecords ">{{x.noOfDays}}</p>
+                    </td>
+                    <td ng-if="x.productName ">
+                        <p ng-if="vm.billRecords ">{{x.noOfDays}}</p>
+                    </td> -->
+                    <td ng-if="x.drugName ">
+                        <p ng-if="vm.billRecords ">{{x.note}}</p>
+                    </td>
+                    <td ng-if="x.productName ">
+                        <p ng-if="vm.billRecords ">{{x.usage}}</p>
+                    </td>
+                   <!--  <td>
+                        <p ng-if="vm.billRecords ">{{vm.billRecords.pendingAmount}}</p>
+                    </td>
+                    <td>
+                        <p ng-if="vm.billRecords ">{{vm.billRecords.paymentStatus}}</p>
+                    </td> -->
+                    <!-- <td><a ng-click="vm.pdf=! vm.pdf;vm.timelineShow=f alse;vm.recordPage=f alse "><i class="fa fa-eye "></i></a></td> -->
+                </tr>
+                <tr ng-if="vm.prescriptions=='' || vm.prescriptions== null ">
+                    <td colspan="10 " ">No Products or Drugs found</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="record-invoice  clearfix">
+            <h4>Additional Items</h4>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tr ng-if="vm.additionalElements" ng-repeat="x in vm.additionalElements">
+                        <td>
+                            <p>{{x.name}}</p>
+                        </td>
+                        <td>
+                            <p>{{x.amount}}</p>
+                        </td>
+                    </tr>
+                    <tr ng-if="vm.additionalElements == '' || vm.additionalElements == null ">
+                        <td colspan="10">No Items found</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="record-box" ng-if="online">
+            <h4>Records:</h4>
+            <div class="slick-div" ng-if="vm.recordImages">
+                <slick class="slider" settings="slickConfig3" slides-to-show=4 ng-if="slickConfig3Loaded">
+                    <div ng-repeat="item in vm.recordImages" class="record-img">
+                        <img ng-src="{{vm.thumbImage}}{{item.image}}" ng-click="vm.openDefault(vm.thumbImage,item.image)">
+                    </div>
+                </slick>
+            </div>
+            <p ng-if="vm.recordImages == ''">No Records found</p>
+        </div>
+
+        <div class="col-md-12">
+            <button class="btn btn-close " ng-click="vm.recordPage=false;vm.timelineShift=false;vm.border='' ">Close</button>
+        </div>  
+    </div>
+</div>
+
+<div ng-class="{ 'loader': vm.editLoader==true} ">
+    <div class="overlay-bg "></div>
+    <div class="loading-bg "></div>
+</div>
+
+<!-- pdf generation -->
+<div class="container " ng-if="vm.pdf" style="background: #fff;">
+
+	<form name="invoiceForm" >
+		<div class="panel-heading clearfix">
+			<h4 class="pull-left">Print Confirmation</h4>
+		</div>
+
+	    <div class="container" id="printSectionId">
+	        <div class="row">
+	            <div class="well" style="padding: 30px 50px;background: #fff;">
+
+	                <div class="row">    				
+	                    <div style="border-bottom: 2px solid #000;padding: 0px 0px 10px 0px;margin-bottom: 20px;width: 100%;clear: both;display: block;float: left;">
+	                        <address>
+
+	                            <div style="float: left;width: 11%;margin-right: 20px;">
+	                                <img src="{{vm.clinicDetails.thumbImage}}{{vm.clinicDetails.image}}">
+	                            </div> 
+
+	                            <div style="float: left;width: 70%;">
+	                               	<div class="clearfix">
+	                               		<strong>{{vm.clinicDetails.username}}</strong>
+	                               	</div>
+
+	                               	<div style="float: left;width: 50%;">
+	                               		<p>{{vm.clinicDetails.area}}</p>
+	                                   
+	                                    <p>{{vm.clinicDetails.address}}</p>
+	                                    
+	                                    <p>{{vm.clinicDetails.city}}</p>
+
+	                                    <p>Phone : {{vm.clinicDetails.mobile}}</p>
+	                               	</div>
+	                               	
+	                               <!--  <div style="float: right;width: 50%;">
+
+	                                   	<span title="Phone">Phone :</span> 
+	                                </div>  -->    
+	                            </div>
+	       
+	                        </address>
+	                    </div>
+
+	                    <br>
+
+	                    <div style="width: 100%;display: block;border-bottom: 1px solid #000;float: left;margin-bottom: 20px;">
+	                        <p> {{vm.patientDetails.firstName+' '+vm.patientDetails.lastName}}</p>
+	                        <p><strong>NRIC:</strong>  {{vm.patientDetails.nric}}</p>
+	                    </div>
+
+	                    <div style="width: 100%;display: block;float: left;">
+	                        <div style="float: left;width: 70%;">
+	                            <address>
+	                                <strong>By: </strong>{{vm.doctorDetails.firstName+' '+vm.doctorDetails.lastName}}
+	                            
+	                            </address>
+	                        </div>
+	                   
+	                        <div style="float: right;width: 30%;">
+	                            <p>
+	                                <em>Date: {{vm.billRecords.invoiceDate}}</em>
+	                            </p>
+	                            <p>
+	                                <em>Receipt #: {{vm.billRecords.invoiceId}}</em>
+	                            </p>
+	                        </div>
+	                    </div>
+	                </div>
+
+	                <div class="row">
+	                    <table class="table table-hover" style="border: 1px solid #ccc;">
+	                        <thead>
+	                            <tr>
+	                                <th style="padding: 20px 10px;">#</th>
+	                                <th style="padding: 20px 10px;">Treatments & Products</th>
+	                                <th style="padding: 20px 10px;">Unit Cost SGD</th>
+	                                <th style="padding: 20px 10px;">Qty</th>
+	                                <th style="padding: 20px 10px;" class="text-right">Total Cost SGD</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <tr ng-if="vm.serviceList != null" ng-repeat="x in vm.serviceList track by $index">
+	    								<td ">{{$index + 1}}</td>
+	    									<td >{{x.name}} <b>(Service)</b></td>
+	    									<td ></td>
+	    									<td ></td>
+	    									<td class="text-right" style="text-align: right;">{{x.cost}}</td>
+	    									
+	    								</tr>
+	    								<tr ng-if="vm.prescriptions != null" ng-repeat="x in vm.prescriptions track by $index">
+	    									<td >{{vm.serviceList.length + ($index + 1)}}</td>
+	    									<td ng-if="x.drugName" >{{x.drugName.productName}} <b>(Drug)</b></td>
+	    									<td ng-if="x.drugName" >{{x.drugName.sellingPrice}}</td>
+	    									<td ng-if="x.drugName" >{{x.qty}}</td>
+	    									<td ng-if="x.drugName" style="text-align: right;" >{{x.drugName.sellingPrice * x.qty}}</td>
+	    									<td ng-if="x.productName" >{{x.productName.productName}} <b>(Others)</b></td>
+	    									<td ng-if="x.productName" >{{x.productName.sellingPrice}}</td>
+	    									<td ng-if="x.productName" >{{x.qty}}</td>
+	    									<td ng-if="x.productName" style="text-align: right;">{{x.productName.sellingPrice * x.qty}}</td>
+	    									<td ng-if="x.billingItem" >{{x.billingItem}} </td>
+	    									<td ng-if="x.billingItem"></td>
+	    									<td ng-if="x.billingItem"></td>
+	    									<td ng-if="x.billingItem" style="text-align: right;">{{x.amount}}</td>
+	    									
+	    								</tr>
+	    								<tr ng-if="vm.additionalElements != null" ng-repeat="x in vm.additionalElements track by $index">
+	    								<td >{{vm.serviceList.length +vm.prescriptions.length + ($index + 1)}}</td>
+	    									<td  >{{x.name}} <b>(Additional)</b></td>
+	    									<td ></td>
+	    									<td ></td>
+	    									<td  class="text-right" style="text-align: right;">{{x.amount}}</td>
+
+	    									<!-- <td width="25%" valign="top" style="text-align:center;padding:2px;">{{obj.amount}}</td> -->
+	    								</tr>
+	                            <tr>                               
+	                                <td colspan="4" class="text-right" style="text-align: right;">
+	                                    <p>
+	                                        <strong>SubTotal: </strong>
+	                                    </p>
+	                                    <p ng-if="vm.billRecords.tax != null && vm.billRecords.tax != ''">
+	                                        <strong>Tax: </strong>
+	                                    </p>
+	                                    <p ng-if="vm.billRecords.discount != null && vm.billRecords.discount != ''">
+	                                        <strong>Discount: </strong>
+	                                    </p>
+	                                </td>
+	                                <td class="text-right" colspan="1" style="text-align: right;">
+	                                    <p>
+	                                        <strong>{{vm.billRecords.amount}}&nbsp;SGD</strong>
+	                                    </p>
+	                                    <p ng-if="vm.billRecords.tax != null && vm.billRecords.tax != ''">
+	                                        <strong>{{vm.billRecords.tax}} %</strong>
+	                                    </p>
+	                                    <p ng-if="vm.billRecords.discount != null && vm.billRecords.discount != ''">
+	                                        <strong>{{vm.billRecords.discount}} %</strong>
+	                                    </p>
+	                                </td>
+	                            </tr>
+	                            <tr> 
+	                                <td class="text-right" colspan="4" style="text-align: right;"><strong>Total: </strong></td>
+	                                <td class="text-right text-danger" style="text-align: right;" colspan="1">
+	                                    <h4><strong>{{vm.taxCal(vm.billRecords)}}&nbsp;SGD</strong></h4>
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                            	 <td class="text-right" colspan="4" style="text-align: right;" ><strong>Amount recieved on {{dateFormat(vm.billRecords.modified)}}:</strong>
+	                            	 </td>
+	                            	 <td colspan="1" class="text-right text-danger" style="text-align: right;"><strong>{{vm.billRecords.payment}}&nbsp;SGD</strong></td>
+	                            	 &nbsp;
+                            	</tr>
+	                            <tr>
+	                                <td class="text-right"  colspan="4" style="text-align: right;" ng-if="vm.billRecords.appointmentBalanceAmount">
+	                                    <strong>Balance Amount: </strong>
+	                                </td>
+	                                <td class="text-right text-danger" colspan="1" style="text-align: right;" ng-if="vm.billRecords.appointmentBalanceAmount">
+	                                    <strong>{{vm.addAmounts(vm.billRecords.pendingAmount , vm.billRecords.appointmentBalanceAmount)}}&nbsp;SGD</strong>
+	                                </td>
+	                            </tr>
+
+	                            <tr>
+	                             	<td colspan="4" class="text-right" style="text-align: right;" ng-if="!vm.billRecords.appointmentBalanceAmount"><strong>Balance Amount: </strong></td>
+	                            	<td colspan="1" class="text-right text-danger" style="text-align: right;" ng-if="!vm.billRecords.appointmentBalanceAmount"><strong>{{vm.billRecords.pendingAmount}}&nbsp;SGD</strong></td>
+	                            </tr>  
+	                                                         
+	                            <tr>
+	                                <td class="text-right" colspan="5" style="text-align: left;"><strong>Mode of Payment :&nbsp; {{vm.billRecords.paymentType}}</strong></td>
+	                            </tr>
+
+	                            <!-- <tr>
+	                            	 <td class="text-right" colspan="5" style="text-align: left;"><strong>Amount Due as of {{date | date:'MMM d, y'}} is &nbsp;{{vm.billRecords.pendingAmount}}&nbsp;SGD</strong></td>
+	                            </tr> -->
+	                            <tr>
+	                                <td style="text-align: center;" colspan="5">
+	    								<p style="margin:0px;">If you have any questions about this invoice</p>
+	    								<p style="margin:0px;">{{vm.clinicDetails.firstName}},{{vm.clinicDetails.address}},{{vm.clinicDetails.city}}</p>
+	    								<p style="margin:0px;">phone:{{vm.clinicDetails.mobile}},Email:{{vm.clinicDetails.email}}</p>
+	    								<h4 style="margin:10px 0 30px 0;font-weight:bold;">Thank You For Your Business!</h4>
+	    							</td>
+	    						</tr>
+	                        </tbody>
+	                    </table>
+	                </div>
+	            </div>
+	        </div>
+
+			<div class="pull-right mrt-15">
+			    <button class="btn btn-primary" id="back-print" ng-click="vm.pdf=! vm.pdf;vm.timelineShow=true;vm.recordPage=true ">Back</button>
+			</div>
+			<div class="pull-left">
+				<button id="printbill" onclick="window.print();" class="btn btn-default">Print</button>
+		    </div>
+	    </div>
+
+	</form>
+
+	<style type="text/css">
+	    @media print {
+	        @page {
+	            margin: 0;
+	        }
+	        #printbill,
+	        #back-print,
+	        #sidebar-wrapper,
+	        .main-head,
+	        .panel-heading,
+	        #toast-container {
+	            display: none;
+	        }
+	        #wrapper {
+	            padding: 0;
+	        }
+	    }
+    </style>
+</div>
+
+<div class="panel doctor-datas clearfix " ng-if="vm.type=='doctor'" >
+
+    <div class="panel-heading clearfix " ng-hide="vm.pdf1 ">
+        <h3 class="pull-left ">Patient Data</h3>
+        <a class="btn btn-primary pull-right " ui-sref="patient">Back</a>
+    </div>
+
+    <div class="panel-body "  >
+        <div class="patient-detail col-md-12 padding-zro ">
+            <div class="col-md-7 patient-data-bx ">
+                <span class="col-md-3 patient-img padding-zro ">
+                <img ng-if="vm.patientDetails.image !='' " ng-src="{{vm.patientDetails.thumbImage}}{{vm.patientDetails.image}} " ng-click="vm.recordPage=false;vm.border='' ;vm.timelineShift=false ">
+                    <img ng-if="vm.patientDetails.image=='' " src="assets/img/profileimg.jpg " ng-click="vm.timelineShow=! vm.timelineShow; vm.recordPage=false;vm.border='' ;vm.timelineShift=false ">
+                     
+                </span>
+                <div class="col-md-9 patient-name padding-zro ">
+                    <h3>{{vm.patientDetails.username}}</h3>
+                    <p>{{vm.patientDetails.gender}}</p>
+                    <p>{{vm.patientDetails.birthday}}</p>
+                    <a class="phone-num ">{{vm.patientDetails.mobile}}</a>
+                    <p class="mail-id ">
+                        <i class="fa fa-envelope-o " aria-hidden="true "></i>
+                        <a href="mailto:elena@gmail.com ">{{vm.patientDetails.email}}</a>
+                    </p>
+                    <div class="add_address clearfix">
+                        <p class="address-left">
+                            <i class="fa fa-map-marker " aria-hidden="true "></i>
+                            <span>{{vm.patientDetails.address}}</span>
+                        </p>
+                        <span class="patient-app clearfix">
+                        <a class="btn btn-primary edit_right" ng-click="vm.bookPop(vm.patientDetails,vm.patientDetails.id)">Add Appointment</a>
+                    </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 patient-contact ">
+                <div class="panel ">
+                    <div class="panel-heading col-md-4">
+                        <p class="det-add">Emergency Contact Details</p>
+                    </div>
+                    <div class="panel-body  col-md-8">
+                        <div class="form-group name-blk ">
+                            <label>Name:</label>
+                            <span>{{vm.patientDetails.emergencyContactName}}</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Call:</label>
+                            <a class="phone-num ">{{vm.patientDetails.emergencyContactNumber}}</a>
+                        </div>
+                        <div class="form-group">
+                            <label>Relationship:</label>
+                            <a class="mail-id" href="mailto:alex@mail.com ">{{vm.patientDetails.emergencyRelationship}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <img ng-if="vm.loaders " ng-src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==">
+
+    <div ng-if="vm.treatmentDates=='' " class="notify-text ">
+        No Treatment Records Found
+    </div>
+
+    <timeline ng-class="{ 'timeline-shift' : vm.timelineShift } ">
+        <div class="timeline-border"></div>
+        <div class="border-top ">
+            <!--<div class="top-border-1 "> </div>
+                <div class="right-border-1 "> </div>-->
+            <div ng-scrollbars style="width: calc(100% - 10px); height: 200px; ">
+                <div class="timeline-full-detail doct " ng-repeat="(key, value) in vm.treatmentDates | groupBy: 'year' ">
+                    <div class="year-list ">
+                        <p>{{key}}</p>
+                        <span></span>
+                        <span class="vertical-border"></span>
+                    </div>
+                    <timeline-event ng-repeat="event in value | orderBy : 'date' " side="right ">
+                        <timeline-badge class="info ">
+                            <i class="glyphicon glyphicon-record " style="color:green "></i>
+                        </timeline-badge>
+                        <timeline-panel class="warning " ng-class="{ 'timelineBox-highlight':vm.border==event.id } " ng-click="vm.getRecords(event.id,$index) ">
+                            <div class="prof-detail ">
+                                <p>{{event.date}}</p>
+                                <timeline-heading>
+                                    <h4>{{event.serviceName}}</h4>
+                                </timeline-heading>
+                            </div>
+                        </timeline-panel>
+                    </timeline-event>
+                </div>
+            </div>
+        </div>
+    </timeline>
+
+    <!-- <doctor data> -->
+    <div ng-if="vm.recordPage " class="patient-records doc-data">
+
+        <div class="record-invoice clearfix">
+            <h4>Notes:</h4>
+            <div class="table-responsive" ng-if="vm.prescription">
+                {{vm.prescription.notes}}
+            </div>
+            <div class="table-responsive" ng-if="!vm.prescription">
+                No Description Found
+            </div>
+        </div>
+
+        <div class="record-invoice clearfix">
+            <h4>Invoice:</h4>
+            <div class="table-responsive">
+                <table class="table table-bordered ">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <!-- <th>Action</th> -->
+                        </tr>
+                    </thead>
+                    <tr ng-if="vm.serviceList">
+                        <td>
+                            <div ng-if="vm.serviceList" ng-repeat="y in vm.serviceList">
+                                <p>{{y.name}}</p>
+                            </div>
+                        </td>
+                        <td>
+                            <p >{{vm.amountCalculation(vm.billRecords)}}</p>
+                        </td>
+                        <td>
+                            <p ng-if="vm.billRecords">{{vm.billRecords.paymentStatus}}</p>
+                        </td>
+                        <!--    <td><a ng-click="vm.callInvoices(vm.billRecords.id)"><i class="fa fa-edit "></i></a><a ng-click="vm.pdf1=! vm.pdf1;vm.timelineShow=false;vm.recordPage=false "><i class="fa fa-eye "></i></a></td> -->
+                    </tr>
+                    <tr ng-if="!vm.serviceList">
+                        <td colspan="10 " ">No Service or Invoice found</td>
+                </tr>
+            </table>
+            </div>          
+        </div>
+
+     	<div class="record-invoice clearfix ">
+         <h4>Drug & Product Details:</h4>
+         <div class="table-responsive "> 
+            <table class="table table-bordered ">
+                <thead>
+                    <tr>
+                      <!-- <th>Service</th> -->
+                      <th>Name</th>
+                     <!--  <th>Frequency</th>
+                      <th>Dose</th> -->
+                      <!-- <th>Food</th> -->
+                      <!-- <th>Days</th> -->
+                      <th>Usage</th>
+                     <!--  <th>Amount</th>
+                      <th>Status</th>
+                      <th>Action</th> -->
+                    </tr>
+                </thead>
+                <tr ng-if="vm.prescriptions !='' || vm.prescriptions != null " ng-repeat="x in vm.prescriptions ">
+                    <!-- <td>
+                        <p ng-if="vm.billRecords ">{{vm.SpecialityServices.name}}</p>
+                    </td> -->
+                    <td ng-if="x.drugName ">
+                        <p ng-if="vm.billRecords ">{{x.drugName.productName}} <b>(Drug)</b></p>
+                    </td>
+                    <td ng-if="x.productName ">
+                        <p ng-if="vm.billRecords ">{{x.productName.productName}} <b>(Others)</b></p>
+                    </td>
+                  <!--   <td ng-if="x.drugName ">
+                        <p ng-if="vm.billRecords ">{{x.frequency}}</p>
+                    </td>
+                     <td ng-if="x.productName ">
+                        <p ng-if="vm.billRecords ">{{x.frequency}}</p>
+                    </td>
+                    <td ng-if="x.drugName ">
+                        <p ng-if="vm.billRecords ">{{x.dose}}</p>
+                    </td>
+                     <td ng-if="x.productName ">
+                        <p ng-if="vm.billRecords ">{{x.dose}}</p>
+                    </td> -->
+                    <!-- <td >
+                        <p ng-if="vm.billRecords ">{{vm.prescription.food}}</p>
+                    </td> -->
+                   <!--  <td ng-if="x.drugName ">
+                        <p ng-if="vm.billRecords ">{{x.noOfDays}}</p>
+                    </td>
+                    <td ng-if="x.productName ">
+                        <p ng-if="vm.billRecords ">{{x.noOfDays}}</p>
+                    </td> -->
+                    <td ng-if="x.drugName ">
+                        <p ng-if="vm.billRecords ">{{x.note}}</p>
+                    </td>
+                    <td ng-if="x.productName ">
+                        <p ng-if="vm.billRecords ">{{x.usage}}</p>
+                    </td>
+                    <!-- <td>
+                        <p ng-if="vm.billRecords ">{{vm.billRecords.pendingAmount}}</p>
+                    </td>
+                    <td>
+                        <p ng-if="vm.billRecords ">{{vm.billRecords.paymentStatus}}</p>
+                    </td>
+                    <td><a ng-click="vm.pdf1=! vm.pdf1;vm.timelineShow=false;vm.recordPage=false "><i class="fa fa-eye "></i></a></td> -->
+                </tr>   
+                <tr ng-if="vm.prescriptions=='' || vm.prescriptions== null " ><td colspan="10 " >No Products or Drugs found</td>
+                </tr>
+            </table>
+           
+            </div>
+            </div>
+              <div class="record-invoice clearfix ">
+            <h4>Additional Items</h4>
+            <div class="table-responsive "> 
+            <table class="table table-bordered ">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tr ng-if="vm.additionalElements " ng-repeat="x in vm.additionalElements track by $index ">
+                    <td >
+                    
+                    <p>{{x.name}}</p>
+                  
+                    </td>
+                   
+                    <td>
+                    <p>{{x.amount}}</p>
+                    </td>
+                 
+                </tr>
+                <tr ng-if="vm.additionalElements==null ">
+                    <td colspan="10 " ">No Items found</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="record-box ">
+            <h4>Records:</h4>
+            <div class="slick-div " ng-if="vm.recordImages ">
+                <!-- {{vm.thumbImage}} -->
+                <slick class="slider " settings="slickConfig3 " slides-to-show=4 ng-if="slickConfig3Loaded " dots="true ">
+                    <div ng-repeat="item in vm.recordImages track by $index " class="record-img ">
+                        <img ng-src="{{vm.thumbImage}}{{item.image}} " ng-click="vm.openDefault(vm.origImage,item.image) ">
+                    </div>
+                </slick>
+            </div>
+            <p ng-if="vm.recordImages=='' ">No Records found</p>
+        </div>
+
+        <div class="col-md-12">
+            <button class="btn btn-close" ng-click="vm.recordPage = false;vm.timelineShift = false;vm.border = ''">Close</button>
+        </div>
+
+    </div>
+</div>
+
+<div ng-class="{'loader': vm.editLoader == true}">
+    <div class="overlay-bg"></div>
+    <div class="loading-bg"></div>
+</div>
+
+<!-- pdf generation -->
+<div class="container" ng-if="vm.pdf1">
+    <button class="btn btn-primary pull-right" ng-click="createPDF('exportable')">pdf</button>
+    <div id="exportable" style="width:100%;margin:20px auto;">
+        <table width="100% " cellspacing="2 " cellpadding="0 " style="background: #fff;">
+            <tr style="background: #fff;">
+                <!--  <h4 style="margin:0; background: #fff;">Bill To :</h4>  -->
+                <td width="50% " valign="top " style="background: #fff;">
+                    <h4 style="margin:15px 0;text-align:left;font-weight:bold; ">Bill To :</h4>
+                    <p style="margin:0px; background: #fff;">{{vm.patientDetails.firstName}}</p>
+                    <p style="margin:0px; background: #fff;">
+                        <h5 style="font-weight:bold">NRIC : </h5>{{vm.patientDetails.nric}}</p>
+                    <p style="margin:0px; background: #fff;">{{vm.patientDetails.area}}</p>
+                    <p style="margin:0px; background: #fff;">{{vm.patientDetails.address}}</p>
+                    <p style="margin:0px; background: #fff;">{{vm.patientDetails.city}}</p>
+                    <p style="margin:0px; background: #fff;">{{vm.patientDetails.mobile}}</p>
+                </td>
+                <td width="40% " valign="top " style="background: #fff;">
+                    <table width="100% " cellspacing="2 " cellpadding="0 " style="background: #fff;">
+                        <tr>
+                            <td width="15% " valign="top ">
+                                <h4 style="margin:0; background: #fff;">Date :</h4> </td>
+                            <td width="35% " valign="top ">
+                                <h4 style="margin:0; background: #fff;">{{vm.billRecords.invoiceDate}}</h4></td>
+                        </tr>
+                        <tr>
+                            <td width="15% " valign="top ">
+                                <h4 style="margin:0; background: #fff;">Invoice ID :</h4></td>
+                            <td width="35% " valign="top " style="background: #fff;">
+                                <p style="margin:0px; ">{{vm.billRecords.invoiceId}} </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="15% " valign="top ">
+                                <h4 style="margin:0; background: #fff;">Customer ID :</h4> </td>
+                            <td width="35% " valign="top " style="background: #fff;">
+                                <p style="margin:0px; ">{{vm.patientDetails.id}}</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td width="50% " valign="top " style="background: #fff;">
+                    <h4 style="margin:15px 0;text-align:left;font-weight:bold; ">Remittance :</h4>
+                    <p style="margin:0px; ">{{vm.clinicDetails.firstName+''+vm.clinicDetails.lastName}}</p>
+                    <p style="margin:0px; ">{{vm.clinicDetails.area}}</p>
+                    <p style="margin:0px; ">{{vm.clinicDetails.address}}</p>
+                    <p style="margin:0px; ">{{vm.clinicDetails.city}}</p>
+                    <p style="margin:0px; ">{{vm.clinicDetails.mobile}}</p>
+                </td>
+                <td width="50% " valign="top " style=" ">
+                    <h4 style="margin:15px 0;text-align:left;font-weight:bold; ">Doctor Detail :</h4>
+                    <p style="margin:0px; ">{{vm.doctorDetails.firstName+''+vm.doctorDetails.lastName}}</p>
+                    <p style="margin:0px; ">{{vm.doctorDetails.area}}</p>
+                    <p style="margin:0px; ">{{vm.doctorDetails.address}}</p>
+                    <p style="margin:0px; ">{{vm.doctorDetails.city}}</p>
+                    <p style="margin:0px; ">{{vm.doctorDetails.mobile}}</p>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <br>
+        <div id="content" style="width:100%;margin:0 auto;display:block;">
+            <h3 style="margin:0 0 25px 0;text-align:left;font-weight:bold;">Account Activity :</h3>
+            <table width="100%" border="1" cellspacing="2" cellpadding="0" style="background: #fff">
+                <tr>
+                    <th width="20%" valign="top" style="text-align:center;padding:2px;">Date</th>
+                    <th width="60%" valign="top" style="text-align:center;padding:2px;">Invoice Desc</th>
+                    <th width="25%" valign="top" style="text-align:center;padding:2px;">Amount</th>
+                </tr>
+                <tr>
+                    <td width="20%" valign="top" style="text-align:center;padding:2px;">{{vm.billRecords.invoiceDate}}</td>
+                    <td width="60%" valign="top" style="text-align:center;padding:2px;">{{vm.billRecords.reason}}</td>
+                    <td width="25%" valign="top" style="text-align:center;padding:2px;">{{vm.billRecords.pendingAmount}}</td>
+                </tr>
+            </table>
+            <h4 style="margin:25px 0;text-align:right;font-weight:bold;">Current Balance :{{vm.billRecords.pendingAmount}}</h4>
+            <center>
+                <p style="margin:0px;">If you have any questions about this invoice</p>
+                <p style="margin:0px;">{{vm.clinicDetails.firstName}},{{vm.clinicDetails.address}},{{vm.clinicDetails.city}}</p>
+                <p style="margin:0px;">phone:{{vm.clinicDetails.mobile}},Email:{{vm.clinicDetails.email}}</p>
+                <h4 style="margin:10px 0 30px 0;font-weight:bold;">Thank You For Your Business!</h4>
+            </center>
+            <button id="printbill" onclick="window.print();" class="btn btn-primary">Print</button>
+            <a class="btn btn-primary pull-right" id="back-print" ng-click="vm.pdf1 = !vm.pdf1;vm.timelineShow = true;vm.recordPage = true">Back</a>
+            <style type="text/css">
+            @media print {
+                #printbill {
+                    visibility: hidden;
+                }
+                #back-print {
+                    visibility: hidden;
+                }
+            }
+            </style>
+        </div>
+    </div>
+</div>
+
+<div ng-class="{'loader': practysLoader == true}">
+    <div class="overlay-bg"></div>
+    <div class="loading-bg"></div>
+</div>
+
+<script type="text/ng-template" id="firstDialogId">
+    <div class="ngdialog-message photo-send">
+        <h3>Image Preview</h3>
+        <div class="inner-popup patient-popup ">
+            <img ng-src="{{path}}{{img}}">
+        </div>
+    </div>
+</script>
+
+<style>
+    .table tbody tr td.tddatas {
+        text-align: center;
+    }
+
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>

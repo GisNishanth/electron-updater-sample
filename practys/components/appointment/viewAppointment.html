@@ -1,0 +1,483 @@
+<div class="panel book_appointment clearfix" ng-if="vm.userLevel == 'clinic'"> 
+<div class="panel-heading clearfix">
+	<h3 class="pull-left">View Appointment</h3>
+</div>
+<div class="panel-body">
+ <form name="viewAppointment" class="form-horizontal" role="form">
+	<div class="col-md-6 clearfix">
+		
+	 		<div class="form-group">
+	 			<label class="col-md-5">Speciality :</label>
+				<!--<div class="col-md-6"><div custom-select="g as g.name for g in vm.specialities | filter: $searchTerm" custom-select-options="level1Options" ng-model="vm.appointment.speciality" ></div>
+				</div><div class="col-md-3 min-oppointment">(15 min)</div>-->
+
+				<div class="col-md-6"><input ng-model="vm.appointment.specialityName" id="speciality" class="text_input form-control" type="text" maxlength="50" autocomplete="off" name="" placeholder="Speciality" readonly>
+				</div><div class="col-md-3 min-oppointment"></div>
+
+			</div>
+			<div class="form-group">
+	 			<label class="col-md-5">Service Name :</label>
+				<div class="col-md-6">{{vm.appointments.serviceName}}</div>
+
+			</div>
+			<div class="form-group">
+	 			<label class="col-md-5">Service Duration :</label>
+				<div class="col-md-6">({{vm.appointments.serviceMins}} mins)</div>
+
+			</div>
+			
+			<div class="form-group ">
+			<label class="col-md-5">Doctor :</label>
+				<!--<div class="col-md-6"><div custom-select="doc.id as doc.name for doc in vm.doctorLists | filter: $searchTerm" ng-model="vm.appointment.doctorId" ></div>
+				</div>-->
+
+				<div class="col-md-6"><input ng-model="vm.appointment.doctorName" id="doctorId" class="text_input form-control" type="text" maxlength="50" autocomplete="off" name="" placeholder="Doctor Name" readonly>
+				</div>
+				
+			</div>
+		  	<div class="form-group userfontawsme">
+			<label class="col-md-5">Patient Name :</label>
+				<div class="col-md-6"><input ng-model="vm.appointment.patientName" id="userName" class="text_input form-control" type="text" maxlength="50" autocomplete="off" name="" placeholder="Patient Name" readonly>
+				</div>
+		  	</div>
+		  
+		 	 <div class="form-group">
+			 <label class="col-md-5">Date :</label>
+			 	<div class="col-md-6 date-input-group"><div class="input-group"><input
+					type="text"
+					class="form-control"
+					readonly
+					ng-model="vm.appointment.startDate">
+			  	<span class="input-group-btn">
+					<button
+					  type="button"
+					  class="btn btn-primary date-btn"
+					  disabled
+					   readonly>
+					  <i class="fa fa-calendar"></i>
+					</button>
+			  	</span>
+				</div>
+				</div>
+				</div>
+				 <div class="form-group ">
+				 <label class="col-md-5">Time :</label>
+				<div class="col-md-6 ">
+				<input ng-model="vm.appointment.startTime" readonly id="" class="text_input form-control" type="text"   name="" >
+				</div>				
+		  	</div>
+		
+  </div>
+  
+ <div class="col-md-12 button-section align-right"> 	
+		<button type = "button" class="btn btn-primary" ng-disabled = "vm.appointment.status != 'book' " ng-click = "vm.updateStatus('checkIn')">Checked In</button>
+		<!-- <button type = "button" class="btn btn-info" ng-disabled = "vm.appointment.status != 'checkIn' " ng-click = "vm.updateStatus('engage')">Engage</button> -->
+		<button class="btn btn-default" ng-if="vm.appointment.status != 'checkOut'" ng-click = "vm.openDefault()">Cancel Appointment</button>
+		<button class="btn btn-default" ui-sref="appointment">Back</button>
+		</div>
+  </form>
+  </div>
+</div>
+
+
+
+<div class="panel patient_datas_pg clearfix"  ng-if="vm.userLevel == 'doctor'">
+
+	<div class="panel-heading clearfix">
+		<h3 class="pull-left">View Appointment</h3>	
+		
+	</div>
+	<div class="panel-body">
+		<div class="patient-detail col-md-12 padding-zro doc_pt clearfix">
+			<div class="col-md-7 patient-data-bx">
+				<span class="col-md-4 patient-img padding-zro">
+					<img src="assets/img/profileimg.jpg">
+				</span>
+				<div class="col-md-8 patient-name padding-zro">
+					<h3>{{vm.appointments.username}}</h3>
+					<p>{{vm.appointments.gender}}</p>
+					<p>{{vm.appointments.birthday}}</p>
+					<a class="phone-num">{{vm.appointments.mobile}}</a>
+					<p class="mail-id">
+						<i class="fa fa-envelope-o" aria-hidden="true"></i>
+						<a href="mailto:elena@gmail.com">{{vm.appointments.email}}</a>
+					</p>
+					<p>
+						<i class="fa fa-map-marker" aria-hidden="true"></i>
+						<span>{{vm.appointments.address}}</span>
+					</p>
+					
+				</div>
+			</div>
+			 <div class="col-md-5 patient-contact">
+                <div class="panel clearfix">
+                    <div class="panel-heading col-md-4">
+                        <p class="det-add">Emergency Contact Details</p>
+                    </div>
+                    <div class="panel-body col-md-8 emergencycontact">
+                        <div class="form-group name-blk">
+                          <label>Name:</label>
+                            <span>{{vm.appointments.emergencyContactName}}</span>
+                        </div>
+                       <!--  <div class="form-group address-blk">
+                            <label>Address:</label>
+                            <span></span>
+                        </div> -->
+                        <div class="form-group">
+                        <label>Call:</label>
+                            <a class="phone-num">{{vm.appointments.emergencyContactNumber}}</a>
+                            </div>
+                            <div class="form-group">
+                            <label>Relationship:</label>
+                            <span>{{vm.appointments.emergencyRelationship}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		
+		</div>
+		<form name="viewAppointment" class="form-horizontal app-frm" ng-submit="vm.updateAppointment(vm.appointments,viewAppointment)" role="form" enctype="multipart/form-data">
+		<div class="col-md-7 clearfix"> 
+ 	
+		 	<div class="form-group col-md-12 clearfix">
+					<label for="supplierName" class="col-md-5 col-sm-5">Date</label>
+					<div class="col-md-7 col-sm-7">
+						<div class="input-group date app_date">
+						<input
+							type="text"
+							class="form-control"
+							readonly
+							datepicker-popup="{{vm.format}}"
+							ng-model="vm.appointments.startDate"
+							is-open="openDatePickers[0]"
+							close-text="Close" name="date">
+						  <span class="input-group-btn">
+							<button
+							  type="button"
+							  class="btn btn-primary"
+							  ng-click="open($event, 0)">
+							  <i class="fa fa-calendar" aria-hidden="true"></i>
+							</button>
+						  </span>
+						</div>
+					</div>
+				</div>	
+			<div class="form-group col-md-12">
+				 <label class="col-md-5">Time :</label>
+				<div class="col-md-7 ">
+				<input ng-model="vm.appointments.startTime" id="" class="text_input form-control" type="text" readonly >
+				</div>				
+		  	</div>
+		  	
+		  		<!-- <div class="form-group ">
+				 <label class="col-md-3">Drug + Service:</label>
+				<div class="col-md-6 ">
+				<input ng-model="vm.appointments.totAmount" disabled id="" class="text_input form-control" type="text"   name="" > -->
+				<!-- <div custom-select="g as g.name for g in vm.drugs | filter: $searchTerm" name="speciality" custom-select-options="drugSelect" ng-model="vm.appointments.drugs" required></div> -->
+				<!-- </div>				
+		  	</div> -->
+		  <!-- 	<div class="form-group ">
+				 <label class="col-md-3">Frequency:</label>
+				<div class="col-md-6 ">
+				<input ng-model="vm.appointments.frequency"  id="" class="text_input form-control" type="text"   name="" >
+				</div>				
+		  	</div>
+		  	<div class="form-group ">
+				 <label class="col-md-3">Dose:</label>
+				<div class="col-md-6 ">
+				<input ng-model="vm.appointments.dose" id="" class="text_input form-control" type="text"   name="" >
+				</div>				
+		  	</div> -->
+		  <!-- 	<div class="form-group col-md-12">
+				 <label class="col-md-2">Food:</label>
+				<div class="col-md-3 ">
+				<input ng-model="vm.appointments.food" id="" class="text_input form-control" type="text"   name="" >
+				</div>				
+		  	</div> -->
+		  <!-- 	<div class="form-group ">
+				 <label class="col-md-3">No.of.Days:</label>
+				<div class="col-md-6 ">
+				<input ng-model="vm.appointments.noOfDays" id="" numbers-only class="text_input form-control" type="number" min="0" max="90"  name="" >
+				</div>				
+		  	</div> -->
+		  	<div class="form-group col-md-12 uploader">
+		  		<label class="col-md-5">Choose File:</label>
+
+                <div class="col-md-7">
+                    <div class="fileUpload btn btn-primary">
+		  		     <input type="file"  id="fileTag"   ng-model="filesInfo"  multiple  accept="image/*"  />
+		  		     </div>
+		  		</div>
+		  		
+
+		  	<!-- 	<div id = "appendFile" class="col-md-7">
+		  			<div class="col-md-12 padding-zro browse-add">
+		  				<div class="fileUpload btn btn-primary">
+		  					<span>Browse</span>
+		  					<input type="file" id="a_pics" class="upload" my-file-upload="a_pics"  accept="image/*"  name="file_source" size="40"  onchange='$("#upload-file-info").html($(this).val());'>
+		  				</div>
+		  				<input type="text" disabled ng-model="utilsFileArr[0].name">
+		  				<span class="btn btn-success btn-style"   ng-click = "vm.addFile()" > 
+		  					<i class="fa fa-plus" aria-hidden="true"></i> 
+		  				</span>
+		  			</div>
+		  		</div> -->
+		  	</div>
+		  		<div class="form-group col-md-12">
+				 <label class="col-md-5">Notes:</label>
+				<div class="col-md-7">
+				<textarea ng-model="vm.appointments.notes" id="" class="text_input form-control" type="text"   name="" ></textarea>
+				</div>				
+		  	</div>
+		  	<div class="form-group col-md-12">
+				 <label class="col-md-5">Special Information:</label>
+				<div class="col-md-7">
+				<textarea ng-model="vm.appointments.specialInformation" id="" class="text_input form-control" type="text"   name="" ></textarea>
+				</div>				
+		  	</div>
+
+		  	<div class="form-group col-md-12">
+				 <label class="col-md-5">Service Cost:</label>
+				<div class="col-md-7">
+				<input ng-model="vm.appointments.serviceCost" disabled id="" class="text_input form-control" type="text"   name="" >
+				<!-- <div custom-select="g as g.name for g in vm.drugs | filter: $searchTerm" name="speciality" custom-select-options="drugSelect" ng-model="vm.appointments.drugs" required></div> -->
+				</div>				
+		  	</div>
+		  	
+		  	<div class="form-group col-md-12">
+		  	<input type="checkbox" ng-disabled="vm.appointments.serviceList.length == 1"  ng-click="vm.specialityShow = !vm.specialityShow" id="speciality" value="speciality" ng-model="vm.appointments.specialityShowModel" name="speciality"> 
+			<label for="speciality"><span><span></span></span> Speciality</label>
+			<input type="checkbox"  ng-click="vm.drugShow = !vm.drugShow" id="drug" value="drug" ng-model="vm.appointments.drugShowModel" name="drug"> 
+			<label for="drug"><span><span></span></span> Drug</label>
+			<input type="checkbox" ng-model="vm.appointments.otherShowModel"  ng-click="vm.otherShow = !vm.otherShow" id="others" value="others" name="others"> 
+			<label for="others"><span><span></span></span> Others</label>
+			</div>
+			<div class="form-group col-md-12">
+		  	<div ng-if="vm.specialityShow">
+		  	<label class="col-md-3">Speciality List:</label>
+			  	<div class="col-md-7">
+			  	<span ng-repeat="x in vm.appointments.serviceList track by $index" class="clearfix spl-list">
+				  	<input ng-if="x.id != vm.appointments.serviceId " type="checkbox"   id="serviceList" value="{{x.cost}}" ng-model="vm.appointments.serviceLists[$index]" ng-click="vm.addCash(vm.appointments.serviceLists[$index],x)" name="serviceList"> 
+					<label ng-if="x.id != vm.appointments.serviceId " for="serviceList"><span><span></span></span> {{x.name}}</label>
+			  	</span>
+			  	</div>
+		  	</div>
+		  	</div>
+		  	<div class="form-group col-md-12 clearfix" ng-if="vm.drugShow">
+		  	<label class="col-md-3">Drugs:</label>
+                    <div  class=" col-md-9 clearfix">
+					<div class="admin-spl" ng-repeat="suggest in vm.drugSuggest track by $index">
+                        <div class="mrb-15 clearfix">
+                            <label class="col-md-4 col-sm-4"> Drug Name:</label>
+                            <div class="col-md-8 col-sm-8">
+                            <select class="form-control" name="drug"  ng-model="suggest.drugName"  ng-options="x.productName for x in vm.drugs" ng-change="drugsSelect(suggest.drugName, $index)">
+                             <option value="">~~Select Drug~~</option>
+						    </select>
+                                <span class="mandatory" ng-if="(viewAppointment.$submitted || viewAppointment['drug'+$index].$touched) && viewAppointment['drug'+$index].$invalid">Drug is required</span>
+                            </div>
+                        </div>
+                        <div class="mrb-15 clearfix">
+                            <label class="col-md-4 col-sm-4"> Qty:</label>
+                            <div class="col-md-8 col-sm-8">
+                                <input type="text" numbers-only ng-model="suggest.qty" class="form-control" later-name="qty{{$index}}"  />
+                                <span class="mandatory" ng-if="(viewAppointment.$submitted || viewAppointment['qty'+$index].$touched) && viewAppointment['qty'+$index].$invalid">Qty is required</span>
+                            </div>
+                        </div>
+                        <!-- <div class="mrb-15 clearfix">
+                            <label class="col-md-4 col-sm-4"> Frequency:</label>
+                            <div class="col-md-8 col-sm-8">
+                                <input type="text" numbers-only ng-model="suggest.frequency" class="form-control"  />
+                               
+                            </div>
+                        </div>
+                        <div class="mrb-15 clearfix">
+                            <label class="col-md-4 col-sm-4"> Dose:</label>
+                            <div class="col-md-8 col-sm-8">
+                               <input type="text" numbers-only ng-model="suggest.dose" class="form-control"  />
+                               
+                            </div>
+                        </div>
+                        <div class="mrb-15 clearfix">
+                            <label class="col-md-4 col-sm-4"> No.Of.Days:</label>
+                            <div class="col-md-8 col-sm-8">
+                                <input type="text" numbers-only ng-model="suggest.noOfDays" class="form-control"   />
+                               
+                            </div>
+                        </div>
+                         <div class="mrb-15 clearfix">
+                            <label class="col-md-4 col-sm-4">Usage Of Drug:</label>
+                            <div class="col-md-8 col-sm-8">
+                                <input type="text"  ng-model="suggest.usage" class="form-control"   />
+                               
+                            </div>
+                        </div> -->
+                      <!--   <div class="mrb-15 clearfix">
+                            <label class="col-md-4 col-sm-4">Cost:</label>
+                            <div class="col-md-8 col-sm-8">
+                                <input type="text" numbers-only ng-model="suggest.cost" class="form-control" later-name="cost{{$index}}" required />
+                                <span class="mandatory" ng-if="(specialityServiceForm.$submitted || specialityServiceForm['cost'+$index].$touched) && specialityServiceForm['cost'+$index].$invalid">Cost is required</span>
+                            </div>
+                        </div> -->
+                        <div class="mrb-15 clearfix">
+                            <label class="col-md-4 col-sm-4"> Notes:</label>
+                            <div class="col-md-8 col-sm-8">
+                                <textarea ng-model="suggest.note" class="form-control" ></textarea> 
+                               
+                            </div>
+                        </div>
+                        <span class="sub-del ng-scope" ng-if="vm.drugSuggest.length -1 != $index" ng-click="vm.delRow($index)">
+							<i class="fa fa-times" aria-hidden="true"></i>
+						</span>
+                    </div>
+					</div>
+                </div>
+                <div class="col-md-11 append-btn" ng-if="vm.drugShow">
+                    <button type="button" ng-click="vm.addRow()" class="btn btn-success btn-style pull-right">
+                    	<i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                </div>
+		  	  	<div class="form-group col-md-12 clearfix" ng-if="vm.otherShow">
+		  	  	<label class="col-md-3">Others:</label>
+				<div class="col-md-9">
+                    <div ng-repeat="suggest in vm.productSuggest track by $index" class="admin-spl clearfix">
+                        <div class="mrb-15 clearfix">
+                            <label class="col-md-4 col-sm-4"> Product Name:</label>
+                            <div class="col-md-8 col-sm-8">
+                            <select class="form-control" name="product"  ng-model="suggest.productName"  ng-options="x.productName for x in vm.others" ng-change="otherProductChanges(suggest.productName, $index)">
+                            <option value="">~~Select Product~~</option>
+						      
+						    </select>
+                              
+                                <span class="mandatory" ng-if="(viewAppointment.$submitted || viewAppointment['product'+$index].$touched) && viewAppointment['product'+$index].$invalid">Product is required</span>
+                            </div>
+                        </div>
+                        <div class="mrb-15 clearfix">
+                            <label class="col-md-4 col-sm-4"> Qty:</label>
+                            <div class="col-md-8 col-sm-8">
+                                <input type="text" numbers-only ng-model="suggest.qty" class="form-control" later-name="prodQty{{$index}}"  />
+                                <span class="mandatory" ng-if="(viewAppointment.$submitted || viewAppointment['prodQty'+$index].$touched) && viewAppointment['prodQty'+$index].$invalid">Qty is required</span>
+                            </div>
+                        </div>
+                         <div class="mrb-15 clearfix">
+                            <label class="col-md-4 col-sm-4"> Usage Of Product:</label>
+                            <div class="col-md-8 col-sm-8">
+                                <input type="text"  ng-model="suggest.usage" class="form-control" later-name="prodUsage{{$index}}"  />
+                               
+                            </div>
+                        </div>
+                      <!--   <div class="mrb-15 clearfix">
+                            <label class="col-md-4 col-sm-4">Cost:</label>
+                            <div class="col-md-8 col-sm-8">
+                                <input type="text" numbers-only ng-model="suggest.cost" class="form-control" later-name="cost{{$index}}" required />
+                                <span class="mandatory" ng-if="(specialityServiceForm.$submitted || specialityServiceForm['cost'+$index].$touched) && specialityServiceForm['cost'+$index].$invalid">Cost is required</span>
+                            </div>
+                        </div> -->
+                        <span class="sub-del ng-scope" ng-if="vm.productSuggest.length -1 != $index" ng-click="vm.delProdRow($index)">
+							<i class="fa fa-times" aria-hidden="true"></i>
+						</span>
+                    </div>
+					</div>
+                </div>
+				 <div class="col-md-11 append-btn" ng-if="vm.otherShow">
+				 <button type="button" ng-click="vm.addProdRow()" class="btn btn-success btn-style pull-right">
+                    	<i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+					</div>
+		  	
+ <!--  </div> -->
+  
+ 
+  
+  </div>
+  <div class="col-md-5 sidebar-left pad-right doc-sidebr">
+  <div class="col-md-6 pad-right">
+		<div class="sidebar-list">
+			<div class="panel panel-success">
+				<div class="panel-heading">Engaged List</div>
+				<div class="panel-body task-blk" ng-scrollbars ng-scrollbars-config="config">
+
+					<div ui-view="engageList"></div>
+				</div>
+			</div>
+			</div>
+			</div>
+			<div class="col-md-6 pad-right">
+			<div class="sidebar-list">
+			<div class="panel panel-primary">
+				<div class="panel-heading">Waiting List</div>
+				<div class="panel-body task-blk" ng-scrollbars ng-scrollbars-config="config">
+					<div ui-view="waitingList"></div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+	<div class="col-md-12 button-section align-right padding-zro"> 
+		<!--<button type = "button" class="btn btn-info" ng-disabled = "vm.appointment.status != 'checkIn' " ng-click = "vm.updateStatus('engage')">Engage</button>-->
+		<input type="submit"  class="btn btn-default" value="CheckOut"  ng-disabled = "vm.appointment.status != 'engage' || vm.appointment.status == 'checkOut' || vm.checkoutBtn">
+		<!--<button class="btn btn-default" ng-click = "updateStatus('cancel')">Cancel</button>-->
+		<button class="btn btn-default" ui-sref="appointment">Back</button>
+		</div>
+	</form>
+	</div>
+</div>
+<div ng-class="{'loader': vm.appointmentLoader == true}">
+<div class="overlay-bg"></div>
+<div class="loading-bg"></div>
+</div>
+
+<script type="text/ng-template" id="firstDialogId">
+        <div class="ngdialog-message popup-bg col-md-12" ng-controller="viewappointmentController as vm">
+            <h3 class="password-tit">Reason For Cancellation</h3>
+            
+      <div class="inner-popup">
+       <div class="form-group clearfix">
+					<div class="col-md-12">
+						<textarea class="form-control" name="email" id="email"  placeholder="reason" ng-model="vm.popup.reason"></textarea>
+					</div>	
+				  </div> 
+				
+				  <input type="button" class="btn btn-primary popup-btn" ng-click="vm.updateStatus('cancel')" name="Save" value="Submit">
+		</div>
+        </div>
+        
+</script>
+
+<style>
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+<!-- .btn-file > input {
+    cursor: pointer;
+    direction: ltr;
+    font-size: 23px;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+}
+.fileinput {
+    display: inline-block;
+    margin-bottom: 9px;
+}
+.fileinput-filename {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: middle;
+}
+.btn-file {
+    overflow: hidden;
+    position: relative;
+    vertical-align: middle;
+} -->
+.file{float:left;}
+</style>

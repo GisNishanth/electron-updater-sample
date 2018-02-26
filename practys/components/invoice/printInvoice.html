@@ -1,0 +1,120 @@
+<div  id="printSectionId"   style="width:100%;margin:20px auto;">
+
+	<table  width="100%" cellspacing="2" cellpadding="0">
+	<tr>
+	<td width="50%" valign="top" style="">
+		 <table width="100%"  cellspacing="2" cellpadding="0">
+			
+				<tr>
+				<td valign="top">
+						<h4 style="margin:0;text-align: left;font-weight: 600;font-size: 16px; ">Bill To :</h4> 
+                        <p style="margin:0px;text-align: left;">{{obj.patient.firstName+''+obj.patient.lastName}}</p>
+						<p style="margin:0px;text-align: left;">{{obj.patient.email}}</p>
+						<p style="margin:0px;text-align: left;">{{obj.patient.address}}</p>
+						<p style="margin:0px;text-align: left;">{{obj.patient.city}}</p>
+						<p style="margin:0px;text-align: left;">{{obj.patient.mobile}}</p>
+				</td>
+			</tr>
+        </table>
+	</td>
+	<td width="50%" valign="top" style="">
+		<table width="100%"  cellspacing="2" cellpadding="0">
+			<tr>
+				<td valign="top">
+				 <h4 style="margin:0;font-size: 16px;font-weight: 600;text-align: left;">Statement Date :</h4> 
+				 </td>
+				 <td valign="top">
+				<p style="margin:0px;text-align: left;">{{obj.invoiceDate}}</p></td>
+			</tr>
+			<tr>
+				<td valign="top">
+				 <h4 style="margin:0;font-size: 16px;font-weight: 600;text-align: left;">Customer ID :</h4> </td>
+				 <td valign="top">
+				<p style="margin:0px;text-align: left;">{{obj.patient.id}}</p>
+				</td>
+			</tr>
+        </table>
+		
+	</td>
+	</tr>
+	<tr>
+	<td width="50%" valign="top" style="">
+		<h4 style="margin:15px 0;text-align:left;font-weight:600;font-size: 16px; ">Remittance :</h4>
+		<p style="margin:0px;text-align: left;">{{obj.clinic.firstName+''+obj.clinic.lastName}}</p>
+		<p style="margin:0px;text-align: left;">{{obj.clinic.email}}</p>
+		<p style="margin:0px;text-align: left;">{{obj.clinic.address}}</p>
+		<p style="margin:0px;text-align: left;">{{obj.clinic.city}}</p>
+		<p style="margin:0px;text-align: left;">{{obj.clinic.mobile}}</p>
+	</td>
+	
+	<td width="50%" valign="top" style="">
+		<h4 style="margin:15px 0;text-align:left;font-weight:600;font-size: 16px; ">Doctor Detail :</h4>
+		<p style="margin:0px;text-align: left;">{{obj.doctor.firstName+''+obj.doctor.lastName}}</p>
+		<p style="margin:0px;text-align: left;">{{obj.doctor.area}}</p>
+		<p style="margin:0px;text-align: left;">{{obj.doctor.address}}</p>
+		<p style="margin:0px;text-align: left;">{{obj.doctor.city}}</p>
+		<p style="margin:0px;text-align: left;">{{obj.doctor.mobile}}</p>
+	</td>
+	</tr>
+</table>
+<br><br>
+<div id="content" style="width:100%;margin:0 auto;display:block;">
+<h3 style="margin:0 0 25px 0;text-align:left;font-weight:bold;">Account Activity :</h3>
+<p style="text-align:center;" ng-if="obj.appointmentBalanceAmount != null">Previous Appointment Balance&nbsp;:&nbsp;{{obj.appointmentBalanceAmount}}</p>
+ <table width="100%" border="1" cellspacing="2" cellpadding="0">
+	<tr>
+		<th width="20%" valign="top" style="text-align:center;padding:2px;background: #fff;color: #333;">Name</th>
+		<th width="60%" valign="top" style="text-align:center;padding:2px;background: #fff;color: #333;">Amount</th>
+		<!-- <th width="25%" valign="top" style="text-align:center;padding:2px;background: #fff;color: #333;">Amount</th> -->
+	</tr>
+	<tr ng-if="vm.serviceList != null" ng-repeat="x in vm.serviceList">
+		<td width="20%" valign="top" style="text-align:center;padding:2px;">{{x.name}} <b>(Service)</b></td>
+		<td width="60%" valign="top" style="text-align:center;padding:2px;">{{x.cost}}</td>
+		<!-- <td width="25%" valign="top" style="text-align:center;padding:2px;">{{obj.amount}}</td> -->
+	</tr>
+	<tr ng-if="vm.prescriptionList != null" ng-repeat="x in vm.prescriptionList">
+		<td ng-if="x.drugName" width="20%" valign="top" style="text-align:center;padding:2px;">{{x.drugName.productName}} <b>(Drug)</b></td>
+		<td ng-if="x.drugName" width="60%" valign="top" style="text-align:center;padding:2px;">{{x.drugName.sellingPrice}}</td>
+		<td ng-if="x.productName" width="20%" valign="top" style="text-align:center;padding:2px;">{{x.productName.productName}} <b>(Others)</b></td>
+		<td ng-if="x.productName" width="60%" valign="top" style="text-align:center;padding:2px;">{{x.productName.sellingPrice}}</td>
+		<!-- <td width="25%" valign="top" style="text-align:center;padding:2px;">{{obj.amount}}</td> -->
+	</tr>
+	<tr ng-if="vm.additionalItemList != null" ng-repeat="x in vm.additionalItemList">
+		<td  width="20%" valign="top" style="text-align:center;padding:2px;">{{x.name}} <b>(Additional)</b></td>
+		<td  width="60%" valign="top" style="text-align:center;padding:2px;">{{x.amount}}</td>
+		
+		<!-- <td width="25%" valign="top" style="text-align:center;padding:2px;">{{obj.amount}}</td> -->
+	</tr>
+	
+	
+	
+</table>
+
+
+	<!-- <p style="text-align:right;" >Sub Total&nbsp;:&nbsp;{{invoice.subTotal}}</p> -->
+	<p style="text-align:right;" ng-if="obj.tax == null">Tax&nbsp;:&nbsp;0 %</p>
+	<p style="text-align:right;" ng-if="obj.tax != null">Tax&nbsp;:&nbsp;{{obj.tax}} %</p>
+
+    <p style="text-align:right;" ng-if="obj.discount == null">Discount&nbsp;:&nbsp;0 %</p>
+    <p style="text-align:right;" ng-if="obj.discount != null">Discount&nbsp;:&nbsp;{{obj.discount}} %</p>
+
+    <p style="text-align:right;" ng-if="obj.paymentType != null">Payment Mode&nbsp;:&nbsp;{{obj.paymentType}}</p>
+
+    <p style="text-align:right;" ng-if="obj.appointmentBalanceAmount">Current Balance &nbsp;:&nbsp;{{vm.addAmounts(obj.pendingAmount , obj.appointmentBalanceAmount)}}</p>
+    <p style="text-align:right;" ng-if="!obj.appointmentBalanceAmount">Current Balance &nbsp;:&nbsp;{{obj.pendingAmount }}</p>
+
+     <h4 style="margin:25px 0;text-align:right;font-weight:bold;" ng-if="obj.payment != null"> Total Payment :{{obj.payment}}</h4>
+
+   <!--   <h4 style="margin:25px 0;text-align:right;font-weight:bold;" ng-if="obj.payment == null"> Total Amount :{{obj.amount}}</h4>
+ -->
+<center>
+<p style="margin:0px;">If you have any questions about this invoice</p>
+<p style="margin:0px;">{{obj.clinic.firstName}},{{obj.clinic.address}},{{obj.clinic.city}}</p>
+<p style="margin:0px;">phone:{{obj.clinic.mobile}},Email:{{obj.clinic.email}}</p>
+<h4 style="margin:10px 0 30px 0;font-weight:bold;">Thank You For Your Business!</h4>
+</center>
+
+<button ng-click="printToCart()" class="btn btn-primary">Print</button>
+
+</div>
+</div>

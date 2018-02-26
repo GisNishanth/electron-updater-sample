@@ -1,0 +1,162 @@
+<div class="panel sec-height message-section">
+    <div class="panel-heading clearfix">
+        <div class="panel-title pull-left">
+            <h3>Messages</h3>
+        </div>
+        <div class="tab-box-pact">
+            <ul class="nav nav-pills pull-right" ng-show="userObj.user_level == 'clinic'">
+                <li ng-class="{active:vm.isSet(1)}"><a href ng-click="vm.setTab(1); vm.isTrigger('doctor');vm.border = false;userName = ''">Doctor <span ng-if="vm.unreadCount.doctorUnreadCount != 0" class="pull-right ct-count count-top">{{vm.unreadCount.doctorUnreadCount}}</span></a> </li>
+                <li ng-class="{active:vm.isSet(2)}"><a href ng-click="vm.setTab(2); vm.isTrigger('patient');vm.border = false;userName = ''">Patient <span ng-if="vm.unreadCount.patientUnreadCount != 0" class="pull-right ct-count count-top">{{vm.unreadCount.patientUnreadCount}}</span></a> </li>
+                <li ng-class="{active:vm.isSet(3)}"><a href ng-click="vm.setTab(3);vm.isTrigger('announcements');vm.border = true">Announcement</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="panel-body top-msg">
+        <form name="form" class="form-horizontal" ng-submit="" role="form">
+            <div ng-show="vm.isSet(1) || vm.isSet(2)">
+                <div class="chat-box clearfix" >
+                    <div class="col-md-3 col-sm-3 col-xs-3 main-chat" ng-show="userObj.user_level == 'clinic' && vm.doctorLists.length > 0">
+                        <h4 class="msg-tit">Chat</h4>
+                        <div class="main-block">
+                            <div class="chat-block clearfix" ng-repeat="doctor in vm.doctorLists" ng-class="{'selected':doctor.id == vm.receiverId}">
+                                <a href class="clearfix" ng-click="vm.getMessages('doctor',doctor.id, doctor.username, doctor.mobile);vm.updateCount(doctor.id);doctor.unreadCount = 0">
+                                    <div class="col-md-3 col-sm-3 col-xs-3">
+                                        <img ng-if="doctor.image != '' " ng-src="{{doctor.thumbImage}}{{doctor.image}}" class="img-circle">
+                                        <img ng-if="doctor.image == '' " ng-src="assets/img/profileimg.jpg" class="img-circle">
+                                    </div>
+                                    <div class="col-md-9 col-sm-9 col-xs-9">
+                                        <p class="doc-name">
+                                            <div ng-if="value.clinicId == vm.clinicId" ng-repeat="(key,value) in doctor.colorCode">
+                                                <span class="doc-color" ng-if="doctor.user_level == 'doctor'" ng-style="{'background-color': value.colorCode}"></span>
+                                            </div>
+                                            <span class="pull-left doc-li">{{doctor.user_level == 'doctor' ? 'Dr. ': ''}}{{doctor.username}}</span>
+                                            <span ng-if="doctor.unreadCount != 0" class="pull-right ct-count">{{doctor.unreadCount}}</span></p>
+                                        <p>{{doctor.lastMessage}}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div  class="col-sm-12 col-xs-12 msg-user" ng-class="userObj.user_level != 'clinic' ? 'col-md-12' : 'col-md-9'">
+                        <div ng-class="{'message-border':vm.border == true}">
+                            <h4 class="msg-tit">{{userName}}</h4>
+                            <message-render online="online" data="vm.messageLists" loader="vm.loaders" userLevel="vm.Level" loguserId="userObj.id" imagePath="vm.imagePath" imageName="vm.image" preview="vm.openDefault(image,null,'preview')" call="vm.download(image)" command="vm.commandBox" callsms="vm.sendusSms(msg)"  callback-fn="vm.sendMessage(msg)" callback="vm.sendImage(msg,UrlData,fileName)" ng-show="vm.msgShow" class="clearfix"></message-render>
+                            <img id="photo" />
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="userObj.user_level == 'clinic' && vm.doctorLists.length == 0">
+                	No {{vm.isSet(1) ? 'Doctors' : 'Patients'}} Found
+                </div>
+            </div>
+            <div ng-show="vm.isSet(3)">
+                <div class="chat-box ann-section clearfix" ng-if="vm.patients.length > 0">
+                    <div class="col-md-3 col-sm-3 cl-xs-12 main-chat mar-top" ng-show="vm.userLevel == 'clinic'">
+                        <h4 class="msg-tit">Chat</h4>
+                        <div class="select-opt-sec">
+                            <div class="main-block" ng-if="vm.patients.length > 0">
+                                <div class="checkbox-style">
+                                    <input type="checkbox" ng-model="vm.isChecked" ng-click="vm.selectEntity(vm.isChecked)" id="Select All">
+                                    <label for="select-all"><span></span>Select All</label>
+                                </div>
+                                <div class="chat-block clearfix" ng-repeat="doctor in vm.patients track by doctor.id">
+                                    <div class="checkbox-style pull-left">
+                                        <input id="checkbox1" ng-change="vm.addRemoveItem(vm.checkDoctor[doctor.id],doctor.id)" ng-init="vm.checkDoctor[doctor.id]=false" ng-true-value="true" ng-false-value="false" ng-model="vm.checkDoctor[doctor.id]" type="checkbox" name="checkbox" value="{{doctor.id}}">
+                                        <label for="checkbox1"><span></span></label>
+                                    </div>
+                                    <a href class="clearfix" ng-click="vm.checkDoctor[doctor.id] = !vm.checkDoctor[doctor.id]; vm.addRemoveItem(vm.checkDoctor[doctor.id],doctor.id)">
+                                        <div ng-if="doctor.image == ''" class="col-md-2 padding-zro">
+                                            <img src="assets/img/profileimg.jpg" class="img-circle">
+                                        </div>
+                                        <div ng-if="doctor.image != ''" class="col-md-2 padding-zro">
+                                            <img src="{{doctor.thumbImage}}{{doctor.image}}" class="img-circle">
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p class="doc-name">{{doctor.username}}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="chat-block clearfix" ng-repeat="doctor in vm.doctorList track by doctor.id" ng-class="{'selected':doctor.id == vm.receiverId}" ng-if="SelectedUser.length == 2">
+                                    <input id="checkbox1" ng-init="vm.checkDoctor[doctor.id]=true" ng-true-value="true" ng-change="vm.addRemoveItem(vm.checkDoctor[doctor.id],doctor.id)" ng-false-value="false" ng-model="vm.checkDoctor[doctor.id]" type="checkbox" name="checkbox" value="{{doctor.id}}">
+                                    <a href class="clearfix">
+                                        <div class="col-md-2">
+                                            <img src="assets/img/profileimg.jpg" class="img-circle">
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p class="doc-name">{{doctor.user_level == 'doctor' ? 'Dr. ': ''}}{{doctor.username}}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="msg-user col-md-9 col-sm-12 col-xs-12 mar-top announce-blk">
+                        <div ng-class="{'message-border':vm.border == true}">
+                            <h4 class="msg-tit">{{vm.userName}}</h4>
+                            <div scroll-glue>
+                                <ul class="user-chat clearfix">
+                                  <!--   <div class="loading-img" style="text-align:center;"><img ng-if="vm.loaders" ng-src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==">
+                                    </div> -->
+                                    <li class="clearfix" ng-class="item.senderId != logUserId ? 'user-cmd' : 'doc-cmd'" ng-repeat="item in vm.messageList ">
+                                        <span class="chat-img"><img src="assets/img/profileimg.jpg"></span><span class="msg-content"><p class="clearfix" >{{item.messageText}} <span class="chat-time">{{vm.dateFormatting(item.created)}}</span></p>
+                                </ul>
+                            </div>
+                            <div class="command-box clearfix " ng-class="{'data-message' : vm.messageList != null }">
+                                <div class="col-md-8 col-sm-8 col-xs-8 padding-zro">
+                                    <textarea class="form-control" placeholder="Type Your Message..." ng-model="vm.msg"></textarea>
+                                </div>
+                                <div class="col-md-4 col-xs-4 col-sm-4 command-send text-right">
+                                    <a ng-click="vm.sendMessage(vm.msg)" class="send-icon"><img src="assets/img/send-icon.png"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="vm.patients.length == 0">
+                   No Patients Found
+                 </div>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+<div ng-class="{'loader': practysLoader == true}">
+    <div class="overlay-bg"></div>
+    <div class="loading-bg"></div>
+</div>
+<script type="text/ng-template" id="firstDialog">
+    <div class="ngdialog-message photo-send">
+        <h3>Preview Image{{Filename}}</h3>
+        <div class="inner-popup patient-popup">
+            <img ng-src="{{ image }}" />
+            <a ng-if="btnShow" ng-click="vm.sendImage(file)" class="send-icon photo-send"><img src="assets/img/send-icon.png"></a>
+        </div>
+    </div>
+</script>
+<style>
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.chat-block.selected {
+  background-color: #d0cdcd !important;
+  border-radius: 0px;
+}
+.panel-heading a .count-top{
+	margin-top: 2px;
+}
+</style>

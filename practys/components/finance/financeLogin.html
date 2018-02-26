@@ -1,0 +1,115 @@
+<div class="panel sec-height finance-section">
+<div class="login-page height-fix">
+<div class="panel-heading">
+		<h3>Finance</h3>
+	</div>
+	
+	<div class="login_div">
+	<div class="inner-center">
+		<div class="loginsec1 clearfix">
+			<span class="financel-txt">
+				<h3>Password Protected Page</h3>				
+			</span>		
+		</div>
+		<div class="loginsec2 clearfix">
+			<form name="financeForm" ng-submit="vm.financeLogin(vm.finance.password)">
+			
+			<div class="form-group pswdfontawsme ">
+				<input ng-model="vm.finance.password" id="userPassword" class="text_input form-control" type="password"  name="password" placeholder="Password">
+				<!-- <span class="mandatory" ng-show="(financeForm.$submitted && financeForm.$untouched) && (financeForm.password.$touched || financeForm.password.$empty) " >Password is required</span>  -->
+			</div>
+
+			<a ng-click="vm.openDefault('financePwdChange')" class="forget-pwd" >Change password ?</a>
+			<a ng-click="vm.openDefault('financePwdReset')" class="reset-pwd" ><i class="fa fa-refresh" aria-hidden="true"></i> Reset password</a>
+			
+			<!-- <a ng-click="vm.openDefault('financePwdReset')" class="btn btn-primary"><i class="fa fa-refresh" aria-hidden="true"></i>RESET PASSWORD</a> -->
+			 
+			<!-- <a href="#" class="forget-pwd">Forgot password?</a> -->
+			<div class="reset-finance clearfix">
+				<input type="submit" class="btn btn-primary reset-sub"  value="Submit" >
+			</div>
+		</form>
+		</div>		
+		</div>
+	</div>
+</div>
+</div>
+<script type="text/ng-template" id="financePwdChange">
+    <div class="ngdialog-message popup-bg col-md-12">
+        <h3 class="password-tit">Change Password</h3>
+        <form name="changepassword" novalidate ng-submit="vm.changePassword(changepassword)">
+        <div class="inner-popup">
+            <div class="form-group clearfix">
+                <div class="col-md-12">
+                    <input type="password" class="form-control" name="oldPassword" id="oldPassword" placeholder="Old Password" ng-model="vm.popup.oldPassword" required>
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <div class="col-md-12">
+                    <input type="password" class="form-control" name="newPassword" id="newPassword" placeholder="New Password" ng-model="vm.popup.newPassword" required>
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <div class="col-md-12">
+                    <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" ng-model="vm.popup.confirmPassword" required>
+                </div>
+            </div>
+            <input type="submit" class="btn btn-primary popup-btn"  name="Save" value="change password">
+        </div>
+        </form>
+    </div>
+</script>
+<script type="text/ng-template" id="financePwdReset">
+    <div class="ngdialog-message popup-bg col-md-12 credit-crd">
+        <h2 class="password-tit ct-tit">Reset Confirmation</h2>
+      
+        <div class="inner-popup">
+            <h4 class="con-desc">Your new password will be sent to the current clinic email Id. Kindly check the mail and you can login with that password.</h4>
+            <div class="col-md-12 align-proceed">
+            <input type="button" class="btn btn-primary popup-btn" ng-click="vm.resetPopup()"  name="Proceed" value="Proceed">
+            <img class="proceed-loader" ng-show="loader" src="assets/img/giphy.gif">
+           
+            </div>
+        </div>
+    
+    </div>
+</script>
+<style>
+
+.reset-finance{
+	clear:both;
+	text-align:center;
+}
+.reset-sub{
+	margin-top: 20px;
+}
+.align-proceed{
+	text-align: center;
+}
+.loginsec2 .forget-pwd {
+    /*margin-right: 179px;*/
+    float:left;
+    margin-top: 0
+}
+ .loginsec2 .reset-pwd {
+       float: right;
+	    color: #7F95BC;
+	    font-size: 15px;
+	    font-weight: normal;
+	    text-decoration-line: none;
+ }
+.login_div{display: table;
+    table-layout: fixed;
+	height:85%;
+    }
+.inner-center{display: table-cell;
+    height: 100%;
+    vertical-align: middle;
+    }
+	@media (max-width:1920px) and (min-width:1500px){
+	.login_div{
+	height:75%;
+    }
+	
+}
+</style>

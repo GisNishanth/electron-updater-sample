@@ -1,0 +1,65 @@
+{
+	"LOGIN": "Login",
+	"city": "City",
+	"state": "State",
+	"country": "Country",
+	"address": "Address",
+	"postalCode": "Postal Code",
+	"email": "Email",
+	"name":"Name",
+	"gender":"Gender",
+	"male":"Male",
+	"female":"Female",
+	"other":"Other",
+	"status":"Status",
+	"doj":"Date Of Joining",
+	"dob":"Date Of Birth",
+	"confirmationdate":"Confirmation Date",
+	"mobilenum":"Mobile Number",
+	"fathername":"Father's Name",
+	"spousename":"Spouse Name",
+	"company": {
+		"addLabel": "Add Company",
+		"name": "Company Name",
+		"companyPrefix": "Company Prefix name",
+		"category": "Category",
+		"contactNumber": "Contact Number",
+		"email": "Company Email"
+	},
+	"task": {
+		"addLabel": "Add Task",
+		"name": "Company Name",
+		"companyPrefix": "Company Prefix name",
+		"category": "Category",
+		"contactNumber": "Contact Number",
+		"email": "Company Email"
+	},
+	"leave": {
+		"leaveform": "LEAVE FORM",
+		"email": "Company Email"
+	},
+	"employee": {
+		"addemployee": "Add Employee",
+		"step1": "Step 1",
+		"step2": "Step 2",
+		"step3": "Step 3",
+		"basicinformation": "Basic Information",
+		"employeeposition": "Employee Position",
+		"pfesi": "PF & ESI",
+		"employeenoseries": "Employee Number series",
+		"paymentmode": "Payment Mode",
+		"employee number": "Employee Number",
+		"reportingmanager": "Reporting Manager",
+		"probationperiod": "Probation Period",
+		"emergencycntactname": "Emergency Contact Name",
+		"emergencycntactnum": "Emergency Contact Number"
+		
+	},
+	"user":{
+	"addLabel" : "Add Admin User",
+	"name" : "Username",
+	"nickName" : "Nick Name",
+	"password" : "Password",
+	"usercreate" : "Create User"
+	}
+}

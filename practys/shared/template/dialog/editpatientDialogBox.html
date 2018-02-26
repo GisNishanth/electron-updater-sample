@@ -1,0 +1,210 @@
+			
+					<form name="expenseForm" ng-submit="patientUpdate(patient,expenseForm)" novalidate class="popup-form">
+							<div class="panel-height">
+								 <div class="panel-body">
+								  <div class="form-group clearfix">
+									<label for="itemName" class="col-md-6 col-sm-6">First Name <span class="mandatoryStar">*</span></label>
+									<div class="col-md-6 col-sm-6">
+										<input type="text" class="form-control" name="firstName" id="firstName"  ng-model="patient.firstName" required>
+										<div class="mandatory" ng-show="expenseForm.firstName.$invalid && (expenseForm.$submitted || expenseForm.firstName.$dirty)"><div ng-show="expenseForm.firstName.$error.required">First Name Is Required</div></div>
+									</div>		
+								  </div>   
+								  <div class="form-group clearfix">
+									<label for="itemName" class="col-md-6 col-sm-6">Last Name <span class="mandatoryStar">*</span></label>
+									<div class="col-md-6 col-sm-6">
+										<input type="text" class="form-control" name="lastName" id="lastName"  ng-model="patient.lastName" required>
+										<div class="mandatory" ng-show="expenseForm.lastName.$invalid && (expenseForm.$submitted || expenseForm.lastName.$dirty)"><div ng-show="expenseForm.lastName.$error.required">Last Name Is Required</div></div>
+									</div>		
+								  </div>
+								  <div class="form-group clearfix">
+									<label for="itemName" class="col-md-6 col-sm-6">NRIC/ID <span class="mandatoryStar">*</span></label>
+									<div class="col-md-6 col-sm-6">
+										<input type="text" class="form-control" name="nric" id="nric" disabled  ng-model="patient.nric" required>
+										<!-- <div class="mandatory" ng-show="addPatient.nric.$invalid && (addPatient.$submitted || addPatient.nric.$dirty)"><div ng-show="addPatient.nric.$error.required">NRIC or Id Is Required</div></div> -->
+									</div>	
+								  </div>
+								   <div class="form-group clearfix">
+									<label for="itemName" class="col-md-6 col-sm-6">Gender <span class="mandatoryStar">*</span></label>
+									<div class="col-md-6 col-sm-6">
+										<div class="checkbox-style">
+									    <input type="radio" ng-model="patient.gender" name="gender" value="male" ng-required="!patient.gender" id="male3">
+									   <label for="male3"> <span><span></span></span>Male
+									  </label>
+									  </div>
+									  <div class="checkbox-style">
+									    <input type="radio" ng-model="patient.gender" name="gender" value="female" ng-required="!patient.gender" id="female3">
+									    <label for="female3"><span><span></span></span>Female
+									  </label>
+									  </div>
+									</div>	
+									<div class="mandatory" ng-show="expenseForm.gender.$invalid && (expenseForm.$submitted || expenseForm.gender.$dirty)"><div ng-show="expenseForm.gender.$error.required">Gender Is Required</div></div>	
+								  </div>
+								  <div class="form-group clearfix">
+									<label for="supplierName" class="col-md-6 col-sm-6">Date Of Birth <span class="mandatoryStar">*</span></label>
+									<div class="col-md-6 col-sm-6">
+										<div class="input-group date">
+										<input
+											type="text"
+											class="form-control"
+											readonly
+											datepicker-popup="yyyy-MM-dd"
+											name="DOB"
+											ng-model="patient.birthday"
+											ng-change="ageCal(patient.birthday)"
+											is-open="openDatePickers[0]"
+											close-text="Close" name="date" required>
+										  <span class="input-group-btn">
+											<button
+											  type="button"
+											  class="btn btn-primary"
+											  ng-click="openFrom($event, 0)">
+											  <i class="fa fa-calendar" aria-hidden="true"></i>
+											</button>
+										  </span>
+										</div>
+										 <div class="mandatory" ng-show="expenseForm.DOB.$invalid && (expenseForm.$submitted || expenseForm.DOB.$dirty)"><div ng-show="expenseForm.DOB.$error.required">Date Of Birth Is Required</div></div>
+									</div>
+								</div>	
+								   <div class="form-group clearfix">
+									<label for="itemName" class="col-md-6 col-sm-6">Age <span class="mandatoryStar">*</span></label>
+									<div class="col-md-6 col-sm-6">
+										<input type="text" numbers-only class="form-control" name="age" id="age"  ng-model="patient.age" required>
+										 <div class="mandatory" ng-show="expenseForm.age.$invalid && (expenseForm.$submitted || expenseForm.age.$dirty)"><div ng-show="expenseForm.age.$error.required">Age Is Required</div></div>
+									</div>		
+								  </div>
+								  <div class="form-group clearfix">
+									<label for="itemName" class="col-md-6 col-sm-6">Contact Number <span class="mandatoryStar">*</span></label>
+									<label class="col-md-1 col-sm-1" style="left: 19px;top: 7px;">+65</label>
+									<div class="col-md-5 col-sm-5">
+										<input type="text" numbers-only  class="form-control" name="contactNumber" id="contactNumber"  ng-model="patient.mobile" required>
+										<div class="mandatory" ng-show="expenseForm.contactNumber.$invalid && (expenseForm.$submitted || expenseForm.contactNumber.$dirty)"><div ng-show="expenseForm.contactNumber.$error.required">Contact Number Is Required</div></div>
+									</div>		
+								  </div>
+								   <div class="form-group clearfix">
+									<label for="itemName" class="col-md-6 col-sm-6">Email Address <span class="mandatoryStar">*</span></label>
+									<div class="col-md-6 col-sm-6">
+										<input type="email" class="form-control"  name="email" id="email"  ng-model="patient.email" required>
+										<div class="mandatory" ng-show="expenseForm.email.$invalid && (expenseForm.$submitted || expenseForm.email.$dirty)"><div ng-show="expenseForm.email.$error.required">Email Is Required</div></div>
+									</div>		
+								  </div>
+								   <div class="form-group clearfix">
+									<label for="itemName" class="col-md-6 col-sm-6">Occupation <span class="mandatoryStar">*</span></label>
+									<div class="col-md-6 col-sm-6">
+										<input type="text" class="form-control" name="occupation" id="occupation"  ng-model="patient.occupation" required>
+											<div class="mandatory" ng-show="expenseForm.occupation.$invalid && (expenseForm.$submitted || expenseForm.occupation.$dirty)"><div ng-show="expenseForm.occupation.$error.required">occupation Is Required</div></div>
+									</div>		
+								  </div>
+								  <div class="form-group clearfix">
+									<label for="itemName" class="col-md-6 col-sm-6">Address <span class="mandatoryStar">*</span></label>
+									<div class="col-md-6 col-sm-6">
+										<textarea class="form-control" name="address" id="address"  ng-model="patient.address" required></textarea>
+										<div class="mandatory" ng-show="expenseForm.address.$invalid && (expenseForm.$submitted || expenseForm.address.$dirty)"><div ng-show="expenseForm.address.$error.required"> Address Is Required</div></div>
+									</div>		
+								  </div>
+								  <div class="form-group clearfix">
+									<label for="itemName" class="col-md-6 col-sm-6">Drug Allergy <span class="mandatoryStar">*</span></label>
+									<div class="col-md-6 col-sm-6">
+									<div class="checkbox-style">
+										
+									    <input type="radio" ng-model="patient.drugAllergy" name="drug" value="yes" ng-required="!patient.drugAllergy" id="yes4">
+									    <label for="yes4"><span><span></span></span>Yes
+									  </label>
+									  </div>
+									<div class="checkbox-style">
+
+									 
+									    <input type="radio" ng-model="patient.drugAllergy" name="drug" value="no" ng-required="!patient.drugAllergy" id="no4">
+									  <label for="no4"><span><span></span></span>   No
+									  </label></div>
+										 <div class="mandatory" ng-show="expenseForm.drug.$invalid && (expenseForm.$submitted || expenseForm.drug.$dirty)"><div ng-show="expenseForm.drug.$error.required">Drug Allergy Is Required</div></div>
+									</div>		
+								  </div>
+								  <div class="form-group clearfix">
+									<label for="itemName" class="col-md-6 col-sm-6">Description</label>
+									<div class="col-md-6 col-sm-6">
+										<textarea class="form-control" name="description" id="description"  ng-model="patient.description"></textarea>
+
+									</div>		
+								  </div>
+								  <div class="form-group clearfix">
+									<label for="itemName" class="col-md-6 col-sm-6">Other Allergy <span class="mandatoryStar">*</span></label>
+									<div class="col-md-6 col-sm-6">
+										<div class="checkbox-style">
+										
+									    <input type="radio" ng-model="patient.otherAllergy" value="yes" name="otherAllergy" id="yes5">
+									    <label for="yes5"><span><span></span></span>Yes
+									  	</label>
+									  	</div>
+									  		<div class="checkbox-style">
+									    <input type="radio" ng-model="patient.otherAllergy" value="no" name="otherAllergy" ng-required="!patient.otherAllergy" id="no5">
+									   <label for="no5"><span><span></span></span> No
+									 	 </label>
+									</div>	
+									 <div class="mandatory" ng-show="expenseForm.otherAllergy.$invalid && (expenseForm.$submitted || expenseForm.otherAllergy.$dirty)"><div ng-show="expenseForm.otherAllergy.$error.required"> Other Allergy Is Required</div></div>	
+								  </div>
+								  <div class="form-group clearfix">
+									<label for="itemName" class="col-md-6 col-sm-6">Referred by</label>
+									<div class="col-md-6 col-sm-6">
+										<input type="text" class="form-control" name="reference" id="reference"  ng-model="patient.reference" required>
+										<!-- <div class="mandatory" ng-show="expenseForm.reference.$invalid && (expenseForm.$submitted || expenseForm.reference.$dirty)"><div ng-show="expenseForm.reference.$error.required"> Reference Is Required</div></div> -->
+									</div>		
+								  </div>
+								   <div class="form-group clearfix">
+									<label for="itemName" class="col-md-6 col-sm-6">Emergency Contact Name <span class="mandatoryStar">*</span></label>
+									<div class="col-md-6 col-sm-6" >
+										<input type="text" class="form-control" name="emergencyContactName" id="emergencyContactName"  ng-model="patient.emergencyContactName" required>
+										<div class="mandatory" ng-show="expenseForm.emergencyContactName.$invalid && (expenseForm.$submitted || expenseForm.emergencyContactName.$dirty)"><div ng-show="expenseForm.emergencyContactName.$error.required"> Emergency Contact Name Is Required</div></div>
+									</div>		
+								  </div>
+								   <div class="form-group clearfix">
+									<label for="itemName" class="col-md-6 col-sm-6">Relationship <span class="mandatoryStar">*</span></label>
+									<div class="col-md-6 col-sm-6">
+										<input type="text" class="form-control" name="relationship" id="relationship"  ng-model="patient.emergencyRelationship" required>
+										<!-- <div class="mandatory" ng-show="expenseForm.relationship.$invalid && (expenseForm.$submitted || expenseForm.relationship.$dirty)"><div ng-show="expenseForm.relationship.$error.required"> Relationship Is Required</div></div> -->
+									</div>		
+								  </div>
+								    <div class="form-group clearfix">
+									<label for="itemName" class="col-md-6 col-sm-6">Contact Number <span class="mandatoryStar">*</span></label>
+									<div class="col-md-6 col-sm-6">
+										<input type="text" class="form-control" name="emergencyContactNumber" numbers-only  id="emergencyContactNumber"  ng-model="patient.emergencyContactNumber" required>
+										<div class="mandatory" ng-show="expenseForm.emergencyContactNumber.$invalid && (expenseForm.$submitted || expenseForm.emergencyContactNumber.$dirty)"><div ng-show="expenseForm.emergencyContactNumber.$error.required"> Emergency Contact Number Is Required</div></div>
+									</div>		
+								  </div>
+								   <div class="form-group clearfix">
+									<label for="itemName" class="col-md-6 col-sm-6">Other Comments</label>
+									<div class="col-md-6 col-sm-6">
+										<textarea class="form-control" name="comments" id="comments"  ng-model="patient.otherComments" ></textarea>
+										<!-- <div class="mandatory" ng-show="expenseForm.comments.$invalid && (expenseForm.$submitted || expenseForm.comments.$dirty)"><div ng-show="expenseForm.comments.$error.required"> Other Comments Is Required</div></div> -->
+									</div>		
+								  </div>
+								  <div ng-if="patient.age < 18">
+								  <div class="form-group clearfix">
+									<label for="itemName" class="col-md-6 col-sm-6">Guardian Name </label>
+									<div class="col-md-6 col-sm-6">
+										<input type="text" class="form-control" name="guardianName" id="guardianName"  ng-model="patient.guardianName">
+									</div>		
+								  </div>
+								   <div class="form-group clearfix">
+									<label for="itemName" class="col-md-6 col-sm-6">Relationship</label>
+									<div class="col-md-6 col-sm-6">
+										<input type="text" class="form-control" name="guardianRelationship" id="guardianRelationship"  ng-model="patient.guardianRelationship">
+									</div>		
+								  </div>
+								 <div class="form-group clearfix">
+									<label for="itemName" class="col-md-6 col-sm-6">Contact Number</label>
+									<div class="col-md-6 col-sm-6">
+										<input type="text" class="form-control" name="guardianContactNumber" numbers-only  id="guardianContactNumber"  ng-model="patient.guardianContactNumber">
+									</div>		
+								  </div>
+								  </div>
+								</div>
+								
+							</div> 
+							</div>
+							<div class="col-md-12 button-section align-right">
+								<input type="submit" class="btn btn-primary" name="Save" value="Save">
+								<a class="btn btn-default " ng-click="cancel()">Cancel</a>
+								<!-- <a class="btn btn-default align-right" data-ng-click="vm.table = true;vm.patientEditShow =false;vm.doctorEditShow = false">Cancel</a> -->
+							</div>	
+						</form>
+					

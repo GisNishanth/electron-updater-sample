@@ -1,0 +1,283 @@
+<!-- <div>
+
+
+</div>
+<div>
+<canvas id="bar" class="chart chart-bar"
+  chart-data="invoiceData" chart-labels="invoiceLabel"> chart-series="series"
+</canvas >
+</div> -->
+<div class="panel sec-height">
+
+	<div class="visitor-blk clearfix">
+		<div class="col-md-4">
+			<div class="col-md-3 padding-zro"><span class=" month-tit"><i class="fa fa-file-text-o" aria-hidden="true"></i></span></div>
+			<div class="col-md-7 month-count"><h4>Monthly Revenue</h4><p>$ {{vm.expenseValue + vm.invoiceValue}}</p></div>
+		</div>
+		<div class="col-md-4">
+			<div class="col-md-3 padding-zro"><span class=" month-tit"><i class="fa fa-database" aria-hidden="true"></i></span></div>
+			<div class="col-md-7 month-count"><h4>Expenses</h4><p>$ {{vm.expenseValue}}</p></div>
+		</div>
+		<div class="col-md-4">
+			<div class="col-md-3 padding-zro"><span class=" month-tit blue-color"><i class="fa fa-usd" aria-hidden="true"></i></span></div>
+			<div class="col-md-7 month-count"><h4>Invoices</h4><p>$ {{vm.invoiceValue}}</p></div>
+		</div>
+	</div>
+		
+	<div class="panel-body top-msg" ng-controller="financeController as tab">
+		<form name="form" class="form-horizontal" ng-submit="" role="form">
+		<div class="finance-blk">
+			<div class="panel-heading clearfix" ng-init="id='exportable'">
+				<h3 class="pull-left col-md-6 padding-zro">Expenses</h3>
+					<!-- createPDF(vm.selectedYear.year,id,'Expenses') -->
+				<span class="col-md-6">
+				<button class="btn btn-primary pull-right" ng-click="vm.printChart(id,'Expenses')" ng-disabled="(!vm.expenseMonthDatas[0] && tab.isSet(1))||(!vm.expenseYearDatas[0] && tab.isSet(2))"><i class="fa fa-file-pdf-o mrr-10" aria-hidden="true"></i>
+ Report</button>
+ <div class="f-loader" ng-if="reportExpenseLoader == true"> 
+ <div class="report-loader"></div>
+ </div>
+ <button ng-if ="tab.isSet(1)" ng-click="vm.searchByMonth(vm.exMonth,'expense','filter')"  ng-disabled = "!vm.exMonth " class="btn btn-default pull-right mrr-15">Search</button><select ng-if ="tab.isSet(1)" ng-model='vm.exMonth'  ng-options='x.month for x in monthsInYear' class="pull-right fin-select mrr-15">
+						<option value="">~Select Month~</option>
+					</select>		
+					<button ng-if ="tab.isSet(2)" ng-click="vm.searchByYear(vm.exYear,'expense')"  ng-disabled = "!vm.exYear || tab.isSet(1)" class="btn btn-default pull-right mrr-15">Search</button><select ng-if ="tab.isSet(2)" ng-model='vm.exYear'  ng-options='number for number in expenseYearLabel' class="pull-right fin-select mrr-15">
+						<option value="">~Select Year~</option>
+					</select></span>
+				<div class="pull-right filter-box col-md-6">
+					<div class="col-md-7 padding-zro">						
+					</div> 
+					<div class="col-md-5 finance-tab" >
+					
+					<ul class="nav nav-pills">
+						<li ng-class="{active:tab.isSet(1)}"><a href ng-click="tab.setMonth('expense');id='exportable'">Month</a></li>
+						<li ng-class="{active:tab.isSet(2)}"><a href ng-click="tab.setYear();id='Year';vm.selectedYear.year = ''">Year</a></li>
+					</ul>
+					</div>
+				</div>    
+            </div>
+	       
+			<div ng-show="tab.isSet(1)">
+			<div id="exportable" class="chart-blk expenses-chart" ng-class="{'chart-align': repPro}" style="width:100%;">
+				<div class="main-tit-fn">
+					<strong>{{vm.clinicName}}</strong>
+					<!-- <strong>Expenses</strong> -->
+					<h4>{{vm.selectedExpenseMonth}}-{{vm.selectedExpenseYear}}</h4>
+				</div>
+				<div  class="graph-data-dt" ng-if="vm.expenseMonthDatas != ''">
+				<canvas id="line" class="chart chart-line" chart-data="vm.expenseMonthDatas"
+				chart-labels="vm.exDaysPush" chart-series="series" chart-options="options"
+				chart-dataset-override="datasetOverride" chart-click="onClick">
+				</canvas>
+				<div class="graph-table">	
+				<table class="table table-bordered">
+					<tr>
+						<th>Days</th>
+						<th>Amount</th>
+					</tr>
+					<tr ng-repeat="x in vm.expenseTableReference">
+						<td>{{x.month}}</td>
+						<td><span class="dollar">$</span> {{x.datas | number :0}}</td>
+					</tr>				
+				</table>
+				</div>
+			</div>
+			<div  class="no-data-fd" ng-if="vm.expenseMonthDatas == ''">
+				<h3>No Datas Found</h3></div>
+				</div>	
+		
+			</div>
+			<div  ng-show="tab.isSet(2)" >
+			<!-- <p class="graph-color"></p> -->
+				<div id="Year" class="chart-blk expenses-chart " ng-class="{'chart-align': repPro}">
+					<div class="main-tit-fn">
+						<strong>{{vm.clinicName}}</strong>
+						<h4>Expense - {{vm.expenseYear}}</h4>
+					</div>	
+				<div class="graph-data-dt" ng-if="vm.expenseYearDatas != ''">
+				<canvas id="line" class="chart chart-line"
+				 chart-data="vm.expenseYearDatas"
+				chart-labels="expenseMonthlabel" chart-series="series" chart-options="options"
+				chart-dataset-override="datasetOverride" chart-click="onClick">
+				</canvas>
+			<div class="graph-table">
+				<table class="table table-bordered">
+					<tr>
+						<th>Month</th>
+						<th>Amount</th>
+					</tr>
+					<tr ng-repeat="x in vm.expenseYearTableReference">
+						<td>{{x.year}}</td>
+						<td><span class="dollar">$</span> {{x.datas | number :0}}</td>
+					</tr>
+					
+				</table>
+			</div>		
+					   <h5 ng-if="!vm.exYear">{{vm.exYear}}</h5></div>
+			<div class="no-data-fd" ng-if="vm.expenseYearDatas == ''">
+				<h3>No Datas Found</h3></div>
+				</div>
+				
+				<!-- <div id="Year" class="chart-blk expenses-chart"> -->
+					<!-- <canvas id="line" class="chart chart-line" chart-data="expenseYearDatas"
+						chart-labels="expenseYearLabel" chart-series="series" chart-options="options"
+						chart-dataset-override="datasetOverride" chart-click="onClick">
+						</canvas>   -->
+				<!-- </div> -->
+			</div>
+			</div>
+			
+			
+		</form>
+
+	</div>
+	
+	<div class="panel-body top-msg" ng-controller="financeController as tab">
+		<form name="form" class="form-horizontal" ng-submit="" role="form">
+		<div class="finance-blk visitor-bg">
+			<div class="panel-heading clearfix" ng-init="id='invoiceMonthDatas'">
+
+<!-- createPDF(vm.selectedYear.year,id,'Invoices') -->
+        <h3 class="pull-left col-md-6 padding-zro">Invoices </h3>	
+        <span class="col-md-6"><button class="btn btn-primary pull-right" ng-click="vm.printChart(id,'Invoices')" ng-disabled="(!vm.invoiceMonthDatas[0] && tab.isSet(1)) || (!vm.invoiceYearDatas[0] && tab.isSet(2))"><i class="fa fa-file-pdf-o mrr-10" aria-hidden="true"></i>
+ Report</button>
+<div class="f-loader" ng-if="reportInvoiceLoader == true"> 
+  <div class="report-loader"></div>
+  </div>
+ <button ng-if="tab.isSet(1)" ng-click="vm.searchByMonth(vm.inMonth,'invoice','filter')" ng-disabled = "!vm.inMonth " class="btn btn-default mrr-15 pull-right">Search</button>
+        	<select ng-if="tab.isSet(1)" ng-model='vm.inMonth'  ng-options='x.month for x in monthsInYear' class="fin-select mrr-15 pull-right">
+			<option value="">~Select Month~</option>
+		</select>
+        	<button ng-if="tab.isSet(2)" ng-click="vm.searchByYear(vm.inYear,'invoice')" ng-disabled = "!vm.inYear " class="btn btn-default mrr-15 pull-right">Search</button>
+        	<select ng-if="tab.isSet(2)" ng-model='vm.inYear'  ng-options='number for number in invoiceYearLabel' class="fin-select mrr-15 pull-right">
+			<option value="">~Select Year~</option>
+		</select>
+        </span>
+        <div class="pull-right filter-box col-md-6">
+		<div class="col-md-7 padding-zro">
+        </div>  
+		<div class="col-md-5 finance-tab">
+	
+		<ul class="nav nav-pills">
+				<li ng-class="{active:tab.isSet(1)}"><a href ng-click="tab.setMonth('invoice');id='invoiceMonthDatas'">Month</a></li>
+				<li ng-class="{active:tab.isSet(2)}"><a href ng-click="tab.setYear();id='invoiceYearDatas';vm.selectedYear.year = ''">Year</a></li>
+				
+			</ul>
+		</div>
+		</div>
+    </div>
+			<div ng-show="tab.isSet(1)">
+			<div id="invoiceMonthDatas" class="chart-blk expenses-chart" ng-class="{'chart-align': repPro}">
+				<div class="main-tit-fn">
+					<strong>{{vm.clinicName}}</strong>
+				<!-- 	<strong>Invoices</strong> -->
+					<h4>{{vm.selectedInvoiceMonth}}-{{vm.selectedInvoiceYear}}</h4>
+				</div>	
+				<div class="graph-data-dt" ng-if="vm.invoiceMonthDatas != ''">
+				
+					<canvas id="line" class="chart chart-line" chart-data="vm.invoiceMonthDatas"
+					chart-labels="vm.inDaysPush" chart-series="series" chart-options="options"
+					chart-dataset-override="datasetOverride" chart-click="onClick"  >
+				</canvas>
+				<div class="graph-table">
+					<table class="table table-bordered">
+						<tr>
+							<th>Days</th>
+							<th>Amount</th>
+						</tr>
+						<tr ng-repeat="x in vm.invoiceTableReference">
+							<td>{{x.month}}</td>
+							<td><span class="dollar">$</span> {{x.datas | number :0}}</td>
+						</tr>					
+					</table> 
+				</div>
+					</div>
+			<div class="no-data-fd" ng-if="vm.invoiceMonthDatas == ''">
+				<h3>No Datas Found</h3></div>
+				</div>
+				</div>
+			
+			<div ng-show="tab.isSet(2)">
+			<div id="invoiceYearDatas" ng-class="{'chart-align': repPro}">
+				<div class="main-tit-fn">
+					<strong>{{vm.clinicName}}</strong>
+					<h4>Invoice - {{vm.invoiceYear}}</h4>
+				</div>	
+				<div  class="graph-data-dt" ng-if="vm.invoiceYearDatas != ''">
+					<canvas id="bar" class="chart chart-bar"
+				  chart-data="vm.invoiceYearDatas" chart-labels="invoiceMonthLabel" chart-series="series">
+					</canvas >
+					<div class="graph-table">
+						<table class="table table-bordered">
+							<tr>
+								<th>Month</th>
+								<th>Amount</th>
+							</tr>
+							<tr ng-repeat="x in vm.invoiceYearTableReference">
+								<td>{{x.year}}</td>
+								<td><span class="dollar">$</span> {{x.datas | number :0}}</td>
+							</tr>						
+						</table> 
+					</div>	
+					<h5 ng-if="!vm.inYear">{{vm.inYear}}</h5>
+						</div>
+					<div class="no-data-fd" ng-if="vm.invoiceYearDatas == ''">
+					<h3 >No Datas Found</h3></div>
+				<!-- <div id="invoiceYearDatas" ng-if="invoiceYearDatas != ''">
+					<canvas id="bar" class="chart chart-bar"
+					  chart-data="invoiceYearDatas" chart-labels="invoiceYearLabel" chart-series="series">
+					</canvas >
+				</div>
+				<div ng-if="invoiceYearDatas == ''">
+						No Datas Found
+				</div> -->
+				</div>
+			</div>
+			</div>
+		</form>
+		
+	</div>
+</div>
+<div ng-class="{'loader': practysLoader == true}">
+<div class="overlay-bg"></div>
+<div class="loading-bg"></div>
+</div>
+
+<style>
+.chart-align canvas{
+    display: inline-block;
+    vertical-align: baseline;
+    width: 90% !important;
+    margin-left: -10px;
+}
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.charts{
+	width: 1183px;
+}
+
+.report-loader {
+  border: 7px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 7px solid #3498db;
+  width: 30px;
+  height: 30px;
+  -webkit-animation: report 2s linear infinite;
+  animation: report 2s linear infinite;
+}
+
+@-webkit-keyframes report {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes report {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>

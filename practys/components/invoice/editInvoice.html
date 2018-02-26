@@ -1,0 +1,496 @@
+<div class="panel">
+  <!-- <form novalidate name="invoiceForm" ng-submit="vm.updateInvoice(invoice,invoiceForm)"> -->
+  <form novalidate name="invoiceForm" >
+  		<div class="panel-heading clearfix" >
+		<h3 class="pull-left">Edit Billing</h3>
+		</div>
+		<div class="bill-block container">
+		<div class="panel-body edit-bill">
+			<div class="to-add clearfix"> 
+			<div class="form-group userfontawsme clearfix">
+				<label >To</label><br>
+			<!-- 	<div class="col-md-6 col-sm-6">			
+				 	<div class="custom-select" custom-select="g as g.username for g in vm.patients | filter: $searchTerm" custom-select-options="patientSelection" ng-model="invoice.patient" name="patient" required disabled="disabled"></div>
+					<div ng-show="(invoiceForm.patient.$touched || invoiceForm.$submitted) && invoiceForm.patient.$invalid">
+						patient required
+					</div>		
+		  		</div> -->
+		  		Name: {{invoice.patient.username}}<br>
+		  		Address: {{invoice.patient.address}}<br>
+		  		Mobile: {{invoice.patient.mobile}}<br>
+			</div>
+		    <div class="form-group clearfix">
+				<span class="col-md-6 col-sm-6 padding-zro"><label class="control-label">Appoinment Date:</label> {{invoice.invoiceDate}}</span>
+				
+				<!-- <div class="col-md-6 col-sm-6"> -->
+					<!-- <div class="input-group date"> -->
+					<!-- <input
+					type="text"
+					class="form-control"
+					uib-datepicker-popup="yyyy-MM-dd"
+					ng-model="invoice.invoiceDate"
+					name="date" disabled> -->
+				 <!--  <span class="input-group-btn">
+					<button
+					  type="button"
+					  class="btn btn-primary"
+					  ng-click="open($event, 0)">
+					  <i class="fa fa-calendar" aria-hidden="true"></i>
+					</button>
+				  </span> -->
+		          <!-- </div> -->
+				<!-- </div> -->
+			</div>	
+			</div>
+			<div class="bill-det clearfix">
+				<div class="form-group userfontawsme col-md-6 clearfix padding-zro">                                            
+				<label class="bill-tit">Remmitance</label><br>
+				Name: {{vm.clinicDetails.username}}<br>
+				Address: {{vm.clinicDetails.address}}<br>
+				Mobile: {{vm.clinicDetails.mobile}}<br>
+				<!-- <div class="col-md-6 col-sm-6"><div custom-select="g as g.username for g in vm.doctors | filter: $searchTerm" custom-select-options="doctorSelection" 
+				ng-model="invoice.doctor" name="doctor" required disabled="disabled"></div>
+				<div ng-show="(invoiceForm.doctor.$touched || invoiceForm.$submitted) && invoiceForm.doctor.$invalid">
+					Doctor is required
+				</div>
+				
+		  		</div> -->
+		  	</div>
+			<div class="form-group userfontawsme col-md-6 clearfix ">
+			<div class="lft-block">   
+				<label class="bill-tit">Doctor</label><br>
+				Name: {{invoice.doctor.username}}<br>
+				Address: {{invoice.doctor.address}}<br>
+				Mobile: {{invoice.doctor.mobile}}<br>
+				<!-- <div class="col-md-6 col-sm-6"><div custom-select="g as g.username for g in vm.doctors | filter: $searchTerm" custom-select-options="doctorSelection" 
+				ng-model="invoice.doctor" name="doctor" required disabled="disabled"></div>
+				<div ng-show="(invoiceForm.doctor.$touched || invoiceForm.$submitted) && invoiceForm.doctor.$invalid">
+					Doctor is required
+				</div>
+				
+		  		</div> -->
+		  	</div> 
+		  	</div> 
+		  
+		  	</div>
+		  	<!-- <div ng-if="invoice.installment"> -->
+		  	<div ng-if="invoice.previousAppointmentBalanceAmount != null && invoice.previousAppointmentBalanceAmount != 0">
+		  	<label>Previous Appointment Balance:</label>
+		  	{{invoice.appointmentBalanceAmount}}
+		  	</div>
+		  	<!-- </div> -->
+		  
+					  <div ng-if="additionalInTable != null  || invoice.serviceDetails != '' || invoice.prescriptionDetails != ''">
+					  <table  class="table table-bordered in-list-tab bill-table">
+					  <tr>
+
+					  <th>Name</th>
+					  <th>Amount</th>
+					  <th>Action</th>
+					  </tr>
+					  <tr ng-if="invoice.serviceDetails != ''" ng-repeat = "x in invoice.serviceDetails track by $index">
+						 <td>	
+							<!-- <div ng-if="invoice.installment"> -->
+							  <input ng-if= "x.productPaymentStatus != 'true' && invoice.previousAppPaymentCheck " type="checkbox" ng-click="vm.balanceDeduction(x.cost,invoice.checkService[$index],'service',$index)" id="serviceCheck" value="serviceCheck" ng-model="invoice.checkService[$index]"><label for="serviceCheck"><span><span></span></span>
+							<!-- </div> ;vm.previousAppPaymentCal(x.cost,invoice.checkService[$index])  -->
+							{{x.name}}<b>(Service)</b>
+						</td>
+						<td class="li-amt">
+						  <input type="text" name="serviceCost"  numbers-only ng-disabled="!clickEnable[$index]" value="{{x.cost}}" ng-model="x.cost" class="input-amt">
+						  </td>
+						  <td>
+						  <span class="action-icon" ><a class="fa fa-edit" title="edit"
+						  ng-click="clickEnable[$index] = !clickEnable[$index]" ng-disabled="invoice.previousAppointmentBalanceAmount == null || invoice.previousAppointmentBalanceAmount == 0 && invoice.paid" aria-hidden="true" ></a></span>
+						  <span class="action-icon"><a class=""  ng-if="clickEnable[$index]"
+						  ng-click="vm.saveServiceCashChange($index,'service',x.cost)" aria-hidden="true" title="save" ><i class="fa fa-floppy-o" aria-hidden="true"></i></a></span>
+						</td>
+						
+					  </tr>
+					  <tr ng-if="invoice.prescriptionDetails != ''" ng-repeat = "x in invoice.prescriptionDetails track by $index">
+						<td ng-if="x.drugName" >
+							<!-- <div ng-if=" invoice.installment"> -->
+							<input ng-if= "x.productPaymentStatus != 'true' && invoice.previousAppPaymentCheck" type="checkbox" ng-click="vm.balanceDeduction(x.amount,invoice.checkProduct[$index],'product',$index)" id="productCheck" value="productCheck" ng-model="invoice.checkProduct[$index]"><label for="productCheck"><span><span></span></span>
+							<!-- </div> ;vm.previousAppPaymentCal(x.amount,invoice.checkProduct[$index]) -->
+						{{x.drugName.productName}} <b>(Drug)</b>
+						</td>
+						<td ng-if="x.drugName" class="li-amt">
+							<input type="text" name="productCost" numbers-only ng-disabled="!invoice.clicksEnable[$index]" value="{{x.amount}}" ng-model="x.amount" class="input-amt">
+						</td>
+						<td ng-if="x.drugName">
+							<span class="action-icon"><a class="fa fa-edit" ng-disabled="invoice.previousAppointmentBalanceAmount == null || invoice.previousAppointmentBalanceAmount = 0 && invoice.paid" ng-click="invoice.clicksEnable[$index] = !invoice.clicksEnable[$index]"  aria-hidden="true" title="edit"></a></span>
+							<span class="action-icon"><a class="" ng-if="invoice.clicksEnable[$index]"  ng-click="vm.saveServiceCashChange($index,'product',x.amount)" aria-hidden="true" title="save" ><i class="fa fa-floppy-o" aria-hidden="true"></i></a></span>
+						</td>
+						<td ng-if="x.productName" >
+						<!-- <div ng-if="invoice.installment"> -->
+						<input ng-if= "x.productPaymentStatus != 'true' && invoice.previousAppPaymentCheck" type="checkbox" ng-click="vm.balanceDeduction(x.amount,invoice.checkProduct[$index],'product',$index)" id="productCheck" value="productCheck" ng-model="invoice.checkProduct[$index]"><label for="productCheck"><span><span></span></span>
+						<!-- </div> ;vm.previousAppPaymentCal(x.amount,invoice.checkProduct[$index]) -->
+						{{x.productName.productName}} <b>(Others)</b>
+						</td>
+						<td ng-if="x.productName" class="li-amt">
+							<input type="text" name="productCost" ng-disabled="!invoice.clicksEnable[$index]" numbers-only value="{{x.amount}}" ng-model="x.amount" class="input-amt">
+						</td>
+						<td ng-if="x.productName">
+							<span class="action-icon"><a class="fa fa-edit" ng-disabled="invoice.previousAppointmentBalanceAmount == null || invoice.previousAppointmentBalanceAmount == 0 && invoice.paid" ng-click="invoice.clicksEnable[$index] = !invoice.clicksEnable[$index]"  aria-hidden="true" ></a></span>
+							<span class="action-icon"><a class="" ng-if="invoice.clicksEnable[$index]"  ng-click="vm.saveServiceCashChange($index,'product',x.amount)" aria-hidden="true" ><i class="fa fa-floppy-o" aria-hidden="true"></i></a></span>
+						</td>
+						
+					  </tr>
+					  <tr ng-if="additionalInTable != ''" ng-repeat="add in additionalInTable track by $index">
+					  <td>
+					  <!-- <div ng-if="invoice.installment"> -->
+						<input ng-if= "add.productPaymentStatus != 'true' && invoice.previousAppPaymentCheck" type="checkbox" ng-click="vm.balanceDeduction(add.amount,invoice.checkAdditionalStatus[$index],'additional',$index)" id="additionalCheck" value="additionalCheck" ng-model="invoice.checkAdditionalStatus[$index]"><label for="additionalCheck"><span><span></span></span>
+						{{add.name}} <b> (Additional) </b>
+						<!-- </div> ;vm.previousAppPaymentCal(add.amount,invoice.checkAdditionalStatus[$index]) -->
+					  </td>
+					  <td class="li-amt">
+					  <input type="text" name="additionalCost" ng-disabled="!clickssEnable[$index]" numbers-only value="{{add.amount}}" ng-model="add.amount" class="input-amt">
+					  </td>
+					  <td>
+							<span class="action-icon"><a class="fa fa-edit" ng-disabled="invoice.previousAppointmentBalanceAmount == null || invoice.previousAppointmentBalanceAmount == 0 && invoice.paid" ng-click="clickssEnable[$index] = !clickssEnable[$index]"  aria-hidden="true" title="edit" ></a></span>
+							<span class="action-icon"><a class="" ng-if= "clickssEnable[$index]" ng-click="vm.saveServiceCashChange($index,'additionalItem',add.amount,additionalInTable)" aria-hidden="true" title="save"><i class="fa fa-floppy-o" aria-hidden="true"></i></a></span>
+					  </td>
+					
+					  </tr>
+					  <tr class="amt-blk">
+					  <td class="amt-td"><label>Sub Total :</label></td>
+					  <td  class="val-td">
+							<input type="text" numbers-only  name="amount" class="form-control" ng-model="invoice.subTotal" required disabled="disabled">
+						<!-- <span class="mandatory" ng-show="(invoiceForm.amount.$touched || invoiceForm.$submitted) && invoiceForm.amount.$invalid">Amount is required</span> -->
+						</td>
+						<td class="emty-td"></td>
+					  </tr>
+					 
+					
+					  
+					  
+					<!--    <tr ng-if="invoice.previousAppDetails != null" ng-repeat="add in invoice.previousAppDetails track by $index">
+					  <td>
+					  <div ng-if="invoice.installment">
+						<input ng-if= "add.productPaymentStatus != 'true'" type="checkbox" ng-click="vm.balanceDeduction(add.pendingAmount,invoice.checkPreviousAmppointment[$index])" id="previousAppointmentCheck" value="previousAppointmentCheck" ng-model="invoice.checkPreviousAmppointment[$index]"><label for="previousAppointmentCheck"><span><span></span></span>
+						</div>{{add.invoiceDate}}<b>(Previous Appointment)</b>
+					  </td>
+					  <td>
+					  <input type="text" name="additionalCost" ng-disabled="!clickssEnable[$index]" value="{{add.pendingAmount}}" ng-model="add.pendingAmount">
+							<span class="action-icon"><a class="fa fa-edit" ng-click="clickssEnable[$index] = true"  aria-hidden="true" ></a></span>
+							<span class="action-icon"><a class="btn btn-primary" ng-if= "add.productPaymentStatus != 'true'" ng-click="vm.saveServiceCashChange($index,'additionalItem',add.amount,additionalInTable)" aria-hidden="true" >save</a></span>
+					  </td>
+					  </tr> -->
+
+					 </table>
+					 </div>
+		  		<!-- <div class="form-group userfontawsme clearfix" ng-if="invoice.serviceList != ''">
+					<label class="col-md-6 col-sm-6">Services</label>
+					<div ng-repeat = "x in invoice.serviceDetails track by $index">
+					<span>{{x.name}}</span>
+					<input type="text" name="serviceCost" ng-disabled="!clickEnable[$index]" value="{{x.cost}}" ng-model="x.cost">
+					<span class="action-icon" ><a class="fa fa-edit" 
+					  ng-click="clickEnable[$index] = true"  aria-hidden="true" ></a></span>
+					<span class="action-icon"><a class="btn btn-primary" 
+					ng-if= "x.productPaymentStatus != 'true'" ng-click="vm.saveServiceCashChange($index,'service',x.cost)" aria-hidden="true" >save</a></span>
+					<div ng-if="invoice.checked || invoice.installment">
+					<input ng-if= "x.productPaymentStatus != 'true'" type="checkbox" ng-click="vm.balanceDeduction(x.cost,invoice.checkService[$index])" id="serviceCheck" value="serviceCheck" ng-model="invoice.checkService[$index]"><label for="serviceCheck"><span><span></span></span>
+					</div>
+					 
+					</div>
+		  		</div> -->
+		  		<!-- <div class="form-group userfontawsme clearfix" ng-if="invoice.prescriptionDetails != ''">
+					<label class="col-md-6 col-sm-6">Drugs & Others</label>
+					<div ng-repeat = "x in invoice.prescriptionDetails track by $index">
+					<div ng-if="x.drugName">
+						<span>{{x.drugName.productName}}</span>
+						<input type="text" name="productCost" ng-disabled="!clicksEnable[$index]" value="{{x.drugName.sellingPrice}}" ng-model="x.drugName.sellingPrice">
+						<span class="action-icon"><a class="fa fa-edit" ng-click="clicksEnable[$index] = true"  aria-hidden="true" ></a></span>
+						<span class="action-icon"><a class="btn btn-primary" ng-if= "x.productPaymentStatus != 'true'" ng-click="vm.saveServiceCashChange($index,'product',x.drugName.sellingPrice)" aria-hidden="true" >save</a></span>
+						<div ng-if="invoice.checked || invoice.installment">
+						<input ng-if= "x.productPaymentStatus != 'true'" type="checkbox" ng-click="vm.balanceDeduction(x.drugName.sellingPrice,invoice.checkProduct[$index])" id="productCheck" value="productCheck" ng-model="invoice.checkProduct[$index]"><label for="productCheck"><span><span></span></span>
+						</div>
+					</div>
+					<div ng-if="x.productName">
+						<span>{{x.productName.productName}}</span>
+						<input type="text" name="productCost" ng-disabled="!clicksEnable[$index]" value="{{x.productName.sellingPrice}}" ng-model="x.productName.sellingPrice">
+						<span class="action-icon"><a class="fa fa-edit" ng-click="clicksEnable[$index] = true"  aria-hidden="true" ></a></span>
+						<span class="action-icon"><a class="btn btn-primary" ng-if= "x.productPaymentStatus != 'true'" ng-click="vm.saveServiceCashChange($index,'product',x.productName.sellingPrice)" aria-hidden="true" >save</a></span>
+						<div ng-if="invoice.checked || invoice.installment">
+						<input ng-if= "x.productPaymentStatus != 'true'" type="checkbox" ng-click="vm.balanceDeduction(x.productName.sellingPrice,invoice.checkProduct[$index])" id="productCheck" value="productCheck" ng-model="invoice.checkProduct[$index]"><label for="productCheck"><span><span></span></span>
+						</div>
+					</div>
+
+		  		</div>
+		  		</div> -->
+		  		<div class="col-md-9"> 
+		  		<div class="form-group clearfix"> 
+					 <label class="col-md-6">Description</label>
+					 <div class="col-md-6"> 
+					  	<input type="text" value="" name="description" class="form-control" ng-model="invoice.description" required>
+					</div>
+				</div>
+				 <div class="form-group clearfix">
+					  	<label class="col-md-6" ng-if="invoice.paid">Payment Status :</label>
+					  	<div class="col-md-6 form-group classlearfix mr-0" ng-if="invoice.paid">
+					
+					<input ng-disabled="invoice.installments" ng-if="invoice.previousAppointmentBalanceAmount != null && invoice.previousAppointmentBalanceAmount != 0" type="checkbox"  ng-click="invoice.previousCheck = !invoice.previousCheck"  ng-model="invoice.previousAppPaymentCheck"  id="previousCheck" value="previousCheck"><label ng-if="invoice.previousAppointmentBalanceAmount != null && invoice.previousAppointmentBalanceAmount != 0"  for="previousCheck"><span><span></span></span>Previous Appointment Payment
+					</label>
+					<input type="checkbox"  ng-disabled="invoice.paid || invoice.unpaid || invoice.installment"  ng-model="invoice.paid" id="paid" value="paid"><label for="paid"><span><span></span></span>Paid
+					  </label>
+					
+					  	
+					 </div>
+					 </div>
+				
+				
+			<!-- 	<div class="form-group clearfix"  ng-if="invoice.unpaid || invoice.installment">
+					<label class="control-label col-md-6 col-sm-6">Payment Type</label>
+					<div class="col-md-6 col-sm-6">
+					
+					<input type="checkbox"  ng-model="invoice.cash"  id="cash" value="cash"><label for="cash"><span><span></span></span>Cash
+					  </label>
+					<input type="checkbox"  ng-model="invoice.net"  disabled id="net" value="net"><label for="net"><span><span></span></span>Net Banking
+					  </label>
+					<input type="checkbox"  ng-model="invoice.card" disabled id="card" value="card"><label for="card"><span><span></span></span>Credit Card
+					  </label>
+					
+					</div>	
+				</div> -->
+				<div >
+
+				<div ng-hide="invoice.installment" class="form-group clearfix" ng-if="invoice.unpaid">
+					<div class="form-group">
+							<label ng-if="invoice.serviceDetails != '' || invoice.prescriptionDetails != '' " class="control-label col-md-6 col-sm-6">Payment Status</label>
+							<div class="col-md-6 col-sm-6"> 
+								<input ng-disabled="invoice.installments" ng-if="invoice.previousAppointmentBalanceAmount != null && invoice.previousAppointmentBalanceAmount != 0" type="checkbox"  ng-click="invoice.previousCheck = !invoice.previousCheck"  ng-model="invoice.previousAppPaymentCheck"  id="previousCheck" value="previousCheck"><label  ng-if="invoice.previousAppointmentBalanceAmount != null && invoice.previousAppointmentBalanceAmount != 0" for="previousCheck"><span><span></span></span>Previous Appointment Payment
+								</label>
+								<!-- <input type="checkbox" ng-disabled="invoice.paid || invoice.installment" ng-model="invoice.unpaid" id="unpaid" value="unpaid"> <label for="unpaid"><span><span></span></span> Unpaid
+								  </label>
+								<input type="checkbox"  ng-disabled=" invoice.unpaid || invoice.installment"  ng-model="invoice.paid" id="paid" value="paid"><label for="paid"><span><span></span></span>Paid
+								  </label> -->
+								<input type="checkbox"  ng-disabled="invoice.previousAppPaymentCheck" ng-if="invoice.serviceDetails != '' || invoice.prescriptionDetails != '' " ng-click="invoice.checked = !invoice.checked; installmentUpdate(invoice.checked);"  ng-model="invoice.installments" id="installment"  id="installment" value="installment"><label ng-hide="invoice.currentAppStatus" ng-if="invoice.serviceDetails != '' || invoice.prescriptionDetails != '' " for="installment"><span><span></span></span>Installment
+								  </label>
+							</div>
+						</div>
+					
+					  	<div ng-hide="invoice.installments || invoice.previousAppPaymentCheck || invoice.currentAppStatus" class="form-group clearfix">
+							<label class="control-label col-md-6 col-sm-6">Discount</label> in %
+							<div class="col-md-6 col-sm-6 bb">
+							<!-- ng-disabled="invoice.tax != undefined || invoice.tax != null" -->
+								<input type="text" value=""  numbers-only ng-keyup="vm.discountAmountShow = true" ng-change="vm.discount(invoice,'discount')" name="amount" class="form-control" ng-model="invoice.discount"> 
+								
+							</div>	
+						</div>
+						 <!-- || invoice.previousAppPaymentCheck -->
+						<div ng-hide="invoice.installments || invoice.currentAppStatus"  class="form-group clearfix">
+							<label class="control-label col-md-6 col-sm-6">Tax</label> in %
+							<div class="col-md-6 col-sm-6 bb">
+								<input type="text" value="" numbers-only ng-change="vm.discount(invoice,'tax')" name="amount" class="form-control" ng-model="invoice.tax">
+								
+							</div>	
+						</div>
+						<!-- <div   class="form-group clearfix">
+							<label class="control-label col-md-6 col-sm-6">Total</label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" value="" numbers-only disabled name="amount" class="form-control" ng-model="invoice.amount">
+								
+							</div>	
+						</div> -->
+						<!-- <div ng-hide="invoice.installments || invoice.previousAppPaymentCheck" ng-if="vm.discountAmountShow == true ; invoice.discount != 0" class="form-group clearfix">
+							<label class="control-label col-md-6 col-sm-6">Amount To Pay</label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" value="" numbers-only disabled name="amount" class="form-control" ng-model="invoice.discountAmount">
+								
+							</div>	
+						</div> -->
+						
+						<!-- <div class="form-group clearfix">
+							<label class="control-label col-md-6 col-sm-6">Amount To Pay</label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" value="" numbers-only disabled name="amount" class="form-control" ng-model="invoice.amountToPay">
+								
+							</div>	
+						</div> -->
+						
+
+					
+						<div ng-hide="invoice.installments || invoice.previousAppPaymentCheck || invoice.currentAppStatus" class="form-group clearfix">
+							<label class="control-label col-md-6 col-sm-6">Full Payment</label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" value="" decimal-numbers ng-change="vm.change('edit',invoice)" name="fullpayment" class="form-control" ng-model="invoice.payment" required>
+								<span class="mandatory" ng-show="(invoiceForm.fullpayment.$touched || invoiceForm.$submitted) && invoiceForm.fullpayment.$invalid">Full Payment is required</span>
+							</div>	
+						</div>
+						
+						<div ng-show = "invoice.installments" class="form-group clearfix">
+							<div  ng-hide="invoice.previousAppPaymentCheck"  class="form-group clearfix">
+								<label class="control-label col-md-6 col-sm-6">Discounts</label> in %
+								<div class="col-md-6 col-sm-6 bb">
+									<input type="text" value="" numbers-only ng-keyup="vm.discountAmountShow = true" ng-change="vm.discount(invoice,'discount')" name="amount" class="form-control" ng-model="invoice.discount"> 
+									
+								</div>	
+							</div>
+							<div ng-hide="invoice.previousAppPaymentCheck" class="form-group clearfix">
+								<label class="control-label col-md-6 col-sm-6">Taxs</label> in %
+								<div class="col-md-6 col-sm-6 bb">
+									<input type="text" value="" numbers-only ng-change="vm.discount(invoice,'tax')" name="amount" class="form-control" ng-model="invoice.tax"> 
+									
+								</div>	
+							</div>
+							<div ng-hide="invoice.currentAppStatus"  class="form-group clearfix">
+								<label class="control-label col-md-6 col-sm-6">Total</label>
+								<div class="col-md-6 col-sm-6">
+									<input type="text" value="" numbers-only disabled name="amount" class="form-control" ng-model="invoice.amount">
+									
+								</div>	
+							</div>
+						<!-- 	<div class="form-group clearfix">
+								<label class="control-label col-md-6 col-sm-6">Total</label>
+								<div class="col-md-6 col-sm-6">
+									<input type="text" value="" numbers-only disabled name="amount" class="form-control" ng-model="invoice.amount">
+									
+								</div>	
+							</div>
+							<div ng-hide="invoice.previousAppPaymentCheck" class="form-group clearfix">
+								<label class="control-label col-md-6 col-sm-6">Amount To Pay</label>
+								<div class="col-md-6 col-sm-6">
+									<input type="text" value="" numbers-only disabled name="amount" class="form-control" ng-model="invoice.amountToPay">
+									
+								</div>	
+							</div>
+						 -->
+							<label ng-hide="invoice.previousAppPaymentCheck" class="control-label col-md-6 col-sm-6">Amount to Pay for this Appointment:</label>
+							<div ng-hide="invoice.previousAppPaymentCheck" class="col-md-6 col-sm-6">
+								<input type="text" value="" decimal-numbers ng-change="vm.change('edit',invoice)" name="payment" class="form-control" ng-model="invoice.payment">
+								<!-- <span class="mandatory" ng-show="(invoiceForm.payment.$touched || invoiceForm.$submitted) && invoiceForm.payment.$invalid">Installment Payment is required</span> -->
+							</div>	
+						</div>
+						
+					<!-- 	<div  class="form-group clearfix" ng-hide="invoice.previousAppPaymentCheck">
+							<label class="control-label col-md-6 col-sm-6">Remaining Balance</label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" numbers-only disabled name="remainingBalance" class="form-control" ng-model="invoice.remainingBalance" required>
+								<span class="mandatory" ng-show="(invoiceForm.remainingBalance.$touched || invoiceForm.$submitted) && invoiceForm.remainingBalance.$invalid">Remaining Balance is required</span>
+							</div>	
+						</div> -->
+						<div  class="form-group clearfix">
+							<label class="control-label col-md-6 col-sm-6">Balance Amount</label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" numbers-only disabled name="balanceAmount" class="form-control" ng-model="invoice.balanceAmount" required>
+								
+							</div>	
+						</div>
+					
+				</div>
+
+				<!-- <div class="form-group clearfix" ng-if="invoice.unpaid == false || invoice.paid == false || invoice.installment == false">
+					<label class="control-label col-md-6 col-sm-6">Payment Status</label>
+					<div class="col-md-6 col-sm-6">
+					<input type="checkbox" ng-disabled="invoice.paid || invoice.installment" ng-model="invoice.unpaid" id="unpaid" value="unpaid"> <label for="unpaid"><span><span></span></span> Unpaid
+					  </label>
+					<input type="checkbox"  ng-disabled=" invoice.unpaid || invoice.installment"  ng-model="invoice.paid" id="paid" value="paid"><label for="paid"><span><span></span></span>Paid
+					  </label>
+					<input type="checkbox" ng-disabled="invoice.paid || invoice.unpaid " ng-model="invoice.installment" id="installment"  id="installment" value="installment"><label for="installment"><span><span></span></span>Installment
+					  </label>
+						
+					</div>	
+				</div> -->
+			
+				<div ng-if="invoice.installment" class="form-group clearfix">
+				<div class="form-group clearfix"> 
+					<label class="control-label col-md-6 col-sm-6">Payment Status</label>
+					<div class="col-md-6 col-sm-6"> 
+					<div class="clearfix">
+					<input ng-disabled="invoice.installments" ng-if="invoice.previousAppointmentBalanceAmount != null && invoice.previousAppointmentBalanceAmount != 0" type="checkbox"  ng-click="invoice.previousCheck = !invoice.previousCheck"  ng-model="invoice.previousAppPaymentCheck"  id="previousCheck" value="previousCheck"><label ng-if="invoice.previousAppointmentBalanceAmount != null && invoice.previousAppointmentBalanceAmount != 0"  for="previousCheck"><span><span></span></span>Previous Appointment Payment
+					</label>
+					</div>
+					<div class="clearfix pdl_28">
+					<input ng-hide="invoice.previousAppPaymentCheck" type="checkbox" ng-disabled="invoice.paid || invoice.installment" ng-model="invoice.installment" id="installment"  id="installment" value="installment"><label for="installment"><span><span></span></span>Installment
+					  </label>
+					  </div>
+					  </div>
+					  </div>
+					  <div class="form-group clearfix"  ng-hide="invoice.previousAppPaymentCheck"> 
+					<label  class="control-label col-md-6 col-sm-6">Installment Payment</label>
+					<div class="col-md-6 col-sm-6">
+						<input  type="text" value="" ng-change="vm.installmentPayment(invoice)" name="payment" class="form-control" ng-model="invoice.payment" required>
+						<span class="mandatory" ng-show="(invoiceForm.payment.$touched || invoiceForm.$submitted) && invoiceForm.payment.$invalid">Installment Payment is required</span>
+					</div>	
+					</div>	
+					<div  class="form-group clearfix">
+							<label class="control-label col-md-6 col-sm-6">Balance Amount</label>
+							<div class="col-md-6 col-sm-6">
+								<input type="text" numbers-only disabled name="balanceAmount" class="form-control" ng-model="invoice.balanceAmount" required>
+								
+							</div>	
+					</div>
+					</div>
+				</div>
+				<!-- <div ng-show="invoice.installment"  class="form-group clearfix">
+					<label class="control-label col-md-6 col-sm-6">Remaining Balance </label>
+					<div class="col-md-6 col-sm-6">
+						<input type="text" value="" disabled name="remainingBalance" class="form-control" ng-model="invoice.remainingBalance" required> -->
+						<!--   ng-if="invoice.installment"<span class="mandatory" ng-show="(invoiceForm.remainingBalance.$touched || invoiceForm.$submitted) && invoiceForm.remainingBalance.$invalid">Remaining Balance is required</span> -->
+				<!-- 	</div>	
+				</div> -->
+				<div ng-hide="invoice.paid"  class="form-group clearfix">
+				<label class="control-label col-md-6 col-sm-6">Payment type</label>
+		        <div class="col-md-6 col-sm-6">
+							<input type="radio"  ng-model="invoice.paymentType"   id="cash" value="cash"><label for="cash"><span><span></span></span>Cash
+							</label>
+							<input type="radio"  ng-model="invoice.paymentType"   id="net" value="net"><label for="net"><span><span></span></span>Net Banking
+							</label>
+							<input type="radio"  ng-model="invoice.paymentType"  id="card" value="card"><label for="card"><span><span></span></span>Credit Card
+							</label>
+					</div>
+				
+				</div>
+				</div>
+
+				</div>
+				<div class="col-md-12 clearfix align-left">
+		  	<input type="checkbox"  ng-if="invoice.previousAppPaymentCheck"   ng-click="invoice.additionalShow = !invoice.additionalShow" ng-model="invoice.additionalCheckShow" id="additional" value="additional"><label ng-if="invoice.previousAppPaymentCheck"  for="additional"><span><span></span></span>Addition Elements
+					  </label>
+					  
+					  <div class="form-group userfontawsme clearfix" ng-if="invoice.additionalShow">
+					   <form name="additionalElementForm"  novalidate >
+                       <div class="form-group clearfix">
+                    <div ng-repeat="contact in additionalElementsArray track by $index" class="admin-spl col-md-6 clearfix">
+                        <div class="mrb-15 clearfix">
+                            <label class="col-md-4 col-sm-4"> Name:</label>
+                            <div class="col-md-8 col-sm-8">
+                                <input type="text" ng-model="contact.name" class="form-control" later-name="name{{$index}}" required />
+                                <span class="mandatory" ng-if="(additionalElementForm.$submitted || additionalElementForm['name'+$index].$touched) && additionalElementForm['name'+$index].$invalid">Name is required</span>
+                            </div>
+                        </div>
+                        <div class="mrb-15 clearfix">
+                            <label class="col-md-4 col-sm-4"> Amount:</label>
+                            <div class="col-md-8 col-sm-8">
+                                <input type="text" numbers-only ng-model="contact.amount" class="form-control" later-name="amount{{$index}}" required />
+                                <span class="mandatory" ng-if="(additionalElementForm.$submitted || additionalElementForm['amount'+$index].$touched) && additionalElementForm['amount'+$index].$invalid">Amount is required</span>
+                            </div>
+                        </div>
+                      
+                        <span class="sub-del ng-scope" ng-if="$index != 0" ng-click="delRow($index)">
+							<i class="fa fa-times" aria-hidden="true"></i>
+						</span>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <button type="button" ng-click="addRow()" class="btn btn-success btn-style pull-right">
+                    	<i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <button class="btn btn-primary btn-style pull-left" ng-click="addElements(additionalElementsArray)"><i class="fa fa-floppy-o" aria-hidden="true"></i> </button>
+                
+		       
+        	</form>
+        	</div>
+					  </div>
+				<div class="col-md-12 button-section align-right">
+				<input type="button" ng-if="invoice.installment || invoice.unpaid || (invoice.previousAppointmentBalanceAmount != null && invoice.previousAppointmentBalanceAmount != 0 && invoice.previousAppPaymentCheck) || (invoice.previousAppointmentBalanceAmount != null && invoice.previousAppointmentBalanceAmount != 0 && invoice.previousAppPaymentCheck && invoice.paid)" ng-click="vm.unpaid(invoice,invoiceForm)" class="btn btn-primary" ng-disabled="!invoice.paymentType" name="Save" value="Pay">
+<!-- vm.updateInvoice(invoice,invoiceForm) -->
+				<!-- <input ng-if="invoice.unpaid" ng-click="vm.unpaid(invoice,invoiceForm)" type="button" class="btn btn-primary" name="Save" value="Pay"> -->
+				<a class="btn btn-default " ng-if="invoice.installment || invoice.unpaid " ui-sref="invoice">Cancel</a>
+				<a class="btn btn-default " ng-if="invoice.paid" ui-sref="invoice">Back</a>
+			</div>
+			</div>
+				
+			</div>
+		</form>
+  </div>
