@@ -1,6 +1,6 @@
 {
   "name": "practys",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
@@ -35,13 +35,14 @@
      "win": {
       "target": [
         "NSIS"
-      ]
+      ],
+      "icon":"./practys.ico"
     },
     "publish": [{
              "provider": "github",
              "owner": "GisNishanth",
              "repo": "electron-updater-sample",
-             "token":"12a21962dec4c20c37a86a2956b2fc6cc89f233c"
+             "token":"e3ed42a2c3844dd44e3b5cb8cc89ee8de57c32e1"
     }],
     "forceCodeSigning": true
   },
