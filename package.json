@@ -1,13 +1,13 @@
 {
   "name": "practys",
-  "version": "1.5.0",
+  "version": "2.1.1",
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder --x64",
-    "gh-publish": "electron-builder --mac --x64 -p always",
+    "dist": "electron-builder --mac --win --x64",
+    "gh-publish": "electron-builder --mac --win --x64 -p always",
     "package-mac": "electron-packager . Practys  --overwrite --platform=darwin --arch=x64  --icon=./practys.icns --prune=true  --asar=true --out=release-builds ",
     "package-win": "electron-packager . Practys  --overwrite --platform=win32 --arch=x64  --icon=./practys.ico --prune=true  --asar=true --out=release-builds ",
     "darwin": "electron-packager . practys --platform=darwin --arch=x64 --icon=./practys.icns  --version=0.30.2 --version-string.CompanyName=\"greatInnovus\" --version-string.ProductName=\"Practys\" --version-string.FileDescription=\"Hospitality\" --asar=true --out=release-builds"
@@ -24,11 +24,13 @@
   "build": {
     "appId": "com.practys.macapp",
     "mac": {
-      "category": "com.practys.mac",
+      "category": "application",
       "target": [
-        "dmg"
+        "dmg",
+        "zip"
       ],
-      "icon": "./practys.icns"
+      "icon": "./practys.icns",
+      "type": "distribution"
     },
      "win": {
       "target": [
@@ -39,8 +41,9 @@
              "provider": "github",
              "owner": "GisNishanth",
              "repo": "electron-updater-sample",
-             "token":"0c452382810c45b1d3c556b3f9921a43d5842450"
-    }]
+             "token":"12a21962dec4c20c37a86a2956b2fc6cc89f233c"
+    }],
+    "forceCodeSigning": true
   },
   "devDependencies": {
     "electron": "~1.8.2",

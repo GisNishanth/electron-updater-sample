@@ -27,7 +27,7 @@ const {autoUpdater} = require("electron-updater");
 // 8660afe51a45c000515b68c93652e8e4e18d0ffe
 // 46ca980857c2cd92601501d409a9d7a7dba316dd
 
-
+autoUpdater.requestHeaders = {"Cache-Control": "no-cache"};
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 log.info('App starting...');
@@ -96,15 +96,21 @@ autoUpdater.on('error', (err) => {
   sendStatusToWindow(`Error in auto-updater : ${err.toString()}`);
 })
 autoUpdater.on('download-progress', (progressObj) => {
-  let log_message = `Download speed: ${progressObj.bytesPerSecond} - Downloaded : ${progressObj.percent}% (${progressObj.transferred}) / ${progressObj.total}`;
+  // console.log(progressObj,"progressingggggggggg");
+  // let log_message = `Download speed: ${progressObj.bytesPerSecond} - Downloaded : ${progressObj.percent}% (${progressObj.transferred} + '/' + ${progressObj.total})`;
+  // sendStatusToWindow(`Download speed: ${progressObj.bytesPerSecond} - Downloaded : ${progressObj.percent}% (${progressObj.transferred} + '/' + ${progressObj.total})`);
+  let log_message = "Download speed: " + progressObj.bytesPerSecond;
+  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+  log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
   sendStatusToWindow(log_message);
 })
 autoUpdater.on('update-downloaded', (info) => {
   sendStatusToWindow('Update downloaded');
-});
-autoUpdater.on('update-downloaded', (info) => {
    autoUpdater.quitAndInstall();
 });
+// autoUpdater.on('update-downloaded', (info) => {
+//    autoUpdater.quitAndInstall();
+// });
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -158,7 +164,14 @@ app.on('ready',function(){
         role: 'window',
         submenu: [
           {role: 'minimize'},
-          {role: 'close'}
+          {role: 'close'},
+          {
+            label: 'Open window',
+            click: () => {
+              createWindow();
+            },
+            accelerator: 'CmdOrCtrl + o'
+          }
         ]
       },
       {

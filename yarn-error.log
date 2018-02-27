@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn dist
+  /usr/local/bin/node /usr/local/bin/yarn gh-publish
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands
@@ -16,19 +16,18 @@ Platform:
 npm manifest: 
   {
     "name": "practys",
-    "version": "1.4.0",
+    "version": "1.8.0",
     "description": "A minimal Electron application",
     "main": "main.js",
     "scripts": {
       "start": "electron .",
       "pack": "electron-builder --dir",
-      "dist": "electron-builder --x64 --mac",
+      "dist": "electron-builder --x64",
       "gh-publish": "electron-builder --mac --x64 -p always",
       "package-mac": "electron-packager . Practys  --overwrite --platform=darwin --arch=x64  --icon=./practys.icns --prune=true  --asar=true --out=release-builds ",
       "package-win": "electron-packager . Practys  --overwrite --platform=win32 --arch=x64  --icon=./practys.ico --prune=true  --asar=true --out=release-builds ",
       "darwin": "electron-packager . practys --platform=darwin --arch=x64 --icon=./practys.icns  --version=0.30.2 --version-string.CompanyName=\"greatInnovus\" --version-string.ProductName=\"Practys\" --version-string.FileDescription=\"Hospitality\" --asar=true --out=release-builds"
     },
-    // "repository": "https://github.com/GisNishanth/electron-updater-sample",
     "keywords": [
       "Electron",
       "quick",
@@ -41,22 +40,26 @@ npm manifest:
     "build": {
       "appId": "com.practys.macapp",
       "mac": {
-        "category": "com.practys.mac",
+        "category": "application",
         "target": [
           "dmg"
-        ]
+        ],
+        "icon": "./practys.icns",
+        "type": "distribution"
       },
        "win": {
         "target": [
           "NSIS"
-        ]
+        ],
+        "icon":"./practys.ico"
       },
       "publish": [{
                "provider": "github",
                "owner": "GisNishanth",
                "repo": "electron-updater-sample",
-               "token": "46ca980857c2cd92601501d409a9d7a7dba316dd"
-           }]
+               "token":"12a21962dec4c20c37a86a2956b2fc6cc89f233c"
+      }],
+      "forceCodeSigning": true,
     },
     "devDependencies": {
       "electron": "~1.8.2",
@@ -1093,7 +1096,7 @@ Lockfile:
       fd-slicer "~1.0.1"
 
 Trace: 
-  SyntaxError: /Users/webmac025/electron-updater-sample/package.json: Unexpected token / in JSON at position 914
+  SyntaxError: /Users/webmac025/electron-updater-sample/package.json: Unexpected token } in JSON at position 1579
       at JSON.parse (<anonymous>)
       at /usr/local/Cellar/yarn/0.27.5/libexec/lib/yarn-cli.js:747:57
       at Generator.next (<anonymous>)
